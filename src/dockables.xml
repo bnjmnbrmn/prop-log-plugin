@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE DOCKABLES SYSTEM "dockables.dtd">
+
+<DOCKABLES>
+    <DOCKABLE NAME="proplogjeditkcm" MOVABLE="TRUE">
+<!--        root = edu.uiowa.cs.baberman.kcm.ThirtyKey.createRootCard();
+        new edu.uiowa.cs.baberman.kcm.KCMS(root);-->
+        new javax.swing.JPanel();
+    </DOCKABLE>
+</DOCKABLES>
