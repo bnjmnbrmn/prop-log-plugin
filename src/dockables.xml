@@ -4,7 +4,8 @@
 
 <DOCKABLES>
     <DOCKABLE NAME="kcms" MOVABLE="TRUE">
-        import edu.uiowa.cs.baberman.kcm.*;
-        new KCMS(ThirtyKey.createRootCard());
+
+        edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin.getInstance().getPropLogKCMS();
+        
     </DOCKABLE>
 </DOCKABLES>
