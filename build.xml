@@ -75,7 +75,9 @@
         <mkdir dir="temp/" />
         <unzip dest="temp/">
             <fileset dir="dist/">
-                <!--<include name="lib/KCMjEdit.jar" />-->
+                <include name="lib/KCM.jar" />
+                <include name="lib/piccolo2d-core-3.0.jar" />
+                <include name="lib/piccolo2d-extras-3.0.jar" />
                 <include name="PropLogPlugin.jar" />
             </fileset>
         </unzip>

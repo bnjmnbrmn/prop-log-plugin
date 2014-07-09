@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE DOCKABLES SYSTEM "dockables.dtd">
+
+<DOCKABLES>
+    <DOCKABLE NAME="kcms" MOVABLE="TRUE">
+        import edu.uiowa.cs.baberman.kcm.*;
+        new KCMS(ThirtyKey.createRootCard());
+    </DOCKABLE>
+</DOCKABLES>

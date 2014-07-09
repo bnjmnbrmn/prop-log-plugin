@@ -2,8 +2,8 @@
 
 # jEdit only needs to load the plugin the first time the user accesses it
 # the presence of this property also tells jEdit the plugin is using the new API
-plugin.edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin.activate=defer
-#plugin.edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin.activate=startup
+#plugin.edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin.activate=defer
+plugin.edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin.activate=startup
 
 # These two properties are required for all plugins
 plugin.edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin.name=PropLog
@@ -15,10 +15,11 @@ plugin.edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin.description=A Plugin for
 plugin.edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin.version=0.1
 
 plugin.edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin.depend.0=jedit 04.05.02.00
-plugin.edu.uiowa.cs.proofpreviews.ProofPreviewsPlugin.depend.1=plugin edu.uiowa.cs.baberman.kcmjedit.KCMjEditPlugin 0.1
 
 # plugin menu
-#plugin.edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin.menu=proplogjeditkcm
+plugin.edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin.menu=kcms
 
 # labels for menu
-#proplogjeditkcm.label=Show Menu
+kcms.label=Show Menu
+
+kcms.title=PropLog

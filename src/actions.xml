@@ -2,9 +2,9 @@
 <!DOCTYPE ACTIONS SYSTEM "actions.dtd">
 
 <ACTIONS>
-    <ACTION NAME="kcmjedit.test">
+<!--    <ACTION NAME="menu item">
         <CODE>
-            
+
         </CODE>
-    </ACTION>
+    </ACTION>-->
 </ACTIONS>

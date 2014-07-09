@@ -1,0 +1,15 @@
+Vars = phi.
+
+      ____________________________________________________
+  1. |~(phi \/ ~phi); assumption.
+     | ________________________________________________
+  2. ||phi; assumption.
+  3. ||phi \/ ~ phi; or_intro_left 2.
+  4. ||False; not_elim 1,2.
+     ||________________________________________________
+  5. |~phi; not_intro 2-4.
+  6. |phi \/ ~phi; or_intro_right 5.
+  7. |False; not_elim 1,6.
+     |____________________________________________________
+  8. ~~(phi \/ ~phi); not_intro 1-7.
+LEM. phi \/ ~phi; apply not_not_elim 8.
