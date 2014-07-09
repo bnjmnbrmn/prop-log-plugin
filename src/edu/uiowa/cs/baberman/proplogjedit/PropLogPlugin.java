@@ -44,20 +44,17 @@ public class PropLogPlugin extends EBPlugin {
         DockableWindowManager dwm = view.getDockableWindowManager();
         
         
-//        Macros.message(view, "start");
-        
         Buffer newFile;
         newFile = jEdit.newFile(view.getEditPane());
         
+        newFile.setReadOnly(false);
+        
+        newFile.insert(0, "Hello");
+        
+        newFile.setReadOnly(true);
+        
         mainRoot = ThirtyKey.createRootCard();
         propLogKCMS = new KCMS(mainRoot);
-                
-        
-//        dwm.addDockableWindow("kcms");
-//
-//        propLogKCMS = (KCMS) dwm.getDockable("kcms");
-//        
-//        mainRoot = (ThirtyKey) propLogKCMS.getCurrentRoot();
 
         SubmenuKey<ThirtyKey> navKey;
         navKey = mainRoot.putNewSubmenu(KeyEvent.VK_F);

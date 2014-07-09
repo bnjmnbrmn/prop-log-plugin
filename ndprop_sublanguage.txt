@@ -1,0 +1,29 @@
+PROOF ::= PARAM_DELC '\n' ('\n' PROOF_ITEM)+ 
+
+PARAM_DECL ::= 'Parameter ' atom_id '.'
+
+PROOF_ITEM ::= SECTION | PROOF_LINE
+
+SECTION ::= 
+  'Section ' section_id '.\n' 
+  'Hypothesis' line_id ':' FORMULA '.\n' 
+  (PROOF_ITEM)*
+  'End ' section_id '.'
+  
+PROOF_LINE ::= 'Fact ' line_id ' : ' FORMULA 
+ '. Proof. apply (' JUSTIFICATION '). Qed.'
+ 
+FORMULA ::= atom_id | '(' FORMULA '/\' FORMULA ')'| 
+  '(' FORMULA ' \/ ' FORMULA ')'| 
+  '(' FORMULA ' -> ' FORMULA ')' | '(~' FORMULA ')'
+
+JUSTIFICATION ::= 
+     'and_intro ' line_id line_id
+   | 'and_elim_l ' line_id
+   | 'and_elim_r ' line_id
+   | 'or_intro_l ' line_id
+   | 'or_intro_r ' line_id
+   | 'or_elim ' line_id line_id line_id
+   | 'impl_elim ' line_id line_id
+   | 'false_elim ' line_id
+   | 'not_not_elim ' line_id

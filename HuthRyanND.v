@@ -108,7 +108,7 @@ Section _1.
   Hypothesis l1 : ~(phi \/ ~phi).
   Section _1_1.
     Hypothesis l2 : phi.
-    Fact l3 :  . Proof. apply (or_intro_l l2). Qed.
+    Fact l3 : phi \/ ~phi . Proof. apply (or_intro_l l2). Qed.
     Fact l4 : False. Proof. apply (not_elim l3 l1). Qed.
   End _1_1.
   Fact l5 : ~phi. Proof. apply (not_intro l4). Qed.
