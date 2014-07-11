@@ -33,25 +33,17 @@ public class PropLogPlugin extends EBPlugin {
     }
 
     ThirtyKey mainRoot;
+    
+    ProofModel proofModel;
+    ProofView proofView;
 
     @Override
     public void start() {
         
-        
         INSTANCE = this;
 
-        View view = jEdit.getActiveView();
-        DockableWindowManager dwm = view.getDockableWindowManager();
-        
-        
-        Buffer newFile;
-        newFile = jEdit.newFile(view.getEditPane());
-        
-        newFile.setReadOnly(false);
-        
-        newFile.insert(0, "Hello");
-        
-        newFile.setReadOnly(true);
+//        View view = jEdit.getActiveView();
+//        DockableWindowManager dwm = view.getDockableWindowManager();
         
         mainRoot = ThirtyKey.createRootCard();
         propLogKCMS = new KCMS(mainRoot);
@@ -59,6 +51,15 @@ public class PropLogPlugin extends EBPlugin {
         SubmenuKey<ThirtyKey> navKey;
         navKey = mainRoot.putNewSubmenu(KeyEvent.VK_F);
         navKey.setMenuItemText("Navigate");
+        
+        
+        Buffer newFile;
+        newFile = jEdit.newFile(jEdit.getActiveView().getEditPane());
+        
+        proofModel = new ProofModel();
+        proofView = new ProofView(newFile);
+        proofModel.addProofView(new ProofView(newFile));
+        
     }
 
     @Override
