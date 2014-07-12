@@ -11,6 +11,10 @@ import org.gjt.sp.jedit.Buffer;
 public class ProofView {
 
     final Buffer buffer;
+    
+    Buffer getBuffer() {
+        return buffer;
+    }
 
     final List<Highlight> highlights = new ArrayList<Highlight>();
     
@@ -28,7 +32,7 @@ public class ProofView {
     void update() {
         
         buffer.setReadOnly(false);
-        buffer.insert(0, proofModel.getProof().getText());
+        buffer.insert(0, proofModel.getRoot().getText());
         buffer.setReadOnly(true);
         
         //to do:  underline, potential spots, and highlights

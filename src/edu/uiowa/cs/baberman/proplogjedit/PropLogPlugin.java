@@ -4,6 +4,8 @@ import edu.uiowa.cs.baberman.kcm.KCMS;
 import edu.uiowa.cs.baberman.kcm.SubmenuKey;
 import edu.uiowa.cs.baberman.kcm.ThirtyKey;
 import java.awt.event.KeyEvent;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.JPanel;
 import org.gjt.sp.jedit.Buffer;
 import org.gjt.sp.jedit.EBPlugin;
@@ -34,9 +36,9 @@ public class PropLogPlugin extends EBPlugin {
 
     ThirtyKey mainRoot;
     
-    ProofModel proofModel;
-    ProofView proofView;
-
+    Set<ProofController> proofControllers = new HashSet<ProofController>();
+    ProofController currentProofController;
+    
     @Override
     public void start() {
         
@@ -53,12 +55,12 @@ public class PropLogPlugin extends EBPlugin {
         navKey.setMenuItemText("Navigate");
         
         
-        Buffer newFile;
-        newFile = jEdit.newFile(jEdit.getActiveView().getEditPane());
-        
-        proofModel = new ProofModel();
-        proofView = new ProofView(newFile);
-        proofModel.addProofView(proofView);
+//        Buffer newFile;
+//        newFile = jEdit.newFile(jEdit.getActiveView().getEditPane());
+//        
+//        proofModel = new ProofModel();
+//        proofView = new ProofView(newFile);
+//        proofModel.addProofView(proofView);
         
     }
 
@@ -71,4 +73,8 @@ public class PropLogPlugin extends EBPlugin {
         return INSTANCE;
     }
 
+    public void createNewProof() {
+        currentProofController = new ProofController();
+        proofControllers.add(currentProofController);
+    }
 }

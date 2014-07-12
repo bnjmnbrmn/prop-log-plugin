@@ -17,9 +17,11 @@ plugin.edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin.version=0.1
 plugin.edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin.depend.0=jedit 04.05.02.00
 
 # plugin menu
-plugin.edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin.menu=kcms
+plugin.edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin.menu=proplogjedit.kcms \
+proplogjedit.newproof
 
 # labels for menu
-kcms.label=Show Menu
+proplogjedit.kcms.label=Show Menu
+proplogjedit.newproof.label=New Proof
 
-kcms.title=PropLog
+proplogjedit.kcms.title=PropLog

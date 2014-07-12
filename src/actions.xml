@@ -2,9 +2,9 @@
 <!DOCTYPE ACTIONS SYSTEM "actions.dtd">
 
 <ACTIONS>
-<!--    <ACTION NAME="menu item">
-        <CODE>
-
+    <ACTION NAME="proplogjedit.newproof">
+        <CODE>       
+edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin.getInstance().createNewProof();
         </CODE>
-    </ACTION>-->
+    </ACTION>
 </ACTIONS>

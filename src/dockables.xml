@@ -3,7 +3,7 @@
 <!DOCTYPE DOCKABLES SYSTEM "dockables.dtd">
 
 <DOCKABLES>
-    <DOCKABLE NAME="kcms" MOVABLE="TRUE">
+    <DOCKABLE NAME="proplogjedit.kcms" MOVABLE="TRUE">
 
         edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin.getInstance().getPropLogKCMS();
         

@@ -12,26 +12,22 @@ import org.gjt.sp.jedit.Buffer;
  */
 public class ProofModel {
 
-    Proof proof;
-    SelectableNode currentChildNode;
+    Proof root;
+
+    SelectableNode selectedNode = null;
 
     ProofModel() {
-        proof = new Proof();
-        currentChildNode = proof.getSelectableSubnodes().get(0);
+        root = new Proof();
+        
+        setSelectedNode(root.getSelectableSubnodes().get(0));
     }
 
-//    private void updateViews() {
-//        updateBuffer();
-//        updateHighlights();
-//        updateUnderline();
-//    }
     List<ProofView> proofViews = new ArrayList<ProofView>();
 
     void addProofView(ProofView proofView) {
         proofViews.add(proofView);
-
         proofView.setProofModel(this);
-
+        
         updateViews();
     }
 
@@ -41,16 +37,41 @@ public class ProofModel {
         }
     }
 
-    Proof getProof() {
-        return proof;
+    Proof getRoot() {
+        return root;
+    }
+
+    void setSelectedNode(SelectableNode toSelect) {
+        if (selectedNode != null)
+            selectedNode.setAsSelectedChild(false);
+        toSelect.setAsSelectedChild(true);
+        selectedNode = toSelect;
+        
+        updateViews();
     }
 
 }
 
 abstract class Node {
 
+    private InnerNode parent;
+
     abstract String getText();
-    
+
+    /**
+     * @return the parent
+     */
+    public InnerNode getParent() {
+        return parent;
+    }
+
+    /**
+     * @param parent the parent to set
+     */
+    public void setParent(InnerNode parent) {
+        this.parent = parent;
+    }
+
 }
 
 class Leaf extends Node {
@@ -83,10 +104,46 @@ class Leaf extends Node {
 }
 
 interface SelectableNode {
-    
+
+    void setAsSelectedChild(boolean selectedAsChild);
+
+    boolean isSelectedChild();
+
+    boolean isSelectedChildSibling();
 }
 
 abstract class InsertionPoint extends Node implements SelectableNode {
+
+    private boolean selected = false;
+
+    @Override
+    public void setAsSelectedChild(boolean selected) {
+        this.selected = selected;
+    }
+
+    @Override
+    public boolean isSelectedChild() {
+        return selected;
+    }
+
+    @Override
+    public boolean isSelectedChildSibling() {
+        if (getParent() == null) {
+            return false;
+        }
+
+        if (isSelectedChild()) {
+            return false;
+        }
+
+        boolean parentHasSelectedChild = false;
+        for (SelectableNode selectableNode : getParent().getSelectableSubnodes()) {
+            if (selectableNode.isSelectedChild()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private final String text;
 
@@ -96,7 +153,7 @@ abstract class InsertionPoint extends Node implements SelectableNode {
     }
 
     public InsertionPoint(String text) {
-        this.text = text;
+        this.text = "(* " + text + " *)";
     }
 
 }
@@ -106,7 +163,16 @@ class OptionalInsertionPoint extends InsertionPoint implements SelectableNode {
     public OptionalInsertionPoint(String text) {
         super(text);
     }
-    
+
+    @Override
+    public String getText() {
+        if (isSelectedChild()) {
+            return super.getText();
+        } else {
+            return "";
+        }
+    }
+
 }
 
 class RequiredInsertionPoint extends InsertionPoint implements SelectableNode {
@@ -118,8 +184,49 @@ class RequiredInsertionPoint extends InsertionPoint implements SelectableNode {
 }
 
 abstract class InnerNode extends Node implements SelectableNode {
+
+    private boolean selected = false;
+
+    @Override
+    public void setAsSelectedChild(boolean selected) {
+        this.selected = selected;
+    }
+
+    @Override
+    public boolean isSelectedChild() {
+        return selected;
+    }
+
+    @Override
+    public boolean isSelectedChildSibling() {
+        if (getParent() == null) {
+            return false;
+        }
+
+        if (isSelectedChild()) {
+            return false;
+        }
+
+        boolean parentHasSelectedChild = false;
+        for (SelectableNode selectableNode : getParent().getSelectableSubnodes()) {
+            if (selectableNode.isSelectedChild()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasSelectedChild() {
+        for (SelectableNode selectableNode : getSelectableSubnodes()) {
+            if (selectableNode.isSelectedChild()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     List<Node> subnodes = new ArrayList<Node>();
-    
+
     @Override
     String getText() {
         String text = "";
@@ -131,27 +238,26 @@ abstract class InnerNode extends Node implements SelectableNode {
 
     List<SelectableNode> getSelectableSubnodes() {
         List<SelectableNode> selectableSubnodes = new ArrayList<SelectableNode>();
-        
+
         for (Node subnode : subnodes) {
             if (subnode instanceof SelectableNode) {
-                selectableSubnodes.add((SelectableNode)subnode);
+                selectableSubnodes.add((SelectableNode) subnode);
             }
         }
-        
+
         return selectableSubnodes;
     }
 }
 
-
 final class Proof extends InnerNode {
-    
+
     Proof() {
         subnodes.add(new Leaf("Parameters "));
         subnodes.add(new RequiredInsertionPoint(PropVar.getPlaceholderText()));
         subnodes.add(new Leaf(" : Prop.\n\n"));
         subnodes.add(new RequiredInsertionPoint(ProofItem.getPlaceholderText()));
     }
-    
+
     static String getPlaceholderText() {
         return "PROOF";
     }
@@ -163,29 +269,29 @@ final class ProofItem extends InnerNode {
     static String getPlaceholderText() {
         return "PROOF_ITEM";
     }
-   
+
 }
 
 final class Section extends InnerNode {
 
     static String getPlaceholderText() {
-         return "SECTION";
+        return "SECTION";
     }
 
 }
 
 final class ProofLine extends InnerNode {
-    
+
     static String getPlaceholderText() {
-         return "PROOF_LINE";
+        return "PROOF_LINE";
     }
-    
+
 }
 
 final class PropVar extends InnerNode {
-    
+
     static String getPlaceholderText() {
-         return "PROP_VAR";
+        return "PROP_VAR";
     }
-    
+
 }
