@@ -1,5 +1,6 @@
 package edu.uiowa.cs.baberman.proplogjedit;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,7 +62,12 @@ public class ProofView {
         //to do:  add appropriate TextAreaExtensions (Highlights, Underlines,
         //and OptionalInsertionPointMarkers) to appropriate TextAreas' painters
         //and to mapping of textAreaExtensions
+
+        //test
+        Highlight highlight = new Highlight(jEdit.getActiveView().getTextArea(), Color.CYAN, Color.BLACK, 3, 7);
+        jEdit.getActiveView().getTextArea().getPainter().addExtension(highlight);
         
-//       
+//        jEdit.getActiveView().getTextArea().getPainter().removeExtension(highlight);
+        
     }
 }

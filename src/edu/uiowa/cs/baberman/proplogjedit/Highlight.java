@@ -14,17 +14,25 @@ import org.gjt.sp.jedit.textarea.TextAreaExtension;
  *
  * @author bnjmnbrmn
  */
-class Highlight extends TextAreaExtension {
+public class Highlight extends TextAreaExtension {
+    
+    
 
     private final JEditTextArea textArea;
-    private Paint highlightPaint;
+    private final Paint fillPaint;
+    private final Paint strokePaint;
 
-    private int startOffset = 0; //start offset of to-highlight section
-    private int endOffset = 0; //end offset of to-highlight section
+    private final int startOffset; //start offset of to-highlight section
+    private final int endOffset; //end offset of to-highlight section
 
-    Highlight(JEditTextArea textArea, Paint highlightPaint) {
+    public Highlight(JEditTextArea textArea, Paint fillPaint, Paint strokePaint,
+            int startOffset, int endOffset) {
+
         this.textArea = textArea;
-        this.highlightPaint = highlightPaint;
+        this.fillPaint = fillPaint;
+        this.strokePaint = strokePaint;
+        this.startOffset = startOffset;
+        this.endOffset = endOffset;
     }
 
     @Override
@@ -40,7 +48,7 @@ class Highlight extends TextAreaExtension {
         int bufLength = buf.getLength();
 
         int lh = textArea.getPainter().getLineHeight();
-        gfx.setPaint(highlightPaint);
+        gfx.setPaint(fillPaint);
 
         Point startPoint;
         startPoint = textArea.offsetToXY(start);
@@ -63,58 +71,94 @@ class Highlight extends TextAreaExtension {
             eothSectionPoint = textArea.offsetToXY(endOffset);
         }
 
-        if (startOffset <= start && end - 1 <= endOffset) {
+        int rectx;
+        int recty;
+        int rectwidth;
+        int rectheight = lh - 2;
+
+        if (startOffset < start && end < endOffset) {
+            rectx = startPoint.x;
+            recty = startPoint.y;
+            rectwidth = endPoint.x - startPoint.x;
+
             gfx.fill(new Rectangle(
-                    startPoint.x,
-                    startPoint.y,
-                    endPoint.x - startPoint.x,
-                    lh));
+                    rectx,
+                    recty,
+                    rectwidth,
+                    rectheight));
+            
+            gfx.setPaint(strokePaint);
+            
+            gfx.drawLine(rectx, recty, rectx + rectwidth, recty);
+            gfx.drawLine(rectx, recty + rectheight, rectx + rectwidth, recty + rectheight);
         }
 
-        if (start < startOffset
-                && startOffset <= end - 1
-                && end - 1 <= endOffset) {
+        if (start <= startOffset
+                && startOffset < end - 1
+                && end < endOffset) {
+
+            rectx = sothSectionPoint.x;
+            recty = startPoint.y;
+            rectwidth = endPoint.x - sothSectionPoint.x;
+
             gfx.fill(new Rectangle(
-                    sothSectionPoint.x,
-                    startPoint.y,
-                    endPoint.x - sothSectionPoint.x,
-                    lh));
+                    rectx,
+                    recty,
+                    rectwidth,
+                    rectheight));
+            
+            gfx.setPaint(strokePaint);
+            
+            gfx.drawLine(rectx, recty, rectx + rectwidth, recty);
+            gfx.drawLine(rectx, recty + rectheight, rectx + rectwidth, recty + rectheight);
+            gfx.drawLine(rectx, recty, rectx, recty + rectheight);
         }
 
-        if (startOffset <= start
+        if (startOffset < start
                 && start < endOffset
-                && endOffset < end - 1) {
+                && endOffset <= end - 1) {
+
+            rectx = startPoint.x;
+            recty = startPoint.y;
+            rectwidth = eothSectionPoint.x - startPoint.x;
+
             gfx.fill(new Rectangle(
-                    startPoint.x,
-                    startPoint.y,
-                    eothSectionPoint.x - startPoint.x,
-                    lh));
+                    rectx,
+                    recty,
+                    rectwidth,
+                    rectheight));
+
+            gfx.setPaint(strokePaint);
+            
+            gfx.drawLine(rectx, recty, rectx + rectwidth, recty);
+            gfx.drawLine(rectx, recty + rectheight, rectx + rectwidth, recty + rectheight);
+            gfx.drawLine(rectx + rectwidth, recty, rectx + rectwidth, recty + rectheight);
+
         }
 
-        if (start < startOffset
+        if (start <= startOffset
                 && startOffset <= end - 1
                 && start <= endOffset
-                && endOffset < end - 1) {
+                && endOffset <= end) {
+            
+            rectx = sothSectionPoint.x;
+            recty = startPoint.y;
+            rectwidth = eothSectionPoint.x - sothSectionPoint.x;
+            
             gfx.fill(new Rectangle(
-                    sothSectionPoint.x,
-                    startPoint.y,
-                    eothSectionPoint.x - sothSectionPoint.x,
-                    lh));
+                    rectx,
+                    recty,
+                    rectwidth,
+                    rectheight));
+
+            gfx.setPaint(strokePaint);
+
+            gfx.drawLine(rectx, recty, rectx + rectwidth, recty);
+            gfx.drawLine(rectx, recty + rectheight, rectx + rectwidth, recty + rectheight);
+            gfx.drawLine(rectx, recty, rectx, recty + rectheight);
+            gfx.drawLine(rectx + rectwidth, recty, rectx + rectwidth, recty + rectheight);
         }
 
     }
 
-    public void highlightSection(int startOffset, int endOffset) {
-
-        this.startOffset = startOffset;
-        this.endOffset = endOffset;
-
-        textArea.getPainter().repaint();
-    }
-
-    public void setHighlightPaint(Paint paint) {
-        this.highlightPaint = paint;
-
-        textArea.getPainter().repaint();
-    }
 }
