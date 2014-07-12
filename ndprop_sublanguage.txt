@@ -31,8 +31,8 @@ JUSTIFICATION ::=
 ====================================================
 
 PROOF ::= 
-    'Parameters ' (PROP_VAR)+ ' : Prop.\n' 
-    ('\n' PROOF_ITEM(0))+.
+    'Parameters ' (PROP_VAR)+ ' : Prop.\n\n' 
+    (PROOF_ITEM(0))+.
 
 PROOF_ITEM(n) ::=
     (SECTION(n) | PROOF_LINE(n))
@@ -41,10 +41,10 @@ SECTION(n) ::=
     ('\t'){n} 'Section ' SECTION_ID '.\n'
     ('\t'){n+1} 'Hypothesis ' LINE_ID ' : ' FORMULA '.\n'
     (PROOF_ITEM(n+1))* '.\n'
-    ('\t'){n} 'End ' SECTION_ID '.'
+    ('\t'){n} 'End ' SECTION_ID '.\n'
 
 PROOF_LINE(n) ::= 
-    ('\t'){n}'Fact ' LINE_ID ' : ' FORMULA '. Proof. apply (' JUSTIFICATION '). Qed.'
+    ('\t'){n}'Fact ' LINE_ID ' : ' FORMULA '. Proof. apply (' JUSTIFICATION '). Qed.\n'
 
 JUSTIFICATION ::= 
      'and_intro ' LINE_ID LINE_ID

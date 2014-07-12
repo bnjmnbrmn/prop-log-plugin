@@ -13,11 +13,11 @@ import org.gjt.sp.jedit.Buffer;
 public class ProofModel {
 
     Proof proof;
-    Node currentChildNode;
+    SelectableNode currentChildNode;
 
     ProofModel() {
         proof = new Proof();
-        currentChildNode = proof.getSubnodes().get(0);
+        currentChildNode = proof.getSelectableSubnodes().get(0);
     }
 
 //    private void updateViews() {
@@ -47,12 +47,13 @@ public class ProofModel {
 
 }
 
-interface NodeComponent {
+abstract class Node {
 
-    String getText();
+    abstract String getText();
+    
 }
 
-class LeafText implements NodeComponent {
+class Leaf extends Node {
 
     private final String text;
 
@@ -61,11 +62,11 @@ class LeafText implements NodeComponent {
         return text;
     }
 
-    public LeafText(String text) {
+    public Leaf(String text) {
         this.text = text;
     }
 
-    public LeafText(String text, int repeats) {
+    public Leaf(String text, int repeats) {
         if (repeats < 0) {
             throw new RuntimeException(
                     "repeats parameter must be non-negative");
@@ -81,7 +82,11 @@ class LeafText implements NodeComponent {
 
 }
 
-class InsertionPoint implements NodeComponent {
+interface SelectableNode {
+    
+}
+
+abstract class InsertionPoint extends Node implements SelectableNode {
 
     private final String text;
 
@@ -90,285 +95,97 @@ class InsertionPoint implements NodeComponent {
         return text;
     }
 
-    public InsertionPoint(Node node) {
-        text = node.getOptionalPlaceholderText();
+    public InsertionPoint(String text) {
+        this.text = text;
     }
 
 }
 
-class Placeholder implements NodeComponent {
+class OptionalInsertionPoint extends InsertionPoint implements SelectableNode {
 
-    private final String text;
-
-    @Override
-    public String getText() {
-        return text;
+    public OptionalInsertionPoint(String text) {
+        super(text);
     }
+    
+}
 
-    public Placeholder(Node node) {
-        text = node.getRequiredPlaceholderText();
+class RequiredInsertionPoint extends InsertionPoint implements SelectableNode {
+
+    public RequiredInsertionPoint(String text) {
+        super(text);
     }
 
 }
 
-abstract class Node implements NodeComponent {
-
-    private final List<NodeComponent> components
-            = new ArrayList<NodeComponent>();
-
-    List<NodeComponent> getComponents() {
-        return components;
-    }
-
+abstract class InnerNode extends Node implements SelectableNode {
+    List<Node> subnodes = new ArrayList<Node>();
+    
     @Override
-    public String getText() {
+    String getText() {
         String text = "";
-        for (NodeComponent component : components) {
-            text += component.getText();
-        }
-        return text;
-    }
-    
-    final String getOptionalPlaceholderText() {
-        String text = "(* Optional: ";
-        for (NodeComponent nc : components) {
-            text += nc.getText();
+        for (Node subnode : subnodes) {
+            text += subnode.getText();
         }
         return text;
     }
 
-    final String getRequiredPlaceholderText() {
-        String text = "(* ";
-        for (NodeComponent nc : components) {
-            text += nc.getText();
-        }
-        text += " *)";
-        return text;
-    }
-
-}
-
-class ZeroOrMore<NC extends NodeComponent> extends Node {
-
-    String optionalPlaceholderText;
-    String requiredPlaceholderText;
-    
-    ZeroOrMore(NC nc) {
+    List<SelectableNode> getSelectableSubnodes() {
+        List<SelectableNode> selectableSubnodes = new ArrayList<SelectableNode>();
         
-    }
-    
-    @Override
-    public String getText() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    String getOptionalPlaceholderText() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    String getRequiredPlaceholderText() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-}
-
-class Concatenation<NC1 extends NodeComponent, NC2 extends NodeComponent> extends Node {
-
-
-    
-    Concatenation(NC1 nc1, NC2 nc2) {
-        getComponents().add(nc1);
-        getComponents().add(nc2);
-    }
-
-    
-}
-
-class Sum<N1 extends NodeComponent, N2 extends NodeComponent> extends Node {
-
-    @Override
-    String getOptionalPlaceholderText() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    String getRequiredPlaceholderText() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-}
-
-class OneOrMore<N extends NodeComponent> extends Node {
-
-    List<N> ns = new ArrayList<N>();
-    
-    public OneOrMore(N node) {
+        for (Node subnode : subnodes) {
+            if (subnode instanceof SelectableNode) {
+                selectableSubnodes.add((SelectableNode)subnode);
+            }
+        }
         
+        return selectableSubnodes;
     }
-    
-    
-
-    @Override
-    public String getText() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    String getOptionalPlaceholderText() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    String getRequiredPlaceholderText() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }
 
-class Proof extends Node {
 
+final class Proof extends InnerNode {
+    
     Proof() {
-        getComponents().add(new LeafText("Parameters "));
-        getComponents().add(new OneOrMore<PropVar>(new PropVar()));
-        getComponents().add(new LeafText(" : Prop.\n"));
-        getComponents().add(new OneOrMore<Concatenation<LeafText,ProofItem>>(
-            new Concatenation<LeafText, ProofItem>()));
+        subnodes.add(new Leaf("Parameters "));
+        subnodes.add(new RequiredInsertionPoint(PropVar.getPlaceholderText()));
+        subnodes.add(new Leaf(" : Prop.\n\n"));
+        subnodes.add(new RequiredInsertionPoint(ProofItem.getPlaceholderText()));
     }
-
-    @Override
-    String getOptionalPlaceholderText() {
-        return "(* Optional:  PROOF *)";
-    }
-
-    @Override
-    String getRequiredPlaceholderText() {
-        return "(* Required:  PROOF *)";
+    
+    static String getPlaceholderText() {
+        return "PROOF";
     }
 
 }
 
-final class ParameterDeclaration extends Node {
+final class ProofItem extends InnerNode {
 
-    private PropVar firstPropVar;
-    private final List<PropVar> subsequentPropVars = new ArrayList<PropVar>();
-
-    @Override
-    List<Node> getSubnodes() {
-        List<Node> subnodes = new ArrayList<Node>();
-        subnodes.add(firstPropVar);
-        for (PropVar propVar : subsequentPropVars) {
-            subnodes.add(propVar);
-        }
-        return subnodes;
+    static String getPlaceholderText() {
+        return "PROOF_ITEM";
     }
+   
+}
 
-    @Override
-    public String getText() {
-        String text = "";
-        text += "Parameters ";
-        text += firstPropVar.getText();
-        for (PropVar propVar : subsequentPropVars) {
-            text += " " + propVar.getText();
-        }
-        text += ".";
-        return text;
-    }
+final class Section extends InnerNode {
 
-    @Override
-    boolean isComplete() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    List<Integer> getPotentialInsertionPointOffsets() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    List<List<Class<? extends Node>>> getPotentialInsertionPointNodeTypes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    static String getPlaceholderText() {
+         return "SECTION";
     }
 
 }
 
-final class ProofItem extends Node {
-
-    String getPlaceHolderText() {
-        return "(* SECTION | PROOF_LINE *)";
+final class ProofLine extends InnerNode {
+    
+    static String getPlaceholderText() {
+         return "PROOF_LINE";
     }
-
-    @Override
-    List<Node> getSubnodes() {
-        return new ArrayList();
-    }
-
-    @Override
-    String getText() {
-        return getPlaceHolderText();
-    }
-
-    @Override
-    boolean isComplete() {
-        return false;
-    }
-
+    
 }
 
-final class Section extends Node {
-
-    @Override
-    List<Node> getSubnodes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+final class PropVar extends InnerNode {
+    
+    static String getPlaceholderText() {
+         return "PROP_VAR";
     }
-
-    @Override
-    String getText() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    boolean isComplete() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-}
-
-final class ProofLine extends Node {
-
-    @Override
-    List<Node> getSubnodes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    String getText() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    boolean isComplete() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-}
-
-final class PropVar extends Node {
-
-    @Override
-    List<Node> getSubnodes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    String getText() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    boolean isComplete() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
 }
