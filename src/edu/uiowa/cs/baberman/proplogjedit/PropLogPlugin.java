@@ -58,7 +58,7 @@ public class PropLogPlugin extends EBPlugin {
         
         proofModel = new ProofModel();
         proofView = new ProofView(newFile);
-        proofModel.addProofView(new ProofView(newFile));
+        proofModel.addProofView(proofView);
         
     }
 
