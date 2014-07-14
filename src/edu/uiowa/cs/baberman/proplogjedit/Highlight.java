@@ -74,7 +74,7 @@ public class Highlight extends TextAreaExtension {
         int rectx;
         int recty;
         int rectwidth;
-        int rectheight = lh - 2;
+        int rectheight = lh - 3;
 
         if (startOffset < start && end < endOffset) {
             rectx = startPoint.x;

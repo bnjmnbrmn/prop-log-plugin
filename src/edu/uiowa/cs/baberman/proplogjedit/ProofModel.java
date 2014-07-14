@@ -286,6 +286,29 @@ abstract class InnerNode extends SelectableNode {
     List<Node> getSubnodes() {
         return subnodes;
     }
+
+    boolean hasAllRequiredSubnodes() {
+        for (Node subnode : getSubnodes()) {
+            if (subnode instanceof RequiredInsertionPoint)
+                return false;
+        }
+        return true;
+    }
+
+    boolean isComplete() {
+        if (!hasAllRequiredSubnodes())
+            return false;
+        
+        for (Node subnode : getSubnodes()) {
+            if (subnode instanceof InnerNode) {
+                InnerNode subInnerNode = (InnerNode) subnode;
+                if (!subInnerNode.isComplete())
+                    return false;
+            }
+        }
+        
+        return true;
+    }
 }
 
 final class Proof extends InnerNode {

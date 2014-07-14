@@ -21,6 +21,8 @@ import org.gjt.sp.jedit.textarea.TextAreaExtension;
  */
 public class ProofView {
 
+    public static final Color INCOMPLETE_RED = new Color(255, 100, 100);
+    
     final Buffer buffer;
 
     Buffer getBuffer() {
@@ -72,12 +74,30 @@ public class ProofView {
         }
     }
 
+    private void addUnderline(JEditTextArea textArea) {
+        
+        InnerNode parent = proofModel.getSelectedNode().getParent();
+        
+        if (parent == null)
+            return;
+        
+        Color lineColor;
+        if(parent.isComplete()) {
+            lineColor = Color.BLACK;
+        } else {
+            lineColor = INCOMPLETE_RED;
+        }
+        
+        Underline underline = new Underline(textArea, lineColor, 
+                parent.getOffset(), 
+                parent.getOffset() + parent.getText().length());
+        textArea.getPainter().addExtension(underline);
+        textAreaExtensionsWithTextAreas.put(underline, textArea);
+    }
+    
     private void addHighlights(JEditTextArea textArea) {
         addSelectedNodeHighlight(textArea);
-
-        //to do: sibling SelectableNode highlights 
         addSelectedNodeSiblingHighlights(textArea);
-
     }
 
     private void addSelectedNodeSiblingHighlights(JEditTextArea textArea) {
@@ -102,7 +122,7 @@ public class ProofView {
         if (selectedNode instanceof InnerNode) {
             selectedNodeFill = Color.LIGHT_GRAY;
         } else if (selectedNode instanceof RequiredInsertionPoint) {
-            selectedNodeFill = new Color(255, 100, 100);
+            selectedNodeFill = INCOMPLETE_RED;
         } else /*if (selectedNode instanceof OptionalInsertionPoint) */ {
             selectedNodeFill = Color.YELLOW;
         }
@@ -111,10 +131,6 @@ public class ProofView {
                 selectedNodeStroke, selectedNodeOffset, selectedNodeOffset + selectedNode.getText().length());
         textArea.getPainter().addExtension(selectedNodeHighlight);
         textAreaExtensionsWithTextAreas.put(selectedNodeHighlight, textArea);
-    }
-
-    private void addUnderline(JEditTextArea textArea) {
-        //to do
     }
 
     private void addOptionalInsertionPointMarkers(JEditTextArea textArea) {
