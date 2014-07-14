@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import org.gjt.sp.jedit.Buffer;
 import org.gjt.sp.jedit.EditPane;
+import org.gjt.sp.jedit.Macros;
 import org.gjt.sp.jedit.View;
 import org.gjt.sp.jedit.jEdit;
 import org.gjt.sp.jedit.textarea.JEditTextArea;
@@ -51,21 +52,18 @@ public class ProofView {
         buffer.setReadOnly(true);
 
         clearTextAreaExtensions();
-        
+
         //to do:  add appropriate TextAreaExtensions (Highlights, Underlines,
         //and OptionalInsertionPointMarkers) to appropriate TextAreas' painters
         //and to mapping of textAreaExtensions
-
         addTextAreaExtensions();
-        
+
         //test
 //        Highlight highlight = new Highlight(jEdit.getActiveView().getTextArea(), Color.CYAN, Color.BLACK, 3, 7);
 //        jEdit.getActiveView().getTextArea().getPainter().addExtension(highlight);
-        
 //        jEdit.getActiveView().getTextArea().getPainter().removeExtension(highlight);
-        
     }
-    
+
     private void addTextAreaExtensions() {
         for (JEditTextArea textArea : getTextAreasForBuffer()) {
             addUnderline(textArea);
@@ -73,45 +71,56 @@ public class ProofView {
             addOptionalInsertionPointMarkers(textArea);
         }
     }
-    
-    
-    
+
     private void addHighlights(JEditTextArea textArea) {
         addSelectedNodeHighlight(textArea);
 
         //to do: sibling SelectableNode highlights 
-        
+        addSelectedNodeSiblingHighlights(textArea);
+
     }
-    
+
+    private void addSelectedNodeSiblingHighlights(JEditTextArea textArea) {
+        List<SelectableNode> selectableNodeSelectableSiblings
+                = proofModel.getSelectedNodeSelectableSiblings();
+
+        for (Node node : selectableNodeSelectableSiblings) {
+            Highlight selectedNodeHighlight = new Highlight(textArea, new Color(0,0,0,0),
+                    Color.BLACK, node.getOffset(), node.getOffset() + node.getText().length());
+            textArea.getPainter().addExtension(selectedNodeHighlight);
+            textAreaExtensionsWithTextAreas.put(selectedNodeHighlight, textArea);
+        }
+    }
+
     private void addSelectedNodeHighlight(JEditTextArea textArea) {
         SelectableNode selectedNode = proofModel.getSelectedNode();
         int selectedNodeOffset = selectedNode.getOffset();
-        
+
         Paint selectedNodeFill;
         Paint selectedNodeStroke = Color.BLACK;
-        
+
         if (selectedNode instanceof InnerNode) {
             selectedNodeFill = Color.LIGHT_GRAY;
         } else if (selectedNode instanceof RequiredInsertionPoint) {
-            selectedNodeFill = new Color(255,100,100);
-        } else /*if (selectedNode instanceof OptionalInsertionPoint) */{
+            selectedNodeFill = new Color(255, 100, 100);
+        } else /*if (selectedNode instanceof OptionalInsertionPoint) */ {
             selectedNodeFill = Color.YELLOW;
         }
-        
-        Highlight selectedNodeHighlight = new Highlight(textArea, selectedNodeFill, 
-                selectedNodeStroke, selectedNodeOffset, selectedNodeOffset+selectedNode.getText().length());
+
+        Highlight selectedNodeHighlight = new Highlight(textArea, selectedNodeFill,
+                selectedNodeStroke, selectedNodeOffset, selectedNodeOffset + selectedNode.getText().length());
         textArea.getPainter().addExtension(selectedNodeHighlight);
         textAreaExtensionsWithTextAreas.put(selectedNodeHighlight, textArea);
     }
-    
+
     private void addUnderline(JEditTextArea textArea) {
         //to do
     }
-    
+
     private void addOptionalInsertionPointMarkers(JEditTextArea textArea) {
         //to do
     }
-    
+
     public void clearTextAreaExtensions() {
         for (TextAreaExtension textAreaExtension
                 : textAreaExtensionsWithTextAreas.keySet()) {
@@ -122,19 +131,19 @@ public class ProofView {
         }
         textAreaExtensionsWithTextAreas.clear();
     }
-    
+
     public List<JEditTextArea> getTextAreasForBuffer() {
         List<JEditTextArea> textAreas = new ArrayList<JEditTextArea>();
-        
+
         for (View view : jEdit.getViews()) {
             for (EditPane editPane : view.getEditPanes()) {
-                if (editPane.getBuffer() == buffer)
+                if (editPane.getBuffer() == buffer) {
                     textAreas.add(editPane.getTextArea());
+                }
             }
         }
-        
+
         return textAreas;
     }
 
-    
 }

@@ -77,5 +77,12 @@ public class PropLogPlugin extends EBPlugin {
     public void createNewProof() {
         currentProofController = new ProofController();
         proofControllers.add(currentProofController);
+        
+        jEdit.getActiveView().getBuffer().setReadOnly(false);
+        jEdit.getActiveView().getBuffer().insert(jEdit.getActiveView().getBuffer().getLength(), "\n");
+        jEdit.getActiveView().getBuffer().setReadOnly(true);
+        jEdit.getActiveView().getTextArea().moveCaretPosition(jEdit.getActiveView().getBuffer().getLength(), false);
+        jEdit.getActiveView().getTextArea().setCaretBlinkEnabled(false);
+
     }
 }
