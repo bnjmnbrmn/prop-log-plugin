@@ -26,8 +26,7 @@ public class PropLogPlugin extends EBPlugin {
     public static String OPTION_PREFIX = "options.proplogplugin.";
     private static PropLogPlugin INSTANCE;
 
-    JPanel kcmsHolder;
-
+    
     KCMS propLogKCMS;
     
     public KCMS getPropLogKCMS() {
@@ -66,7 +65,9 @@ public class PropLogPlugin extends EBPlugin {
 
     @Override
     public void stop() {
-        kcmsHolder.remove(propLogKCMS);
+        for (ProofController proofController : proofControllers)
+            for (ProofView proofView : proofController.getProofModel().getProofViews())
+                proofView.clearTextAreaExtensions();
     }
 
     public static PropLogPlugin getInstance() {

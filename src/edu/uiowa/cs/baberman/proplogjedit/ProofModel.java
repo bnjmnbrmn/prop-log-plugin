@@ -18,16 +18,20 @@ public class ProofModel {
 
     ProofModel() {
         root = new Proof();
-        
+
         setSelectedNode(root.getSelectableSubnodes().get(0));
     }
 
     List<ProofView> proofViews = new ArrayList<ProofView>();
+    
+    List<ProofView> getProofViews() {
+        return proofViews;
+    }
 
     void addProofView(ProofView proofView) {
         proofViews.add(proofView);
         proofView.setProofModel(this);
-        
+
         updateViews();
     }
 
@@ -41,13 +45,18 @@ public class ProofModel {
         return root;
     }
 
-    void setSelectedNode(SelectableNode toSelect) {
-        if (selectedNode != null)
+    final void setSelectedNode(SelectableNode toSelect) {
+        if (selectedNode != null) {
             selectedNode.setAsSelectedChild(false);
+        }
         toSelect.setAsSelectedChild(true);
         selectedNode = toSelect;
-        
+
         updateViews();
+    }
+
+    final SelectableNode getSelectedNode() {
+        return selectedNode;
     }
 
 }
@@ -70,6 +79,34 @@ abstract class Node {
      */
     public void setParent(InnerNode parent) {
         this.parent = parent;
+    }
+    
+    public boolean hasParent() {
+        return parent != null;
+    }
+    
+    public int getOffset() {
+        int offset;
+        
+        if (!hasParent())
+            return 0;
+        
+        InnerNode parent = getParent();
+        
+        offset = parent.getOffset();
+        
+        List<Node> subnodes = parent.getSubnodes();
+        for (int i = 0; i < subnodes.size(); i++) {
+            Node subnode = subnodes.get(i);
+            if (subnodes.get(i) == this)
+                return offset;
+            else
+                offset += subnode.getText().length();
+        }
+        
+        //this should never occur
+        throw new RuntimeException("Programming error:  selected child not among its parent's children");
+        
     }
 
 }
@@ -103,30 +140,18 @@ class Leaf extends Node {
 
 }
 
-interface SelectableNode {
-
-    void setAsSelectedChild(boolean selectedAsChild);
-
-    boolean isSelectedChild();
-
-    boolean isSelectedChildSibling();
-}
-
-abstract class InsertionPoint extends Node implements SelectableNode {
+abstract class SelectableNode extends Node {
 
     private boolean selected = false;
 
-    @Override
     public void setAsSelectedChild(boolean selected) {
         this.selected = selected;
     }
 
-    @Override
     public boolean isSelectedChild() {
         return selected;
     }
 
-    @Override
     public boolean isSelectedChildSibling() {
         if (getParent() == null) {
             return false;
@@ -136,7 +161,6 @@ abstract class InsertionPoint extends Node implements SelectableNode {
             return false;
         }
 
-        boolean parentHasSelectedChild = false;
         for (SelectableNode selectableNode : getParent().getSelectableSubnodes()) {
             if (selectableNode.isSelectedChild()) {
                 return true;
@@ -144,6 +168,12 @@ abstract class InsertionPoint extends Node implements SelectableNode {
         }
         return false;
     }
+
+    
+
+}
+
+abstract class InsertionPoint extends SelectableNode {
 
     private final String text;
 
@@ -158,7 +188,7 @@ abstract class InsertionPoint extends Node implements SelectableNode {
 
 }
 
-class OptionalInsertionPoint extends InsertionPoint implements SelectableNode {
+class OptionalInsertionPoint extends InsertionPoint {
 
     public OptionalInsertionPoint(String text) {
         super(text);
@@ -175,7 +205,7 @@ class OptionalInsertionPoint extends InsertionPoint implements SelectableNode {
 
 }
 
-class RequiredInsertionPoint extends InsertionPoint implements SelectableNode {
+class RequiredInsertionPoint extends InsertionPoint {
 
     public RequiredInsertionPoint(String text) {
         super(text);
@@ -183,38 +213,7 @@ class RequiredInsertionPoint extends InsertionPoint implements SelectableNode {
 
 }
 
-abstract class InnerNode extends Node implements SelectableNode {
-
-    private boolean selected = false;
-
-    @Override
-    public void setAsSelectedChild(boolean selected) {
-        this.selected = selected;
-    }
-
-    @Override
-    public boolean isSelectedChild() {
-        return selected;
-    }
-
-    @Override
-    public boolean isSelectedChildSibling() {
-        if (getParent() == null) {
-            return false;
-        }
-
-        if (isSelectedChild()) {
-            return false;
-        }
-
-        boolean parentHasSelectedChild = false;
-        for (SelectableNode selectableNode : getParent().getSelectableSubnodes()) {
-            if (selectableNode.isSelectedChild()) {
-                return true;
-            }
-        }
-        return false;
-    }
+abstract class InnerNode extends SelectableNode {
 
     public boolean hasSelectedChild() {
         for (SelectableNode selectableNode : getSelectableSubnodes()) {
@@ -246,6 +245,10 @@ abstract class InnerNode extends Node implements SelectableNode {
         }
 
         return selectableSubnodes;
+    }
+
+    List<Node> getSubnodes() {
+        return subnodes;
     }
 }
 
