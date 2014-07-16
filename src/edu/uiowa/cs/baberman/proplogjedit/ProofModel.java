@@ -2,11 +2,6 @@ package edu.uiowa.cs.baberman.proplogjedit;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.gjt.sp.jedit.Buffer;
-import org.gjt.sp.jedit.Macros;
-import org.gjt.sp.jedit.jEdit;
 
 /**
  *
@@ -70,6 +65,28 @@ public class ProofModel {
             }
         }
         return selectedNodeSelectableSiblings;
+    }
+    
+    void goToNextSelectableSibling() {
+        List<SelectableNode> selectableNodes
+                = getSelectedNode().getParent().getSelectableSubnodes();
+        int indexOfCurrent = selectableNodes.indexOf(getSelectedNode());
+        
+        if (indexOfCurrent == selectableNodes.size() - 1)
+            return;
+        
+        setSelectedNode(selectableNodes.get(indexOfCurrent+1));
+    }
+    
+    void goToPreviousSelectableSibling() {
+        List<SelectableNode> selectableNodes
+                = getSelectedNode().getParent().getSelectableSubnodes();
+        int indexOfCurrent = selectableNodes.indexOf(getSelectedNode());
+        
+        if (indexOfCurrent == 0)
+            return;
+        
+        setSelectedNode(selectableNodes.get(indexOfCurrent-1));
     }
 
 }
@@ -246,7 +263,7 @@ abstract class InnerNode extends SelectableNode {
     }
 
     protected void setSubnodeParentsToThis() {
-        for (Node subnode : subnodes) {
+        for (Node subnode : getSubnodes()) {
             subnode.setParent(this);
         }
     }
@@ -260,12 +277,12 @@ abstract class InnerNode extends SelectableNode {
         return false;
     }
 
-    List<Node> subnodes = new ArrayList<Node>();
+//    List<Node> subnodes = new ArrayList<Node>();
 
     @Override
     String getText() {
         String text = "";
-        for (Node subnode : subnodes) {
+        for (Node subnode : getSubnodes()) {
             text += subnode.getText();
         }
         return text;
@@ -274,7 +291,7 @@ abstract class InnerNode extends SelectableNode {
     List<SelectableNode> getSelectableSubnodes() {
         List<SelectableNode> selectableSubnodes = new ArrayList<SelectableNode>();
 
-        for (Node subnode : subnodes) {
+        for (Node subnode : getSubnodes()) {
             if (subnode instanceof SelectableNode) {
                 selectableSubnodes.add((SelectableNode) subnode);
             }
@@ -283,50 +300,75 @@ abstract class InnerNode extends SelectableNode {
         return selectableSubnodes;
     }
 
-    List<Node> getSubnodes() {
-        return subnodes;
-    }
+    abstract List<Node> getSubnodes();
+    
+//    List<Node> getSubnodes() {
+//        return subnodes;
+//    }
 
     boolean hasAllRequiredSubnodes() {
         for (Node subnode : getSubnodes()) {
-            if (subnode instanceof RequiredInsertionPoint)
+            if (subnode instanceof RequiredInsertionPoint) {
                 return false;
+            }
         }
         return true;
     }
 
     boolean isComplete() {
-        if (!hasAllRequiredSubnodes())
+        if (!hasAllRequiredSubnodes()) {
             return false;
-        
+        }
+
         for (Node subnode : getSubnodes()) {
             if (subnode instanceof InnerNode) {
                 InnerNode subInnerNode = (InnerNode) subnode;
-                if (!subInnerNode.isComplete())
+                if (!subInnerNode.isComplete()) {
                     return false;
+                }
             }
         }
-        
+
         return true;
     }
 }
 
 final class Proof extends InnerNode {
 
+    final String spacePropVarPlaceholder = " PROP_VAR";
+    final String sectionOrProofLinePlaceholder = "SECTION | PROOF_LINE";
+
+    private final Leaf leafA = new Leaf(this, "Parameters ");
+    private final List<Node> oneOrMoreSpacePropVars = new ArrayList<Node>();
+    private final Leaf leafB = new Leaf(this, " : Prop.\n\n");
+    private final List<Node> oneorMoreSectionOrProofLines
+            = new ArrayList<Node>();
+
+    @Override
+    List<Node> getSubnodes() {
+        List<Node> toReturn = new ArrayList<Node>();
+
+        toReturn.add(leafA);
+        for (Node node : oneOrMoreSpacePropVars) {
+            toReturn.add(node);
+        }
+        toReturn.add(leafB);
+        for (Node node : oneorMoreSectionOrProofLines) {
+            toReturn.add(node);
+        }
+
+        return toReturn;
+    }
+
     Proof() {
         super(null);
 
-        subnodes.add(new Leaf(this, "Parameters "));
-        subnodes.add(new RequiredInsertionPoint(this, PropVar.getPlaceholderText()));
-        subnodes.add(new Leaf(this, " : Prop.\n\n"));
-        subnodes.add(new RequiredInsertionPoint(this, ProofItem.getPlaceholderText()));
+        oneOrMoreSpacePropVars
+                .add(new RequiredInsertionPoint(this, spacePropVarPlaceholder));
+        oneorMoreSectionOrProofLines
+                .add(new RequiredInsertionPoint(this, sectionOrProofLinePlaceholder));
 
     }
-
-    static String getPlaceholderText() {
-        return "PROOF";
-    }
-
 }
 
 final class ProofItem extends InnerNode {
@@ -335,8 +377,9 @@ final class ProofItem extends InnerNode {
         super(parent);
     }
 
-    static String getPlaceholderText() {
-        return "PROOF_ITEM";
+    @Override
+    List<Node> getSubnodes() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
@@ -347,8 +390,9 @@ final class Section extends InnerNode {
         super(parent);
     }
 
-    static String getPlaceholderText() {
-        return "SECTION";
+    @Override
+    List<Node> getSubnodes() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
@@ -359,8 +403,9 @@ final class ProofLine extends InnerNode {
         super(parent);
     }
 
-    static String getPlaceholderText() {
-        return "PROOF_LINE";
+    @Override
+    List<Node> getSubnodes() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
@@ -371,8 +416,9 @@ final class PropVar extends InnerNode {
         super(parent);
     }
 
-    static String getPlaceholderText() {
-        return "PROP_VAR";
+    @Override
+    List<Node> getSubnodes() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

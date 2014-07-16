@@ -2,6 +2,7 @@
 package edu.uiowa.cs.baberman.proplogjedit;
 
 import org.gjt.sp.jedit.Buffer;
+import org.gjt.sp.jedit.Macros;
 import org.gjt.sp.jedit.jEdit;
 
 /**
@@ -13,7 +14,7 @@ public class ProofController {
     private ProofView proofView;
 
     public ProofController() {
-        
+         
         Buffer newFile;
         newFile = jEdit.newFile(jEdit.getActiveView().getEditPane());
         
@@ -49,6 +50,14 @@ public class ProofController {
      */
     public void setProofView(ProofView proofView) {
         this.proofView = proofView;
+    }
+
+    void goLeft() {
+        proofModel.goToPreviousSelectableSibling();
+    }
+
+    void goRight() {
+        proofModel.goToNextSelectableSibling();
     }
     
     

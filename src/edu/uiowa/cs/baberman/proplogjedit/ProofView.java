@@ -44,12 +44,13 @@ public class ProofView {
     }
 
     void update() {
-
+        
         if (proofModel == null) {
             throw new RuntimeException("Tried to update view with null model");
         }
 
         buffer.setReadOnly(false);
+        buffer.remove(0, buffer.getLength());
         buffer.insert(0, proofModel.getRoot().getText());
         buffer.setReadOnly(true);
 
