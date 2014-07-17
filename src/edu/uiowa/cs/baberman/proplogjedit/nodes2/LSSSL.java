@@ -1,4 +1,4 @@
-package edu.uiowa.cs.baberman.proplogjedit.nodes;
+package edu.uiowa.cs.baberman.proplogjedit.nodes2;
 
 /**
  *

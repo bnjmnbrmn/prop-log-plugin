@@ -1,7 +1,12 @@
 package edu.uiowa.cs.baberman.proplogjedit;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.gjt.sp.jedit.Macros;
+import org.gjt.sp.jedit.jEdit;
 
 /**
  *
@@ -28,7 +33,7 @@ public class ProofModel {
 
     final void addProofView(ProofView proofView) {
         proofViews.add(proofView);
-        
+
         updateViews();
     }
 
@@ -66,27 +71,29 @@ public class ProofModel {
         }
         return selectedNodeSelectableSiblings;
     }
-    
+
     void goToNextSelectableSibling() {
         List<SelectableNode> selectableNodes
                 = getSelectedNode().getParent().getSelectableSubnodes();
         int indexOfCurrent = selectableNodes.indexOf(getSelectedNode());
-        
-        if (indexOfCurrent == selectableNodes.size() - 1)
+
+        if (indexOfCurrent == selectableNodes.size() - 1) {
             return;
-        
-        setSelectedNode(selectableNodes.get(indexOfCurrent+1));
+        }
+
+        setSelectedNode(selectableNodes.get(indexOfCurrent + 1));
     }
-    
+
     void goToPreviousSelectableSibling() {
         List<SelectableNode> selectableNodes
                 = getSelectedNode().getParent().getSelectableSubnodes();
         int indexOfCurrent = selectableNodes.indexOf(getSelectedNode());
-        
-        if (indexOfCurrent == 0)
+
+        if (indexOfCurrent == 0) {
             return;
-        
-        setSelectedNode(selectableNodes.get(indexOfCurrent-1));
+        }
+
+        setSelectedNode(selectableNodes.get(indexOfCurrent - 1));
     }
 
     void appendCharacter(char toAppend) {
@@ -151,7 +158,7 @@ abstract class Node {
 
 }
 
-class Leaf extends Node {
+class Terminal extends Node {
 
     private final String text;
 
@@ -160,12 +167,12 @@ class Leaf extends Node {
         return text;
     }
 
-    public Leaf(InnerNode parent, String text) {
+    public Terminal(InnerNode parent, String text) {
         super(parent);
         this.text = text;
     }
 
-    public Leaf(InnerNode parent, String text, int repeats) {
+    public Terminal(InnerNode parent, String text, int repeats) {
         super(parent);
 
         if (repeats < 0) {
@@ -220,27 +227,47 @@ abstract class SelectableNode extends Node {
 
 abstract class InsertionPoint extends SelectableNode {
 
-    private final String text;
+    private String text;
 
     @Override
     public String getText() {
         return text;
     }
 
-    public InsertionPoint(InnerNode parent, String text) {
+    public InsertionPoint(InnerNode parent, Class<? extends SelectableNode> clazz) {
         super(parent);
 
-        this.text = "(*" + text + "*)";
-//        this.text = text;
+//        String debug = clazz.getName() + "\n";
+//        debug += clazz.getDeclaredFields().length + "\n";
+//        
+//        for (Field f : clazz.getDeclaredFields())
+//            debug += f.getName() + "\n";
+//        
+//        Macros.message(jEdit.getActiveView(), debug);
+        try {
+            this.text = "(*" + ((String) clazz.getDeclaredField("placeholderText").get(null)) + "*)";
+        } catch (NoSuchFieldException ex) {
+            Logger.getLogger(InsertionPoint.class.getName()).log(Level.SEVERE, null, ex);
+            this.text = "(* *)";
+        } catch (SecurityException ex) {
+            Logger.getLogger(InsertionPoint.class.getName()).log(Level.SEVERE, null, ex);
+            this.text = "(* *)";
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(InsertionPoint.class.getName()).log(Level.SEVERE, null, ex);
+            this.text = "(* *)";
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(InsertionPoint.class.getName()).log(Level.SEVERE, null, ex);
+            this.text = "(* *)";
+        }
+
     }
 
 }
 
 class OptionalInsertionPoint extends InsertionPoint {
 
-    public OptionalInsertionPoint(InnerNode parent, String text) {
-        super(parent, text);
-
+    public OptionalInsertionPoint(InnerNode parent, Class<? extends SelectableNode> clazz) {
+        super(parent, clazz);
     }
 
     @Override
@@ -256,8 +283,8 @@ class OptionalInsertionPoint extends InsertionPoint {
 
 class RequiredInsertionPoint extends InsertionPoint {
 
-    public RequiredInsertionPoint(InnerNode parent, String text) {
-        super(parent, text);
+    public RequiredInsertionPoint(InnerNode parent, Class<? extends SelectableNode> clazz) {
+        super(parent, clazz);
     }
 
 }
@@ -284,7 +311,6 @@ abstract class InnerNode extends SelectableNode {
     }
 
 //    List<Node> subnodes = new ArrayList<Node>();
-
     @Override
     String getText() {
         String text = "";
@@ -307,9 +333,8 @@ abstract class InnerNode extends SelectableNode {
     }
 
 //    abstract List<Node> getSubnodes();
-    
     List<Node> subnodes = new ArrayList<Node>();
-    
+
     List<Node> getSubnodes() {
         return subnodes;
     }
@@ -342,70 +367,41 @@ abstract class InnerNode extends SelectableNode {
 }
 
 final class Proof extends InnerNode {
-    
-//    final String spacePropVarPlaceholder = " PROP_VAR";
-//    final String sectionOrProofLinePlaceholder = "SECTION | PROOF_LINE";
 
-//    private final Leaf leafA;
-//    private final List<Node> propVarsWithSpaces;
-//    private final Leaf leafB;
-//    private final List<Node> oneorMoreSectionOrProofLines;
-
-//    @Override
-//    List<Node> getSubnodes() {
-//        List<Node> toReturn = new ArrayList<Node>();
-//
-//        toReturn.add(leafA);
-//        for (Node node : propVarsWithSpaces) {
-//            toReturn.add(node);
-//        }
-//        toReturn.add(leafB);
-//        for (Node node : oneorMoreSectionOrProofLines) {
-//            toReturn.add(node);
-//        }
-//
-//        return toReturn;
-//    }
+    static String placeholderText = "PROOF";
 
     Proof() {
         super(null);
 
-//        leafA = new Leaf(this, "Parameters ");
-//        
-//        propVarsWithSpaces = new ArrayList<Node>();
-//        propVarsWithSpaces
-//                .add(new RequiredInsertionPoint(this, spacePropVarPlaceholder));
-//        leafB = new Leaf(this, " : Prop.\n\n");
-//        
-//        oneorMoreSectionOrProofLines = new ArrayList<Node>();
-//        oneorMoreSectionOrProofLines
-//                .add(new RequiredInsertionPoint(this, sectionOrProofLinePlaceholder));
-        
-        getSubnodes().add(new Leaf(this, "Parameters "));
-        getSubnodes().add(new RequiredInsertionPoint(this, PropVar.getPlaceholderText()));
-        getSubnodes().add(new Leaf(this, " : Prop.\n\n"));
-        getSubnodes().add(new RequiredInsertionPoint(this, Section.getPlaceholderText() + " | " + ProofLine.getPlaceholderText()));
+        getSubnodes().add(new Terminal(this, "Parameters "));
+        getSubnodes().add(new RequiredInsertionPoint(this, SpacePropVar.class));
+        getSubnodes().add(new Terminal(this, " : Prop.\n\n"));
+        getSubnodes().add(new RequiredInsertionPoint(this, ProofItem.class));
 
     }
 }
 
-//final class ProofItem extends InnerNode {
-//
-//    static String getPlaceholderText() {
-//        return "SECTION | PROOF_LINE";
-//    }
-//
-//    public ProofItem(InnerNode parent) {
-//        super(parent);
-//    }
-//
-//}
+final class ProofItem extends InnerNode {
+
+    static String placeholderText = "SECTION | PROOF_LINE";
+
+    static String getPlaceholderText() {
+        return "SECTION | PROOF_LINE";
+    }
+
+    public ProofItem(InnerNode parent) {
+        super(parent);
+    }
+
+}
 
 final class Section extends InnerNode {
 
     static String getPlaceholderText() {
         return "SECTION";
     }
+
+    static String placeholderText = "SECTION";
 
     Section(InnerNode parent) {
         super(parent);
@@ -415,6 +411,8 @@ final class Section extends InnerNode {
 
 final class ProofLine extends InnerNode {
 
+    static String placeholderText = "PROOF_LINE";
+
     static String getPlaceholderText() {
         return "PROOF_LINE";
     }
@@ -423,10 +421,44 @@ final class ProofLine extends InnerNode {
         super(parent);
     }
 
+}
+
+final class SpacePropVar extends InnerNode {
+
+    static String placeholderText = " PROP_VAR";
+
+    static String getPlaceholderText() {
+        return " PROP_VAR";
+    }
+
+    public SpacePropVar(InnerNode parent) {
+        super(parent);
+    }
 
 }
 
-final class PropVar extends InnerNode {
+abstract class Identifier extends SelectableNode {
+
+    String text = "";
+
+    @Override
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Identifier(InnerNode parent) {
+        super(parent);
+    }
+
+}
+
+final class PropVar extends Identifier {
+
+    static String placeholderText = "PROP_VAR";
 
     static String getPlaceholderText() {
         return "PROP_VAR";

@@ -5,7 +5,7 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
  *
  * @author bnjmnbrmn
  */
-public class Proof extends NonTerminal {
+public class SectionId extends Identifier {
 
     @Override
     public String getPlaceholderText() {

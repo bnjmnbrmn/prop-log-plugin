@@ -31,7 +31,7 @@ JUSTIFICATION ::=
 ====================================================
 
 PROOF ::= 
-    'Parameters ' (PROP_VAR)+ ' : Prop.\n\n' 
+    'Parameters' (' ' PROP_VAR)+ ' : Prop.\n\n' 
     (PROOF_ITEM(0))+.
 
 PROOF_ITEM(n) ::=
@@ -46,6 +46,11 @@ SECTION(n) ::=
 PROOF_LINE(n) ::= 
     ('\t'){n}'Fact ' LINE_ID ' : ' FORMULA '. Proof. apply (' JUSTIFICATION '). Qed.\n'
 
+FORMULA ::= PROP_VAR | '(' FORMULA BINARY_OP FORMULA ')'| 
+  '(' UNARY_OP FORMULA ')'
+
+INFIX_BINARY_OP ::= '/\' | '\/' | '->'
+
 JUSTIFICATION ::= 
      'and_intro ' LINE_ID LINE_ID
    | 'and_elim_l ' LINE_ID
@@ -58,4 +63,4 @@ JUSTIFICATION ::=
    | 'not_not_elim ' LINE_ID
 
 PROP_VAR ::=
-    [a-zA-Z]* ' '
+    [a-zA-Z]+

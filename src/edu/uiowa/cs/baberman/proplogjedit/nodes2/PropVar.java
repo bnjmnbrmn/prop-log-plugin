@@ -1,11 +1,11 @@
 
-package edu.uiowa.cs.baberman.proplogjedit.nodes;
+package edu.uiowa.cs.baberman.proplogjedit.nodes2;
 
 /**
  *
  * @author bnjmnbrmn
  */
-class SectionID extends SelectableNode {
+public class PropVar extends SelectableNode {
 
     private String nonPlaceholderText;
     
@@ -16,7 +16,7 @@ class SectionID extends SelectableNode {
 
     @Override
     String getPlaceholderText() {
-        return "SECTION_ID";
+        return "PROP_VAR";
     }
     
 }

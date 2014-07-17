@@ -5,18 +5,16 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
  *
  * @author bnjmnbrmn
  */
-public class PropVar extends SelectableNode {
+public class PropVar extends Identifier {
 
-    private String nonPlaceholderText;
-    
     @Override
-    String getNonPlaceholderText() {
-        return nonPlaceholderText;
+    public String getPlaceholderText() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    String getPlaceholderText() {
-        return "PROP_VAR";
+    String getText() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
