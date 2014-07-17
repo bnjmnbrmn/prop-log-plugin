@@ -31,16 +31,14 @@ public class ProofView {
 
     final Map<TextAreaExtension, JEditTextArea> textAreaExtensionsWithTextAreas;
 
-    private ProofModel proofModel;
+    private final ProofModel proofModel;
 
-    ProofView(Buffer buffer) {
-        this.textAreaExtensionsWithTextAreas = new HashMap<TextAreaExtension, JEditTextArea>();
-        this.buffer = buffer;
-        buffer.setReadOnly(true);
-    }
-
-    void setProofModel(ProofModel proofModel) {
+    ProofView(ProofModel proofModel) {
         this.proofModel = proofModel;
+//        this.proofModel.addProofView(this);
+        this.buffer = jEdit.newFile(jEdit.getActiveView().getEditPane());
+        buffer.setReadOnly(true);
+        this.textAreaExtensionsWithTextAreas = new HashMap<TextAreaExtension, JEditTextArea>();
     }
 
     void update() {
@@ -54,17 +52,9 @@ public class ProofView {
         buffer.insert(0, proofModel.getRoot().getText());
         buffer.setReadOnly(true);
 
-        clearTextAreaExtensions();
-
-        //to do:  add appropriate TextAreaExtensions (Highlights, Underlines,
-        //and OptionalInsertionPointMarkers) to appropriate TextAreas' painters
-        //and to mapping of textAreaExtensions
+        clearTextAreaExtensions();        
         addTextAreaExtensions();
 
-        //test
-//        Highlight highlight = new Highlight(jEdit.getActiveView().getTextArea(), Color.CYAN, Color.BLACK, 3, 7);
-//        jEdit.getActiveView().getTextArea().getPainter().addExtension(highlight);
-//        jEdit.getActiveView().getTextArea().getPainter().removeExtension(highlight);
     }
 
     private void addTextAreaExtensions() {

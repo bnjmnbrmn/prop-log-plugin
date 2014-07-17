@@ -3,7 +3,7 @@
 
 <ACTIONS>
     <ACTION NAME="proplogjedit.newproof">
-        <CODE>       
+        <CODE>      
 edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin.getInstance().createNewProof();
         </CODE>
     </ACTION>

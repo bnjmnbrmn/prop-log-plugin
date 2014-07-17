@@ -9,26 +9,26 @@ import java.util.List;
  */
 public class ProofModel {
 
-    Proof root;
+    private Proof root;
 
-    SelectableNode selectedNode = null;
+    private SelectableNode selectedNode = null;
 
     ProofModel() {
         root = new Proof();
-
         setSelectedNode(root.getSelectableSubnodes().get(0));
+        ProofView proofView = new ProofView(this);
+        addProofView(proofView);
     }
 
-    List<ProofView> proofViews = new ArrayList<ProofView>();
+    private List<ProofView> proofViews = new ArrayList<ProofView>();
 
     List<ProofView> getProofViews() {
         return proofViews;
     }
 
-    void addProofView(ProofView proofView) {
+    final void addProofView(ProofView proofView) {
         proofViews.add(proofView);
-        proofView.setProofModel(this);
-
+        
         updateViews();
     }
 
@@ -87,6 +87,10 @@ public class ProofModel {
             return;
         
         setSelectedNode(selectableNodes.get(indexOfCurrent-1));
+    }
+
+    void appendCharacter(char toAppend) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
@@ -225,7 +229,9 @@ abstract class InsertionPoint extends SelectableNode {
 
     public InsertionPoint(InnerNode parent, String text) {
         super(parent);
+
         this.text = "(*" + text + "*)";
+//        this.text = text;
     }
 
 }
@@ -300,11 +306,13 @@ abstract class InnerNode extends SelectableNode {
         return selectableSubnodes;
     }
 
-    abstract List<Node> getSubnodes();
+//    abstract List<Node> getSubnodes();
     
-//    List<Node> getSubnodes() {
-//        return subnodes;
-//    }
+    List<Node> subnodes = new ArrayList<Node>();
+    
+    List<Node> getSubnodes() {
+        return subnodes;
+    }
 
     boolean hasAllRequiredSubnodes() {
         for (Node subnode : getSubnodes()) {
@@ -334,91 +342,98 @@ abstract class InnerNode extends SelectableNode {
 }
 
 final class Proof extends InnerNode {
+    
+//    final String spacePropVarPlaceholder = " PROP_VAR";
+//    final String sectionOrProofLinePlaceholder = "SECTION | PROOF_LINE";
 
-    final String spacePropVarPlaceholder = " PROP_VAR";
-    final String sectionOrProofLinePlaceholder = "SECTION | PROOF_LINE";
+//    private final Leaf leafA;
+//    private final List<Node> propVarsWithSpaces;
+//    private final Leaf leafB;
+//    private final List<Node> oneorMoreSectionOrProofLines;
 
-    private final Leaf leafA = new Leaf(this, "Parameters ");
-    private final List<Node> oneOrMoreSpacePropVars = new ArrayList<Node>();
-    private final Leaf leafB = new Leaf(this, " : Prop.\n\n");
-    private final List<Node> oneorMoreSectionOrProofLines
-            = new ArrayList<Node>();
-
-    @Override
-    List<Node> getSubnodes() {
-        List<Node> toReturn = new ArrayList<Node>();
-
-        toReturn.add(leafA);
-        for (Node node : oneOrMoreSpacePropVars) {
-            toReturn.add(node);
-        }
-        toReturn.add(leafB);
-        for (Node node : oneorMoreSectionOrProofLines) {
-            toReturn.add(node);
-        }
-
-        return toReturn;
-    }
+//    @Override
+//    List<Node> getSubnodes() {
+//        List<Node> toReturn = new ArrayList<Node>();
+//
+//        toReturn.add(leafA);
+//        for (Node node : propVarsWithSpaces) {
+//            toReturn.add(node);
+//        }
+//        toReturn.add(leafB);
+//        for (Node node : oneorMoreSectionOrProofLines) {
+//            toReturn.add(node);
+//        }
+//
+//        return toReturn;
+//    }
 
     Proof() {
         super(null);
 
-        oneOrMoreSpacePropVars
-                .add(new RequiredInsertionPoint(this, spacePropVarPlaceholder));
-        oneorMoreSectionOrProofLines
-                .add(new RequiredInsertionPoint(this, sectionOrProofLinePlaceholder));
+//        leafA = new Leaf(this, "Parameters ");
+//        
+//        propVarsWithSpaces = new ArrayList<Node>();
+//        propVarsWithSpaces
+//                .add(new RequiredInsertionPoint(this, spacePropVarPlaceholder));
+//        leafB = new Leaf(this, " : Prop.\n\n");
+//        
+//        oneorMoreSectionOrProofLines = new ArrayList<Node>();
+//        oneorMoreSectionOrProofLines
+//                .add(new RequiredInsertionPoint(this, sectionOrProofLinePlaceholder));
+        
+        getSubnodes().add(new Leaf(this, "Parameters "));
+        getSubnodes().add(new RequiredInsertionPoint(this, PropVar.getPlaceholderText()));
+        getSubnodes().add(new Leaf(this, " : Prop.\n\n"));
+        getSubnodes().add(new RequiredInsertionPoint(this, Section.getPlaceholderText() + " | " + ProofLine.getPlaceholderText()));
 
     }
 }
 
-final class ProofItem extends InnerNode {
-
-    public ProofItem(InnerNode parent) {
-        super(parent);
-    }
-
-    @Override
-    List<Node> getSubnodes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-}
+//final class ProofItem extends InnerNode {
+//
+//    static String getPlaceholderText() {
+//        return "SECTION | PROOF_LINE";
+//    }
+//
+//    public ProofItem(InnerNode parent) {
+//        super(parent);
+//    }
+//
+//}
 
 final class Section extends InnerNode {
 
-    Section(InnerNode parent) {
-        super(parent);
+    static String getPlaceholderText() {
+        return "SECTION";
     }
 
-    @Override
-    List<Node> getSubnodes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    Section(InnerNode parent) {
+        super(parent);
     }
 
 }
 
 final class ProofLine extends InnerNode {
 
+    static String getPlaceholderText() {
+        return "PROOF_LINE";
+    }
+
     ProofLine(InnerNode parent) {
         super(parent);
     }
 
-    @Override
-    List<Node> getSubnodes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
 }
 
 final class PropVar extends InnerNode {
 
-    PropVar(InnerNode parent) {
-        super(parent);
+    static String getPlaceholderText() {
+        return "PROP_VAR";
     }
 
-    @Override
-    List<Node> getSubnodes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    PropVar(InnerNode parent) {
+        super(parent);
     }
 
 }
