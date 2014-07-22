@@ -13,10 +13,19 @@ public final class Proof extends InnerNode {
     public Proof() {
         super(null);
         getSubnodes().add(new Terminal(this, "Parameters"));
-        getSubnodes().add(new SpacePropVar(this));
+        
+        OneOrMore<SpacePropVar> spacePropVars = new OneOrMore<>(this);
+        spacePropVars.addInitialSubnode(new SpacePropVar(spacePropVars));
+        getSubnodes().add(spacePropVars);
+        
+//        getSubnodes().add(new SpacePropVar(this));
 //        getSubnodes().add(new RequiredInsertionPoint(this, SpacePropVar.class));
         getSubnodes().add(new Terminal(this, " : Prop.\n\n"));
-        getSubnodes().add(new RequiredInsertionPoint(this, ProofItem.class));
+//        getSubnodes().add(new RequiredInsertionPoint(this, ProofItem.class));
+        
+        OneOrMore<ProofItem> proofItems = new OneOrMore<>(this);
+        proofItems.addInitialRequiredInsertionPoint(ProofItem.class);
+        getSubnodes().add(proofItems);
     }
     
 }

@@ -56,7 +56,7 @@ public class ProofView {
         buffer.remove(0, buffer.getLength());
         buffer.insert(0, proofModel.getRoot().getText());
         buffer.setReadOnly(true);
-
+        
         clearTextAreaExtensions();
         addTextAreaExtensions();
 
@@ -110,10 +110,12 @@ public class ProofView {
         for (SelectableNode node : otherNodesToHighlight) {
 
             Color strokeColor;
-            if (node.isValid()) {
-                strokeColor = Color.BLACK;
-            } else {
+            if (!node.isValid()) {
                 strokeColor = Color.RED;
+            } else if (node instanceof OptionalInsertionPoint) {
+                strokeColor = new Color(204,102,0);
+            } else {
+                strokeColor = Color.BLACK;
             }
 
             Highlight higlight = new Highlight(textArea, fillColor,

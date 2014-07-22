@@ -3,6 +3,8 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.gjt.sp.jedit.Macros;
+import org.gjt.sp.jedit.jEdit;
 
 /**
  *

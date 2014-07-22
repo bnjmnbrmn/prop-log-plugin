@@ -1,5 +1,6 @@
 package edu.uiowa.cs.baberman.proplogjedit;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -49,6 +50,7 @@ public class Highlight extends TextAreaExtension {
 
         int lh = textArea.getPainter().getLineHeight();
         gfx.setPaint(fillPaint);
+        gfx.setStroke(new BasicStroke(2));
 
         Point startPoint;
         startPoint = textArea.offsetToXY(start);
