@@ -22,104 +22,146 @@ import org.gjt.sp.jedit.jEdit;
  */
 public class ProofModel {
 
-    private Proof root;
-
-    private SelectableNode selectedNode = null;
-
-    ProofModel() {
-        root = new Proof();
-        setSelectedNode(root.getFirstRequiredInsertionPointDescendant());
-        ProofView proofView = new ProofView(this);
-        addProofView(proofView);
-    }
-
-    private List<ProofView> proofViews = new ArrayList<ProofView>();
-
-    List<ProofView> getProofViews() {
-        return proofViews;
-    }
-
-    final void addProofView(ProofView proofView) {
-        proofViews.add(proofView);
-
-        updateViews();
-    }
-
-    private void updateViews() {
-        for (ProofView proofView : proofViews) {
-            proofView.update();
-        }
-    }
-
-    Proof getRoot() {
+    /**
+     * @return the root
+     */
+    public Proof getRoot() {
         return root;
     }
 
-    final void setSelectedNode(SelectableNode toSelect) {
-        if (selectedNode != null) {
-            selectedNode.setAsSelectedChild(false);
-        }
-        toSelect.setAsSelectedChild(true);
-        selectedNode = toSelect;
-
-        updateViews();
+    /**
+     * @param root the root to set
+     */
+    public final void setRoot(Proof root) {
+        this.root = root;
     }
 
-    final SelectableNode getSelectedNode() {
+    /**
+     * @return the selectionMode
+     */
+    public SelectionMode getSelectionMode() {
+        return selectionMode;
+    }
+
+    /**
+     * @param selectionMode the selectionMode to set
+     */
+    public final void setSelectionMode(SelectionMode selectionMode) {
+        this.selectionMode = selectionMode;
+    }
+
+    /**
+     * @return the selectedNode
+     */
+    public SelectableNode getSelectedNode() {
         return selectedNode;
     }
 
-    List<SelectableNode> getSelectedNodeSelectableSiblings() {
-        List<SelectableNode> selectedNodeSelectableSiblings
-                = new ArrayList<SelectableNode>();
-        for (Node subnode : selectedNode.getParent().getSubnodes()) {
-            if (subnode instanceof SelectableNode && subnode != selectedNode) {
-                selectedNodeSelectableSiblings.add((SelectableNode) subnode);
-            }
-        }
-        return selectedNodeSelectableSiblings;
+    /**
+     * @param selectedNode the selectedNode to set
+     */
+    public final void setSelectedNode(SelectableNode selectedNode) {
+        this.selectedNode = selectedNode;
     }
 
-    void goToNextSelectableSibling() {
-        List<SelectableNode> selectableNodes
-                = getSelectedNode().getParent().getSelectableSubnodes();
-        int indexOfCurrent = selectableNodes.indexOf(getSelectedNode());
-
-        if (indexOfCurrent == selectableNodes.size() - 1) {
-            return;
-        }
-
-        setSelectedNode(selectableNodes.get(indexOfCurrent + 1));
+    /**
+     * @return the proofView
+     */
+    public final ProofView getProofView() {
+        return proofView;
     }
 
-    void goToPreviousSelectableSibling() {
-        List<SelectableNode> selectableNodes
-                = getSelectedNode().getParent().getSelectableSubnodes();
-        int indexOfCurrent = selectableNodes.indexOf(getSelectedNode());
-
-        if (indexOfCurrent == 0) {
-            return;
-        }
-
-        setSelectedNode(selectableNodes.get(indexOfCurrent - 1));
+    /**
+     * @param proofView the proofView to set
+     */
+    public final void setProofView(ProofView proofView) {
+        this.proofView = proofView;
     }
 
-    void appendCharacter(char toAppend) {
+    void goLeft() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    void goRight() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public enum SelectionMode {
+        LEAF, BRANCH;
+    }
+
+    private Proof root;
+    private SelectionMode selectionMode;
+    private SelectableNode selectedNode;
+    private ProofView proofView;
+
+    ProofModel() {
+        setRoot(new Proof());
+        setSelectionMode(SelectionMode.LEAF);
+        setSelectedNode(root.getSelectableLeaves().get(0));
+        setProofView(new ProofView(this));
+        getProofView().update();
+    }
+
+    public List<SelectableNode> getCurrentSelectableNodeListInclusive() {
+        if (getSelectionMode().equals(SelectionMode.LEAF)) {
+            return root.getSelectableLeaves();
+        } else { //if getSelectionMode().equals(SelectionMode.BRANCH)
+            return getSelectedNode().getSelectableSiblingsInclusive();
+        }
+    }
+    
+    public List<SelectableNode> getCurrentSelectableNodeListExclusive() {
+        List<SelectableNode> list = getCurrentSelectableNodeListInclusive();
+        list.remove(getSelectedNode());
+        return list;
+    }
+    
+//    public final void setSelectedNode(SelectableNode toSelect) {
+//        if (selectedNode != null) {
+//            selectedNode.setAsSelectedChild(false);
+//        }
+//        toSelect.setAsSelectedChild(true);
+//        selectedNode = toSelect;
+//
+//        proofView.update();
+//    }
+
+//    private List<SelectableNode> getSelectedNodeSelectableSiblings() {
+//        List<SelectableNode> selectedNodeSelectableSiblings
+//                = new ArrayList<SelectableNode>();
+//        for (Node subnode : getSelectedNode().getParent().getSubnodes()) {
+//            if (subnode instanceof SelectableNode && subnode != getSelectedNode()) {
+//                selectedNodeSelectableSiblings.add((SelectableNode) subnode);
+//            }
+//        }
+//        return selectedNodeSelectableSiblings;
+//    }
+
+//    void goToNextSelectableSibling() {
+//        List<SelectableNode> selectableNodes
+//                = getSelectedNode().getParent().getSelectableSubnodes();
+//        int indexOfCurrent = selectableNodes.indexOf(getSelectedNode());
+//
+//        if (indexOfCurrent == selectableNodes.size() - 1) {
+//            return;
+//        }
+//
+//        setSelectedNode(selectableNodes.get(indexOfCurrent + 1));
+//    }
+//    void goToPreviousSelectableSibling() {
+//        List<SelectableNode> selectableNodes
+//                = getSelectedNode().getParent().getSelectableSubnodes();
+//        int indexOfCurrent = selectableNodes.indexOf(getSelectedNode());
+//
+//        if (indexOfCurrent == 0) {
+//            return;
+//        }
+//
+//        setSelectedNode(selectableNodes.get(indexOfCurrent - 1));
+//    }
+//
+//    void appendCharacter(char toAppend) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -2,6 +2,7 @@ package edu.uiowa.cs.baberman.proplogjedit;
 
 import edu.uiowa.cs.baberman.proplogjedit.nodes.InnerNode;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.Node;
+import edu.uiowa.cs.baberman.proplogjedit.nodes.OptionalInsertionPoint;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.RequiredInsertionPoint;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.SelectableNode;
 import java.awt.Color;
@@ -26,7 +27,7 @@ import org.gjt.sp.jedit.textarea.TextAreaExtension;
 public class ProofView {
 
     public static final Color INCOMPLETE_RED = new Color(255, 100, 100);
-    
+
     final Buffer buffer;
 
     Buffer getBuffer() {
@@ -56,54 +57,69 @@ public class ProofView {
         buffer.insert(0, proofModel.getRoot().getText());
         buffer.setReadOnly(true);
 
-        clearTextAreaExtensions();        
+        clearTextAreaExtensions();
         addTextAreaExtensions();
 
     }
 
     private void addTextAreaExtensions() {
         for (JEditTextArea textArea : getTextAreasForBuffer()) {
-            addUnderline(textArea);
+//            addUnderline(textArea);
             addHighlights(textArea);
             addOptionalInsertionPointMarkers(textArea);
         }
     }
 
-    private void addUnderline(JEditTextArea textArea) {
-        
-        InnerNode parent = proofModel.getSelectedNode().getParent();
-        
-        if (parent == null)
-            return;
-        
-        Color lineColor;
-        if(parent.isComplete()) {
-            lineColor = Color.BLACK;
-        } else {
-            lineColor = INCOMPLETE_RED;
-        }
-        
-        Underline underline = new Underline(textArea, lineColor, 
-                parent.getOffset(), 
-                parent.getOffset() + parent.getText().length());
-        textArea.getPainter().addExtension(underline);
-        textAreaExtensionsWithTextAreas.put(underline, textArea);
-    }
-    
+//    private void addUnderline(JEditTextArea textArea) {
+//        
+//        InnerNode parent = proofModel.getSelectedNode().getParent();
+//        
+//        if (parent == null)
+//            return;
+//        
+//        Color lineColor;
+//        if(parent.isComplete()) {
+//            lineColor = Color.BLACK;
+//        } else {
+//            lineColor = INCOMPLETE_RED;
+//        }
+//        
+//        Underline underline = new Underline(textArea, lineColor, 
+//                parent.getOffset(), 
+//                parent.getOffset() + parent.getText().length());
+//        textArea.getPainter().addExtension(underline);
+//        textAreaExtensionsWithTextAreas.put(underline, textArea);
+//    }
     private void addHighlights(JEditTextArea textArea) {
         addSelectedNodeHighlight(textArea);
-        addSelectedNodeSiblingHighlights(textArea);
+        addOtherHighlights(textArea);
     }
 
-    private void addSelectedNodeSiblingHighlights(JEditTextArea textArea) {
-        List<SelectableNode> selectableNodeSelectableSiblings
-                = proofModel.getSelectedNodeSelectableSiblings();
+    private void addOtherHighlights(JEditTextArea textArea) {
+        List<SelectableNode> otherNodesToHighlight
+                //= proofModel.getSelectedNodeSelectableSiblings();
+                = proofModel.getCurrentSelectableNodeListExclusive();
 
-        for (Node node : selectableNodeSelectableSiblings) {
-            Highlight selectedNodeHighlight = new Highlight(textArea, new Color(0,0,0,0),
-                    Color.BLACK, node.getOffset(), node.getOffset() + node.getText().length());
-            textArea.getPainter().addExtension(selectedNodeHighlight);
-            textAreaExtensionsWithTextAreas.put(selectedNodeHighlight, textArea);
+        Color fillColor;
+        if (proofModel.getSelectionMode().equals(ProofModel.SelectionMode.LEAF)) {
+            fillColor = new Color(200, 255, 200);
+        } else {
+            fillColor = new Color(222, 184, 135, 150);
+        }
+
+        for (SelectableNode node : otherNodesToHighlight) {
+
+            Color strokeColor;
+            if (node.isValid()) {
+                strokeColor = Color.BLACK;
+            } else {
+                strokeColor = Color.RED;
+            }
+
+            Highlight higlight = new Highlight(textArea, fillColor,
+                    strokeColor, node.getOffset(), node.getOffset() + node.getText().length());
+            textArea.getPainter().addExtension(higlight);
+            textAreaExtensionsWithTextAreas.put(higlight, textArea);
         }
     }
 
@@ -114,14 +130,35 @@ public class ProofView {
         Paint selectedNodeFill;
         Paint selectedNodeStroke = Color.BLACK;
 
-        if (selectedNode instanceof InnerNode) {
-            selectedNodeFill = Color.LIGHT_GRAY;
-        } else if (selectedNode instanceof RequiredInsertionPoint) {
-            selectedNodeFill = INCOMPLETE_RED;
-        } else /*if (selectedNode instanceof OptionalInsertionPoint) */ {
-            selectedNodeFill = Color.YELLOW;
+//        if (selectedNode instanceof InnerNode) {
+//            selectedNodeFill = Color.LIGHT_GRAY;
+//        } else if (selectedNode instanceof RequiredInsertionPoint) {
+//            selectedNodeFill = INCOMPLETE_RED;
+//        } else /*if (selectedNode instanceof OptionalInsertionPoint) */ {
+//            selectedNodeFill = Color.YELLOW;
+//        }
+        
+
+        if (proofModel.getSelectionMode().equals(ProofModel.SelectionMode.LEAF)) {
+            selectedNodeFill = new Color(143, 188, 143);
+        } else {
+            selectedNodeFill = new Color(222, 184, 135, 250);
         }
 
+//        if (selectedNode.isValid()) {
+//            selectedNodeStroke = Color.BLACK;
+//        } else {
+//            selectedNodeStroke = Color.RED;
+//        }
+
+        if (!selectedNode.isValid()) {
+            selectedNodeStroke = Color.RED;
+        } else if (selectedNode instanceof OptionalInsertionPoint) {
+            selectedNodeStroke = Color.YELLOW;
+        } else {
+            selectedNodeStroke = Color.BLACK;
+        }
+        
         Highlight selectedNodeHighlight = new Highlight(textArea, selectedNodeFill,
                 selectedNodeStroke, selectedNodeOffset, selectedNodeOffset + selectedNode.getText().length());
         textArea.getPainter().addExtension(selectedNodeHighlight);

@@ -1,6 +1,8 @@
 
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
+import java.util.List;
+
 
 /**
  *
@@ -35,5 +37,31 @@ public abstract class SelectableNode extends Node {
         }
         return false;
     }
+
+    /**
+     * 
+     * @return the List of SelectableNode siblings of the calling Selectable Node,
+     * including the calling node
+     */
+    public List<SelectableNode> getSelectableSiblingsInclusive() {
+        if (hasParent()) {
+            return getParent().getSelectableSubnodes();
+        } else {
+            return null;
+        }
+    }
+    
+    public boolean isValid() {
+        if (this instanceof RequiredInsertionPoint) {
+            return false;
+        } else if (this instanceof InnerNode) {
+            for (SelectableNode selectableNode : ((InnerNode) this).getSelectableSubnodes()) {
+                if (!selectableNode.isValid())
+                    return false;
+            }
+        }
+        return true;
+    }
+
     
 }

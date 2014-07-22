@@ -231,9 +231,11 @@ public class PropLogPlugin extends EBPlugin {
 //            }
 ////        }
 
-        for (ProofView proofView : currentProofModel.getProofViews()) {
-            proofView.clearTextAreaExtensions();
-        }
+        currentProofModel.getProofView().clearTextAreaExtensions();
+        
+//        for (ProofView proofView : currentProofModel.getProofViews()) {
+//            proofView.clearTextAreaExtensions();
+//        }
     }
 
     public static PropLogPlugin getInstance() {
@@ -241,11 +243,11 @@ public class PropLogPlugin extends EBPlugin {
     }
 
     public void goLeft() {
-        currentProofModel.goToPreviousSelectableSibling();
+        currentProofModel.goLeft();
     }
 
     public void goRight() {
-        currentProofModel.goToNextSelectableSibling();
+        currentProofModel.goRight();
     }
 
     ProofModel currentProofModel;
