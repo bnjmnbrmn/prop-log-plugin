@@ -1,5 +1,9 @@
 package edu.uiowa.cs.baberman.proplogjedit;
 
+import edu.uiowa.cs.baberman.proplogjedit.nodes.InnerNode;
+import edu.uiowa.cs.baberman.proplogjedit.nodes.Node;
+import edu.uiowa.cs.baberman.proplogjedit.nodes.RequiredInsertionPoint;
+import edu.uiowa.cs.baberman.proplogjedit.nodes.SelectableNode;
 import java.awt.Color;
 import java.awt.Paint;
 import java.util.ArrayList;

@@ -5,14 +5,14 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
  *
  * @author bnjmnbrmn
  */
-public final class PropVar extends Identifier {
-    static String placeholderText = "PROP_VAR";
+public final class Section extends InnerNode {
 
     static String getPlaceholderText() {
-        return "PROP_VAR";
+        return "SECTION";
     }
+    static String placeholderText = "SECTION";
 
-    PropVar(InnerNode parent) {
+    Section(InnerNode parent) {
         super(parent);
     }
     

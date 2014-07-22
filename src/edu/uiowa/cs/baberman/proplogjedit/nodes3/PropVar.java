@@ -1,11 +1,11 @@
 
-package edu.uiowa.cs.baberman.proplogjedit.nodes;
+package edu.uiowa.cs.baberman.proplogjedit.nodes3;
 
 /**
  *
  * @author bnjmnbrmn
  */
-public class SectionId extends Identifier {
+public class PropVar extends Identifier {
 
     @Override
     public String getPlaceholderText() {

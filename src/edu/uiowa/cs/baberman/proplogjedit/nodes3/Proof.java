@@ -1,15 +1,15 @@
 
-package edu.uiowa.cs.baberman.proplogjedit.nodes;
+package edu.uiowa.cs.baberman.proplogjedit.nodes3;
 
 /**
  *
  * @author bnjmnbrmn
  */
-public class LineId extends Identifier {
+public class Proof extends NonTerminal {
 
     @Override
     public String getPlaceholderText() {
-        return "LINE_ID";
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

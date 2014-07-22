@@ -1,20 +1,22 @@
 
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
+
+
 /**
  *
  * @author bnjmnbrmn
  */
-public class Proof extends NonTerminal {
+public final class Proof extends InnerNode {
+    static String placeholderText = "PROOF";
 
-    @Override
-    public String getPlaceholderText() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    String getText() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Proof() {
+        super(null);
+        getSubnodes().add(new Terminal(this, "Parameters"));
+        getSubnodes().add(new SpacePropVar(this));
+//        getSubnodes().add(new RequiredInsertionPoint(this, SpacePropVar.class));
+        getSubnodes().add(new Terminal(this, " : Prop.\n\n"));
+        getSubnodes().add(new RequiredInsertionPoint(this, ProofItem.class));
     }
     
 }

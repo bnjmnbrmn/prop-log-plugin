@@ -1,5 +1,5 @@
 
-package edu.uiowa.cs.baberman.proplogjedit.nodes;
+package edu.uiowa.cs.baberman.proplogjedit.nodes3;
 
 import java.util.ArrayList;
 import java.util.List;
