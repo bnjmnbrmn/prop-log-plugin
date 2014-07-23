@@ -97,7 +97,7 @@ public abstract class InnerNode extends SelectableNode {
     
     public List<SelectableNode> getSelectableLeaves() {
         
-        List<SelectableNode> selectableLeaves = new ArrayList<>();
+        List<SelectableNode> selectableLeaves = new ArrayList<SelectableNode>();
         
         for (Node subnode : getSubnodes()) {
             if (subnode instanceof SelectableNode 
