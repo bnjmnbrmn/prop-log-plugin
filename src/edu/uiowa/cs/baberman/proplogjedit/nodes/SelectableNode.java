@@ -10,6 +10,8 @@ import java.util.List;
  */
 public abstract class SelectableNode extends Node {
 
+	static String placeholderText = " ";
+	
     public SelectableNode(InnerNode parent) {
         super(parent);
     }
@@ -62,6 +64,10 @@ public abstract class SelectableNode extends Node {
         }
         return true;
     }
+
+	public void respondToLetterPress(String letter) {
+		//do nothing (in general)
+	}
 
     
 }

@@ -165,7 +165,6 @@ public class PropLogPlugin extends EBPlugin {
     }
 
     class LetterPressAction extends AbstractAction {
-
         String letter;
 
         public LetterPressAction(String letter) {
@@ -174,19 +173,8 @@ public class PropLogPlugin extends EBPlugin {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            
-//            SelectableNode sn = currentProofModel.getSelectedNode();
-//            
-//            if (sn instanceof InsertionPoint 
-//                    && sn.getText() == 
-//                    new InsertionPoint() {
-//                        
-//                    }(null, 
-//                            PropVar.getPlaceholderText()).getText()) {
-//                 
-//            } else if sn
+            currentProofModel.respondToLetterPress(letter);
         }
-
     }
 
     private void setUpCommandRoot() {

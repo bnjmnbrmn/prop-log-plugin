@@ -20,5 +20,11 @@ public abstract class Identifier extends SelectableNode {
     public Identifier(InnerNode parent) {
         super(parent);
     }
+
+	@Override
+	public void respondToLetterPress(String letter) {
+		text += letter;
+	}
     
+	
 }
