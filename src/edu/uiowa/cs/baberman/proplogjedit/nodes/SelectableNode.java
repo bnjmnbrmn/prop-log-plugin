@@ -8,6 +8,8 @@ import java.util.List;
  */
 public abstract class SelectableNode extends Node {
 	
+	public abstract String getPlaceholderText();
+	
 	SelectableNode(boolean required) {
 		if (required) {
 			placeholderStatus = PlaceholderStatus.REQUIRED_PLACEHOLDER;
@@ -41,9 +43,13 @@ public abstract class SelectableNode extends Node {
 	}
 	
 
-    private enum PlaceholderStatus {
+    public enum PlaceholderStatus {
         REQUIRED_PLACEHOLDER, OPTIONAL_PLACEHOLDER, NONPLACEHOLDER;
     }
+	
+	public void setPlaceholderStatus(PlaceholderStatus status) {
+		placeholderStatus = status;
+	}
 
     private PlaceholderStatus placeholderStatus;
 

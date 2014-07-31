@@ -11,9 +11,8 @@ public final class PropVar extends Identifier {
 		super(required);
 	}
 	
-    static String placeholderText = "PROP_VAR";
-
-    static String getPlaceholderText() {
+	@Override
+    public String getPlaceholderText() {
         return "PROP_VAR";
     }
     

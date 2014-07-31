@@ -20,12 +20,6 @@ public abstract class InnerNode extends SelectableNode {
 		super();
 	}
 
-    protected void setSubnodeParentsToThis() {
-        for (Node subnode : getSubnodes()) {
-            subnode.setParent(this);
-        }
-    }
-
     public boolean hasSelectedChild() {
         for (SelectableNode selectableNode : getSelectableSubnodes()) {
             if (selectableNode.isSelectedChild()) {
@@ -37,6 +31,10 @@ public abstract class InnerNode extends SelectableNode {
 
     @Override
     public String getText() {
+		if (isARequiredPlaceholder()) {
+			return getPlaceholderText();
+		}
+		
         String text = "";
         for (Node subnode : getSubnodes()) {
             text += subnode.getText();
@@ -56,18 +54,23 @@ public abstract class InnerNode extends SelectableNode {
     
     private List<Node> subnodes = new ArrayList<Node>();
 
-    public List<Node> getSubnodes() {
+    List<Node> getSubnodes() {
         return subnodes;
     }
 	
 	protected void addSubnode(Node n) {
 		subnodes.add(n);
+		n.setParent(this);
+	}
+	
+	public Node getSubnode(int index) {
+		return subnodes.get(index);
 	}
     
     public List<SelectableNode> getSelectableLeaves() {
         
         List<SelectableNode> selectableLeaves = new ArrayList<SelectableNode>();
-
+		
 		for (SelectableNode selectableSubnode : getSelectableSubnodes()) {
 			if (selectableSubnode instanceof Identifier) {
 				selectableLeaves.add(selectableSubnode);
@@ -83,6 +86,8 @@ public abstract class InnerNode extends SelectableNode {
 				}
 			}
 		}
+		
+		
 
         return selectableLeaves;
     }

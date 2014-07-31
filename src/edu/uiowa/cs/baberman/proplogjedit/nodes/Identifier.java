@@ -6,23 +6,40 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
  * @author bnjmnbrmn
  */
 public abstract class Identifier extends SelectableNode {
-    String text = "";
+    private String identifierString;
 
     @Override
     public String getText() {
-        return text;
+		if (isARequiredPlaceholder()) {
+			return getPlaceholderText();
+		} else if (isAnOptionalPlaceholder() && isSelectedChild()) {
+			return getPlaceholderText();
+		} else if (isAnOptionalPlaceholder() && !isSelectedChild()) {
+			return "";
+		} else {
+			return identifierString;
+		}
     }
 
-    public void setText(String text) {
-        this.text = text;
-    }
 
 	@Override
 	public void respondToLetterPress(String letter) {
-		text += letter;
+		if (isARequiredPlaceholder() || isAnOptionalPlaceholder()) {
+			setPlaceholderStatus(PlaceholderStatus.NONPLACEHOLDER);
+			setIdentifierString(letter);
+		} else {
+			setIdentifierString(identifierString + letter);
+		}
 	}
     
 	Identifier(boolean required) {
 		super(required);
+	}
+
+	/**
+	 * @param text the text to set
+	 */
+	public void setIdentifierString(String text) {
+		this.identifierString = text;
 	}
 }

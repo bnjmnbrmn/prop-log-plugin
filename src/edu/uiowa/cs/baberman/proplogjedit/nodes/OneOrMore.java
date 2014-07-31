@@ -8,15 +8,22 @@ import java.util.List;
  */
 public class OneOrMore<N extends SelectableNode> extends InnerNode {
 	
-	public OneOrMore() {
-		super();
-	}
+	N typePlaceholder;
 	
-	public OneOrMore(boolean required) {
+//	public OneOrMore(N typePlaceholder) {
+//		super();
+//		this.typePlaceholder
+//				= typePlaceholder;
+//	}
+	
+	public OneOrMore(boolean required, N typePlaceholder) {
 		super(required);
+		this.typePlaceholder
+				= typePlaceholder;
 	}
 
-	public void addSubnode(N subnode) {
-		super.addSubnode(subnode);
+	@Override
+	public String getPlaceholderText() {
+		return "(" + typePlaceholder.getPlaceholderText() + ")+";
 	}
 }

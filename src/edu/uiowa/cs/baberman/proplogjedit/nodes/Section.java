@@ -11,10 +11,10 @@ public final class Section extends InnerNode {
 		super(required);
 	}
 	
-    static String getPlaceholderText() {
+	@Override
+    public String getPlaceholderText() {
         return "SECTION";
     }
-    static String placeholderText = "SECTION";
-
+    
     
 }
