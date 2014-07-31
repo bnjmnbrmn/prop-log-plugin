@@ -10,16 +10,16 @@ public class OneOrMore<N extends SelectableNode> extends InnerNode {
         super(parent);
     }
 
-    public void addInitialSubnode(N initialSubnode) {
-        getSubnodes().add(
-                new OptionalInsertionPoint(this, initialSubnode.getClass()));
-        getSubnodes().add(initialSubnode);
-        getSubnodes().add(
-                new OptionalInsertionPoint(this, initialSubnode.getClass()));
-    }
-    
-    public void addInitialRequiredInsertionPoint(Class<N> clazz) {
-        getSubnodes().add(new RequiredInsertionPoint(this, clazz));
-    }
+//    public void addInitialSubnode(N initialSubnode) {
+//        getSubnodes().add(
+//                new OptionalInsertionPoint(this, initialSubnode.getClass()));
+//        getSubnodes().add(initialSubnode);
+//        getSubnodes().add(
+//                new OptionalInsertionPoint(this, initialSubnode.getClass()));
+//    }
+//    
+//    public void addInitialRequiredInsertionPoint(Class<N> clazz) {
+//        getSubnodes().add(new RequiredInsertionPoint(this, clazz));
+//    }
 
 }

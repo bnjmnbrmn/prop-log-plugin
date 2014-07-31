@@ -57,29 +57,29 @@ public abstract class InnerNode extends SelectableNode {
         return subnodes;
     }
 
-    boolean hasAllRequiredSubnodes() {
-        for (Node subnode : getSubnodes()) {
-            if (subnode instanceof RequiredInsertionPoint) {
-                return false;
-            }
-        }
-        return true;
-    }
+//    boolean hasAllRequiredSubnodes() {
+//        for (Node subnode : getSubnodes()) {
+//            if (subnode instanceof RequiredInsertionPoint) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
-    public boolean isComplete() {
-        if (!hasAllRequiredSubnodes()) {
-            return false;
-        }
-        for (Node subnode : getSubnodes()) {
-            if (subnode instanceof InnerNode) {
-                InnerNode subInnerNode = (InnerNode) subnode;
-                if (!subInnerNode.isComplete()) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+//    public boolean isComplete() {
+//        if (!hasAllRequiredSubnodes()) {
+//            return false;
+//        }
+//        for (Node subnode : getSubnodes()) {
+//            if (subnode instanceof InnerNode) {
+//                InnerNode subInnerNode = (InnerNode) subnode;
+//                if (!subInnerNode.isComplete()) {
+//                    return false;
+//                }
+//            }
+//        }
+//        return true;
+//    }
     
 //    public RequiredInsertionPoint getFirstRequiredInsertionPointDescendant() {        
 //        for (Node subnode : getSubnodes()) {

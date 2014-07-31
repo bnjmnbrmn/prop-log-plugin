@@ -24,6 +24,10 @@ public abstract class SelectableNode extends Node {
         }
     }
 
+    public void respondToLetterPress(String letter) {
+        //to do
+    }
+
     private enum PlaceholderStatus {
         REQUIRED_PLACEHOLDER, OPTIONAL_PLACEHOLDER, NONPLACEHOLDER;
     }

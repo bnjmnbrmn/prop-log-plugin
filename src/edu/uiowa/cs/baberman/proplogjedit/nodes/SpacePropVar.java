@@ -16,7 +16,7 @@ public final class SpacePropVar extends InnerNode {
         super(parent);
         
         getSubnodes().add(new Terminal(this, " "));
-        getSubnodes().add(new RequiredInsertionPoint(this, PropVar.class));
+        getSubnodes().add(new PropVar(this));
     }
     
 }

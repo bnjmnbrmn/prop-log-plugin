@@ -110,7 +110,7 @@ public class ProofView {
             Color strokeColor;
             if (!node.isCompletedSubtreeRoot()) {
                 strokeColor = Color.RED;
-            } else if (node instanceof OptionalInsertionPoint) {
+            } else if (node.isAnOptionalPlaceholder()) {
                 strokeColor = new Color(204,102,0);
             } else {
                 strokeColor = Color.BLACK;
@@ -136,9 +136,9 @@ public class ProofView {
             selectedNodeFill = new Color(222, 184, 135, 250);
         }
 
-        if (!selectedNode.isValid()) {
+        if (!selectedNode.isCompletedSubtreeRoot()) {
             selectedNodeStroke = Color.RED;
-        } else if (selectedNode instanceof OptionalInsertionPoint) {
+        } else if (selectedNode.isAnOptionalPlaceholder()) {
             selectedNodeStroke = Color.YELLOW;
         } else {
             selectedNodeStroke = Color.BLACK;
