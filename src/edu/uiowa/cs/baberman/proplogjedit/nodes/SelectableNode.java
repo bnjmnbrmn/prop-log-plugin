@@ -9,14 +9,27 @@ import java.util.List;
  * @author bnjmnbrmn
  */
 public abstract class SelectableNode extends Node {
-
-	static String placeholderText = " ";
 	
+    private enum State {
+        REQUIRED_PLACEHOLDER, OPTIONAL_PLACEHOLDER, NORMAL;
+    }
+    
+    private State state;
+    
+    public boolean isARequiredPlaceholder() {
+        return state == State.REQUIRED_PLACEHOLDER;
+    }
+    
+    public boolean isAnOptionalPlaceholder() {
+        return state == State.OPTIONAL_PLACEHOLDER;
+    }
+    
     public SelectableNode(InnerNode parent) {
         super(parent);
     }
+    
     private boolean selected = false;
-
+    
     public void setAsSelectedChild(boolean selected) {
         this.selected = selected;
     }
