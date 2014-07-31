@@ -2,8 +2,6 @@ package edu.uiowa.cs.baberman.proplogjedit;
 
 import edu.uiowa.cs.baberman.proplogjedit.nodes.InnerNode;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.Node;
-import edu.uiowa.cs.baberman.proplogjedit.nodes.OptionalInsertionPoint;
-import edu.uiowa.cs.baberman.proplogjedit.nodes.RequiredInsertionPoint;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.SelectableNode;
 import java.awt.Color;
 import java.awt.Paint;
@@ -110,7 +108,7 @@ public class ProofView {
         for (SelectableNode node : otherNodesToHighlight) {
 
             Color strokeColor;
-            if (!node.isValid()) {
+            if (!node.isCompletedSubtreeRoot()) {
                 strokeColor = Color.RED;
             } else if (node instanceof OptionalInsertionPoint) {
                 strokeColor = new Color(204,102,0);
@@ -132,26 +130,11 @@ public class ProofView {
         Paint selectedNodeFill;
         Paint selectedNodeStroke = Color.BLACK;
 
-//        if (selectedNode instanceof InnerNode) {
-//            selectedNodeFill = Color.LIGHT_GRAY;
-//        } else if (selectedNode instanceof RequiredInsertionPoint) {
-//            selectedNodeFill = INCOMPLETE_RED;
-//        } else /*if (selectedNode instanceof OptionalInsertionPoint) */ {
-//            selectedNodeFill = Color.YELLOW;
-//        }
-        
-
         if (proofModel.getSelectionMode().equals(ProofModel.SelectionMode.LEAF)) {
             selectedNodeFill = new Color(143, 188, 143);
         } else {
             selectedNodeFill = new Color(222, 184, 135, 250);
         }
-
-//        if (selectedNode.isValid()) {
-//            selectedNodeStroke = Color.BLACK;
-//        } else {
-//            selectedNodeStroke = Color.RED;
-//        }
 
         if (!selectedNode.isValid()) {
             selectedNodeStroke = Color.RED;

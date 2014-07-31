@@ -1,35 +1,49 @@
-
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
 import java.util.List;
-
 
 /**
  *
  * @author bnjmnbrmn
  */
 public abstract class SelectableNode extends Node {
-	
-    private enum State {
-        REQUIRED_PLACEHOLDER, OPTIONAL_PLACEHOLDER, NORMAL;
+
+    public boolean isCompletedSubtreeRoot() {
+        if (isARequiredPlaceholder()) {
+            return false;
+        } else if (isAnOptionalPlaceholder()) {
+            return true;
+        } else {
+            if (this instanceof InnerNode) {
+                for (SelectableNode subnode : ((InnerNode) this).getSelectableSubnodes()) {
+                    if (!subnode.isCompletedSubtreeRoot())
+                        return false;
+                }
+            }
+            return true;
+        }
     }
-    
-    private State state;
-    
+
+    private enum PlaceholderStatus {
+        REQUIRED_PLACEHOLDER, OPTIONAL_PLACEHOLDER, NONPLACEHOLDER;
+    }
+
+    private PlaceholderStatus state;
+
     public boolean isARequiredPlaceholder() {
-        return state == State.REQUIRED_PLACEHOLDER;
+        return state == PlaceholderStatus.REQUIRED_PLACEHOLDER;
     }
-    
+
     public boolean isAnOptionalPlaceholder() {
-        return state == State.OPTIONAL_PLACEHOLDER;
+        return state == PlaceholderStatus.OPTIONAL_PLACEHOLDER;
     }
-    
+
     public SelectableNode(InnerNode parent) {
         super(parent);
     }
-    
+
     private boolean selected = false;
-    
+
     public void setAsSelectedChild(boolean selected) {
         this.selected = selected;
     }
@@ -54,9 +68,9 @@ public abstract class SelectableNode extends Node {
     }
 
     /**
-     * 
-     * @return the List of SelectableNode siblings of the calling Selectable Node,
-     * including the calling node
+     *
+     * @return the List of SelectableNode siblings of the calling Selectable
+     * Node, including the calling node
      */
     public List<SelectableNode> getSelectableSiblingsInclusive() {
         if (hasParent()) {
@@ -65,22 +79,5 @@ public abstract class SelectableNode extends Node {
             return null;
         }
     }
-    
-    public boolean isValid() {
-        if (this instanceof RequiredInsertionPoint) {
-            return false;
-        } else if (this instanceof InnerNode) {
-            for (SelectableNode selectableNode : ((InnerNode) this).getSelectableSubnodes()) {
-                if (!selectableNode.isValid())
-                    return false;
-            }
-        }
-        return true;
-    }
 
-	public void respondToLetterPress(String letter) {
-		//do nothing (in general)
-	}
-
-    
 }
