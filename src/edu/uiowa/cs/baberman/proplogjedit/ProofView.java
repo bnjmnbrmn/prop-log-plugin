@@ -62,32 +62,11 @@ public class ProofView {
 
     private void addTextAreaExtensions() {
         for (JEditTextArea textArea : getTextAreasForBuffer()) {
-//            addUnderline(textArea);
             addHighlights(textArea);
-            addOptionalInsertionPointMarkers(textArea);
         }
     }
 
-//    private void addUnderline(JEditTextArea textArea) {
-//        
-//        InnerNode parent = proofModel.getSelectedNode().getParent();
-//        
-//        if (parent == null)
-//            return;
-//        
-//        Color lineColor;
-//        if(parent.isComplete()) {
-//            lineColor = Color.BLACK;
-//        } else {
-//            lineColor = INCOMPLETE_RED;
-//        }
-//        
-//        Underline underline = new Underline(textArea, lineColor, 
-//                parent.getOffset(), 
-//                parent.getOffset() + parent.getText().length());
-//        textArea.getPainter().addExtension(underline);
-//        textAreaExtensionsWithTextAreas.put(underline, textArea);
-//    }
+
     private void addHighlights(JEditTextArea textArea) {
         addSelectedNodeHighlight(textArea);
         addOtherHighlights(textArea);
@@ -148,10 +127,6 @@ public class ProofView {
                 selectedNodeStroke, selectedNodeOffset, selectedNodeOffset + selectedNode.getText().length());
         textArea.getPainter().addExtension(selectedNodeHighlight);
         textAreaExtensionsWithTextAreas.put(selectedNodeHighlight, textArea);
-    }
-
-    private void addOptionalInsertionPointMarkers(JEditTextArea textArea) {
-        //to do
     }
 
     public void clearTextAreaExtensions() {

@@ -35,7 +35,6 @@ public abstract class InnerNode extends SelectableNode {
         return false;
     }
 
-    //    List<Node> subnodes = new ArrayList<Node>();
     @Override
     public String getText() {
         String text = "";
@@ -54,7 +53,7 @@ public abstract class InnerNode extends SelectableNode {
         }
         return selectableSubnodes;
     }
-    //    abstract List<Node> getSubnodes();
+    
     private List<Node> subnodes = new ArrayList<Node>();
 
     public List<Node> getSubnodes() {
@@ -68,20 +67,23 @@ public abstract class InnerNode extends SelectableNode {
     public List<SelectableNode> getSelectableLeaves() {
         
         List<SelectableNode> selectableLeaves = new ArrayList<SelectableNode>();
-        
-        for (Node subnode : getSubnodes()) {
-            if (subnode instanceof SelectableNode 
-                    && !(subnode instanceof InnerNode)) {
-                selectableLeaves.add((SelectableNode)subnode);
-            } else if (subnode instanceof InnerNode) {
-                InnerNode subInnerNode = (InnerNode) subnode;
-                for (SelectableNode selectableLeaf : 
-                        subInnerNode.getSelectableLeaves()) {
-                    selectableLeaves.add(selectableLeaf);
-                }
-            }
-        }
-        
+
+		for (SelectableNode selectableSubnode : getSelectableSubnodes()) {
+			if (selectableSubnode instanceof Identifier) {
+				selectableLeaves.add(selectableSubnode);
+			} else if (selectableSubnode instanceof InnerNode) {
+				InnerNode innerSubnode = (InnerNode) selectableSubnode;
+				if (innerSubnode.isARequiredPlaceholder() 
+						|| innerSubnode.isAnOptionalPlaceholder()) {
+					selectableLeaves.add(innerSubnode);
+				} else {
+					for (SelectableNode selectableLeaf : innerSubnode.getSelectableLeaves()) {
+						selectableLeaves.add(selectableLeaf);
+					}
+				}
+			}
+		}
+
         return selectableLeaves;
     }
     

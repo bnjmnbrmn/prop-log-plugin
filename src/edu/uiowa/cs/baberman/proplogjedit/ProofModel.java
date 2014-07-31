@@ -102,6 +102,7 @@ public class ProofModel {
     ProofModel() {
         setRoot(new Proof());
         setSelectionMode(SelectionMode.LEAF);
+		
         setSelectedNode(root.getSelectableLeaves().get(1));
         setProofView(new ProofView(this));
         getProofView().update();
