@@ -12,11 +12,7 @@ public final class SpacePropVar extends InnerNode {
         return " PROP_VAR";
     }
 
-    public SpacePropVar(InnerNode parent) {
-        super(parent);
-        
-        getSubnodes().add(new Terminal(this, " "));
-        getSubnodes().add(new PropVar(this));
-    }
-    
+	public SpacePropVar(boolean required) {
+		super(required);
+	}
 }

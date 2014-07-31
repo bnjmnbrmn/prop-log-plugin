@@ -17,14 +17,12 @@ public abstract class Identifier extends SelectableNode {
         this.text = text;
     }
 
-    public Identifier(InnerNode parent) {
-        super(parent);
-    }
-
 	@Override
 	public void respondToLetterPress(String letter) {
 		text += letter;
 	}
     
-	
+	Identifier(boolean required) {
+		super(required);
+	}
 }

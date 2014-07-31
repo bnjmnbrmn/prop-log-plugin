@@ -15,13 +15,11 @@ public class Terminal extends Node {
         return text;
     }
 
-    public Terminal(InnerNode parent, String text) {
-        super(parent);
+    public Terminal(String text) {
         this.text = text;
     }
 
-    public Terminal(InnerNode parent, String text, int repeats) {
-        super(parent);
+    public Terminal(String text, int repeats) {
         if (repeats < 0) {
             throw new RuntimeException("repeats parameter must be non-negative");
         }

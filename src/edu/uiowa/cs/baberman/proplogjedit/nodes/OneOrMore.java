@@ -1,25 +1,22 @@
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
+import java.util.List;
+
 /**
  *
  * @author bnjmnbrmn
  */
 public class OneOrMore<N extends SelectableNode> extends InnerNode {
+	
+	public OneOrMore() {
+		super();
+	}
+	
+	public OneOrMore(boolean required) {
+		super(required);
+	}
 
-    public OneOrMore(InnerNode parent) {
-        super(parent);
-    }
-
-//    public void addInitialSubnode(N initialSubnode) {
-//        getSubnodes().add(
-//                new OptionalInsertionPoint(this, initialSubnode.getClass()));
-//        getSubnodes().add(initialSubnode);
-//        getSubnodes().add(
-//                new OptionalInsertionPoint(this, initialSubnode.getClass()));
-//    }
-//    
-//    public void addInitialRequiredInsertionPoint(Class<N> clazz) {
-//        getSubnodes().add(new RequiredInsertionPoint(this, clazz));
-//    }
-
+	public void addSubnode(N subnode) {
+		super.addSubnode(subnode);
+	}
 }

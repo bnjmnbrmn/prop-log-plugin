@@ -7,6 +7,18 @@ import java.util.List;
  * @author bnjmnbrmn
  */
 public abstract class SelectableNode extends Node {
+	
+	SelectableNode(boolean required) {
+		if (required) {
+			placeholderStatus = PlaceholderStatus.REQUIRED_PLACEHOLDER;
+		} else {
+			placeholderStatus = PlaceholderStatus.OPTIONAL_PLACEHOLDER;
+		}
+	}
+	
+	SelectableNode() {
+		placeholderStatus = PlaceholderStatus.NONPLACEHOLDER;
+	}
 
     public boolean isCompletedSubtreeRoot() {
         if (isARequiredPlaceholder()) {
@@ -25,26 +37,24 @@ public abstract class SelectableNode extends Node {
     }
 
     public void respondToLetterPress(String letter) {
-        //to do
-    }
+		//for most types of selectable nodes we do nothing
+	}
+	
 
     private enum PlaceholderStatus {
         REQUIRED_PLACEHOLDER, OPTIONAL_PLACEHOLDER, NONPLACEHOLDER;
     }
 
-    private PlaceholderStatus state;
+    private PlaceholderStatus placeholderStatus;
 
     public boolean isARequiredPlaceholder() {
-        return state == PlaceholderStatus.REQUIRED_PLACEHOLDER;
+        return placeholderStatus == PlaceholderStatus.REQUIRED_PLACEHOLDER;
     }
 
     public boolean isAnOptionalPlaceholder() {
-        return state == PlaceholderStatus.OPTIONAL_PLACEHOLDER;
+        return placeholderStatus == PlaceholderStatus.OPTIONAL_PLACEHOLDER;
     }
 
-    public SelectableNode(InnerNode parent) {
-        super(parent);
-    }
 
     private boolean selected = false;
 

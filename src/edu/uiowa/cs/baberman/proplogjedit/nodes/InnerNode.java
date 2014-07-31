@@ -11,10 +11,14 @@ import org.gjt.sp.jedit.jEdit;
  * @author bnjmnbrmn
  */
 public abstract class InnerNode extends SelectableNode {
-
-    InnerNode(InnerNode parent) {
-        super(parent);
-    }
+	
+	InnerNode(boolean required) {
+		super(required);
+	}
+	
+	InnerNode() {
+		super();
+	}
 
     protected void setSubnodeParentsToThis() {
         for (Node subnode : getSubnodes()) {
@@ -51,49 +55,15 @@ public abstract class InnerNode extends SelectableNode {
         return selectableSubnodes;
     }
     //    abstract List<Node> getSubnodes();
-    List<Node> subnodes = new ArrayList<Node>();
+    private List<Node> subnodes = new ArrayList<Node>();
 
     public List<Node> getSubnodes() {
         return subnodes;
     }
-
-//    boolean hasAllRequiredSubnodes() {
-//        for (Node subnode : getSubnodes()) {
-//            if (subnode instanceof RequiredInsertionPoint) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
-
-//    public boolean isComplete() {
-//        if (!hasAllRequiredSubnodes()) {
-//            return false;
-//        }
-//        for (Node subnode : getSubnodes()) {
-//            if (subnode instanceof InnerNode) {
-//                InnerNode subInnerNode = (InnerNode) subnode;
-//                if (!subInnerNode.isComplete()) {
-//                    return false;
-//                }
-//            }
-//        }
-//        return true;
-//    }
-    
-//    public RequiredInsertionPoint getFirstRequiredInsertionPointDescendant() {        
-//        for (Node subnode : getSubnodes()) {
-//            if (subnode instanceof RequiredInsertionPoint) {
-//                return (RequiredInsertionPoint) subnode;
-//            } else if (subnode instanceof InnerNode) {
-//                RequiredInsertionPoint rip = 
-//                        ((InnerNode)subnode).getFirstRequiredInsertionPointDescendant();
-//                if (rip != null)
-//                    return rip;
-//            }
-//        }
-//        return null;
-//    }
+	
+	protected void addSubnode(Node n) {
+		subnodes.add(n);
+	}
     
     public List<SelectableNode> getSelectableLeaves() {
         

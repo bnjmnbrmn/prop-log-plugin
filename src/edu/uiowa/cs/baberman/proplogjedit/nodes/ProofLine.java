@@ -12,8 +12,7 @@ public final class ProofLine extends InnerNode {
         return "PROOF_LINE";
     }
 
-    ProofLine(InnerNode parent) {
-        super(parent);
-    }
-    
+	public ProofLine(boolean required) {
+		super(required);
+	}
 }

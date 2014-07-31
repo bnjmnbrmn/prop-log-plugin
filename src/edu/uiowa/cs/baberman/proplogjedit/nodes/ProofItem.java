@@ -12,8 +12,8 @@ public final class ProofItem extends InnerNode {
         return "SECTION | PROOF_LINE";
     }
 
-    public ProofItem(InnerNode parent) {
-        super(parent);
-    }
+	public ProofItem(boolean required) {
+		super(required);
+	}
     
 }

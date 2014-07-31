@@ -13,10 +13,6 @@ public abstract class Node {
 
     public abstract String getText();
 
-    Node(InnerNode parent) {
-        this.parent = parent;
-    }
-
     /**
      * @return the parent
      */
