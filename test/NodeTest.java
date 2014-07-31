@@ -1,5 +1,5 @@
 
-import edu.uiowa.cs.baberman.proplogjedit.nodes2.Proof;
+import edu.uiowa.cs.baberman.proplogjedit.nodes.Proof;
 
 
 /**
