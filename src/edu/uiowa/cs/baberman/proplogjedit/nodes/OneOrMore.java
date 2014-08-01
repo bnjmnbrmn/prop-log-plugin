@@ -8,22 +8,39 @@ import java.util.List;
  */
 public class OneOrMore<N extends SelectableNode> extends InnerNode {
 	
-	N typePlaceholder;
+	N itemPrototype;
 	
-//	public OneOrMore(N typePlaceholder) {
-//		super();
-//		this.typePlaceholder
-//				= typePlaceholder;
-//	}
 	
 	public OneOrMore(boolean required, N typePlaceholder) {
 		super(required);
-		this.typePlaceholder
+		this.itemPrototype
 				= typePlaceholder;
 	}
 
 	@Override
 	public String getPlaceholderText() {
-		return "(" + typePlaceholder.getPlaceholderText() + ")+";
+		return "(" + itemPrototype.getPlaceholderText() + ")+";
 	}
+
+    @Override
+    public void respondToLetterPress(String letter) {
+        if (respondsToLetterPress()) {
+            addSubnode(new OneOrMore<N>(false,itemPrototype));
+            addSubnode(itemPrototype.clone());
+            addSubnode(new OneOrMore<N>(false,itemPrototype));
+        }
+    }
+
+    @Override
+    public boolean respondsToLetterPress() {
+        if (isPlaceholder())
+            return itemPrototype.respondsToLetterPress();
+    }
+
+    @Override
+    public SelectableNode clone() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+        
+        
 }

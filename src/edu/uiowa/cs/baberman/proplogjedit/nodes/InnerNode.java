@@ -11,7 +11,15 @@ import org.gjt.sp.jedit.jEdit;
  * @author bnjmnbrmn
  */
 public abstract class InnerNode extends SelectableNode {
-	
+
+    public List<Node> getClonedSubnodes() {
+        List<Node> clonedSubnodes = new ArrayList<Node>();
+        for (Node subnode : getSubnodes()) {
+            clonedSubnodes.add(subnode.clone());
+        }
+        return clonedSubnodes;
+    }
+    
 	InnerNode(boolean required) {
 		super(required);
 	}

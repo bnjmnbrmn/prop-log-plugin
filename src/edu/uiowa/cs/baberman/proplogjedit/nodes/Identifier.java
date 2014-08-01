@@ -1,4 +1,3 @@
-
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
 /**
@@ -6,40 +5,46 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
  * @author bnjmnbrmn
  */
 public abstract class Identifier extends SelectableNode {
+
     private String identifierString;
 
     @Override
     public String getText() {
-		if (isARequiredPlaceholder()) {
-			return getPlaceholderText();
-		} else if (isAnOptionalPlaceholder() && isSelectedChild()) {
-			return getPlaceholderText();
-		} else if (isAnOptionalPlaceholder() && !isSelectedChild()) {
-			return "";
-		} else {
-			return identifierString;
-		}
+        if (isARequiredPlaceholder()) {
+            return getPlaceholderText();
+        } else if (isAnOptionalPlaceholder() && isSelectedChild()) {
+            return getPlaceholderText();
+        } else if (isAnOptionalPlaceholder() && !isSelectedChild()) {
+            return "";
+        } else {
+            return identifierString;
+        }
     }
 
+    @Override
+    public void respondToLetterPress(String letter) {
+        if (isARequiredPlaceholder() || isAnOptionalPlaceholder()) {
+            setPlaceholderStatus(PlaceholderStatus.NONPLACEHOLDER);
+            setIdentifierString(letter);
+        } else {
+            setIdentifierString(identifierString + letter);
+        }
+    }
 
-	@Override
-	public void respondToLetterPress(String letter) {
-		if (isARequiredPlaceholder() || isAnOptionalPlaceholder()) {
-			setPlaceholderStatus(PlaceholderStatus.NONPLACEHOLDER);
-			setIdentifierString(letter);
-		} else {
-			setIdentifierString(identifierString + letter);
-		}
-	}
-    
-	Identifier(boolean required) {
-		super(required);
-	}
+    Identifier(boolean required) {
+        super(required);
+    }
 
-	/**
-	 * @param text the text to set
-	 */
-	public void setIdentifierString(String text) {
-		this.identifierString = text;
-	}
+    /**
+     * @param text the text to set
+     */
+    public void setIdentifierString(String text) {
+        this.identifierString = text;
+    }
+
+    @Override
+    public boolean respondsToLetterPress() {
+        return true;
+    }
+
 }

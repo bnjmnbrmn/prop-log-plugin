@@ -12,6 +12,9 @@ public abstract class Node {
     private InnerNode parent;
 
     public abstract String getText();
+    
+    @Override
+    public abstract Node clone();
 
     /**
      * @return the parent

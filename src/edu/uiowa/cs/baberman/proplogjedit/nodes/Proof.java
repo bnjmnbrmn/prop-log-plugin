@@ -27,5 +27,15 @@ public final class Proof extends InnerNode {
 	public String getPlaceholderText() {
 		return "PROOF";
 	}
+
+    @Override
+    public boolean respondsToLetterPress() {
+        return false;
+    }
+
+    @Override
+    public Proof clone() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

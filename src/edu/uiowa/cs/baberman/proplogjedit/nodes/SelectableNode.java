@@ -7,6 +7,11 @@ import java.util.List;
  * @author bnjmnbrmn
  */
 public abstract class SelectableNode extends Node {
+    
+    @Override
+    public abstract SelectableNode clone();
+    
+    public abstract boolean respondsToLetterPress();
 	
 	public abstract String getPlaceholderText();
 	
@@ -38,9 +43,7 @@ public abstract class SelectableNode extends Node {
         }
     }
 
-    public void respondToLetterPress(String letter) {
-		//for most types of selectable nodes we do nothing
-	}
+    public abstract void respondToLetterPress(String letter);
 	
 
     public enum PlaceholderStatus {
@@ -59,6 +62,10 @@ public abstract class SelectableNode extends Node {
 
     public boolean isAnOptionalPlaceholder() {
         return placeholderStatus == PlaceholderStatus.OPTIONAL_PLACEHOLDER;
+    }
+    
+    public boolean isPlaceholder() {
+        return isARequiredPlaceholder() || isAnOptionalPlaceholder();
     }
 
 

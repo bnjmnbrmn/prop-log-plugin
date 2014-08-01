@@ -15,4 +15,14 @@ public final class ProofLine extends InnerNode {
 	public String getPlaceholderText() {
         return "PROOF_LINE";
     }
+
+    @Override
+    public boolean respondsToLetterPress() {
+        return false;
+    }
+
+    @Override
+    public ProofLine clone() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
