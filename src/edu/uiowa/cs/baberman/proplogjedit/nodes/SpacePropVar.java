@@ -11,6 +11,12 @@ public final class SpacePropVar extends InnerNode {
     public SpacePropVar(boolean required) {
         super(required);
     }
+    
+    public SpacePropVar() {
+        super();
+        addSubnode(new Terminal(" "));
+        addSubnode(new PropVar(true));
+    }
 
     @Override
     public String getPlaceholderText() {

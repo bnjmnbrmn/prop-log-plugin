@@ -11,13 +11,13 @@ public final class Proof extends InnerNode {
 
         addSubnode(new Terminal("Parameters"));
 
-        OneOrMore<SpacePropVar> spacePropVars
-                = new OneOrMore<SpacePropVar>(true, new SpacePropVar(false));
+        OneOrMoreSpacePropVars spacePropVars
+                = new OneOrMoreSpacePropVars();
         addSubnode(spacePropVars);
 
         addSubnode(new Terminal(" : Prop.\n\n"));
 
-        OneOrMore<ProofItem> proofItems = new OneOrMore<ProofItem>(true, new ProofItem(false));
+        OneOrMoreProofItems proofItems = new OneOrMoreProofItems();
         addSubnode(proofItems);
     }
 

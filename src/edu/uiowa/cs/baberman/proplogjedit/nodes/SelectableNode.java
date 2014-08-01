@@ -42,12 +42,12 @@ public abstract class SelectableNode extends Node {
         }
     }
 
-    public enum PlaceholderStatus {
-        REQUIRED_PLACEHOLDER, OPTIONAL_PLACEHOLDER, NONPLACEHOLDER;
-    }
-
     public void setPlaceholderStatus(PlaceholderStatus status) {
         placeholderStatus = status;
+    }
+
+    public enum PlaceholderStatus {
+        REQUIRED_PLACEHOLDER, OPTIONAL_PLACEHOLDER, NONPLACEHOLDER
     }
 
     private PlaceholderStatus placeholderStatus;

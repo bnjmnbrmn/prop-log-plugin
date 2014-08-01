@@ -6,15 +6,22 @@ import java.util.List;
  *
  * @author bnjmnbrmn
  */
-public class OneOrMore<N extends SelectableNode> extends InnerNode {
+public abstract class OneOrMore<N extends SelectableNode> extends InnerNode {
 
     N itemPrototype;
 
-    public OneOrMore(boolean required, N typePlaceholder) {
+    public OneOrMore(boolean required, N itemPrototype) {
         super(required);
         this.itemPrototype
-                = typePlaceholder;
+                = itemPrototype;
     }
+    
+    public OneOrMore(N itemPrototype) {
+        super();
+        this.itemPrototype = itemPrototype;
+    }
+    
+    
 
     @Override
     public String getPlaceholderText() {

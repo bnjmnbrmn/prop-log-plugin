@@ -9,6 +9,10 @@ public final class Section extends InnerNode {
     Section(boolean required) {
         super(required);
     }
+    
+    Section() {
+        super();
+    }
 
     @Override
     public String getPlaceholderText() {

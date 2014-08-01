@@ -9,6 +9,10 @@ public final class ProofItem extends InnerNode {
     public ProofItem(boolean required) {
         super(required);
     }
+    
+    ProofItem() {
+        super();
+    }
 
     @Override
     public String getPlaceholderText() {
