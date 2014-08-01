@@ -86,9 +86,11 @@ public class ProofModel {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-	void respondToLetterPress(String letter) {
-		getSelectedNode().respondToLetterPress(letter);
-	}
+    void respondToLetterPress(String letter) {
+        if (getSelectedNode() instanceof Identifier) {
+            ((Identifier) getSelectedNode()).respondToLetterPress(letter);
+        }
+    }
 
     public enum SelectionMode {
         LEAF, BRANCH;
@@ -102,7 +104,7 @@ public class ProofModel {
     ProofModel() {
         setRoot(new Proof());
         setSelectionMode(SelectionMode.LEAF);
-		
+
         setSelectedNode(root.getSelectableLeaves().get(0));
         setProofView(new ProofView(this));
         getProofView().update();
@@ -115,11 +117,11 @@ public class ProofModel {
             return getSelectedNode().getSelectableSiblingsInclusive();
         }
     }
-    
+
     public List<SelectableNode> getCurrentSelectableNodeListExclusive() {
         List<SelectableNode> list = getCurrentSelectableNodeListInclusive();
         list.remove(getSelectedNode());
         return list;
     }
-    
+
 }

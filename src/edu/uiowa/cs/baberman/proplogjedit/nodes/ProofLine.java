@@ -17,11 +17,6 @@ public final class ProofLine extends InnerNode {
     }
 
     @Override
-    public boolean respondsToLetterPress() {
-        return false;
-    }
-
-    @Override
     public ProofLine clone() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

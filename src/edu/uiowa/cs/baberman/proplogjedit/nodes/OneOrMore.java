@@ -7,40 +7,23 @@ import java.util.List;
  * @author bnjmnbrmn
  */
 public class OneOrMore<N extends SelectableNode> extends InnerNode {
-	
-	N itemPrototype;
-	
-	
-	public OneOrMore(boolean required, N typePlaceholder) {
-		super(required);
-		this.itemPrototype
-				= typePlaceholder;
-	}
 
-	@Override
-	public String getPlaceholderText() {
-		return "(" + itemPrototype.getPlaceholderText() + ")+";
-	}
+    N itemPrototype;
 
-    @Override
-    public void respondToLetterPress(String letter) {
-        if (respondsToLetterPress()) {
-            addSubnode(new OneOrMore<N>(false,itemPrototype));
-            addSubnode(itemPrototype.clone());
-            addSubnode(new OneOrMore<N>(false,itemPrototype));
-        }
+    public OneOrMore(boolean required, N typePlaceholder) {
+        super(required);
+        this.itemPrototype
+                = typePlaceholder;
     }
 
     @Override
-    public boolean respondsToLetterPress() {
-        if (isPlaceholder())
-            return itemPrototype.respondsToLetterPress();
+    public String getPlaceholderText() {
+        return "(" + itemPrototype.getPlaceholderText() + ")+";
     }
 
     @Override
     public SelectableNode clone() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-        
-        
+
 }

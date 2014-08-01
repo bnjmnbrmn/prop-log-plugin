@@ -21,7 +21,6 @@ public abstract class Identifier extends SelectableNode {
         }
     }
 
-    @Override
     public void respondToLetterPress(String letter) {
         if (isARequiredPlaceholder() || isAnOptionalPlaceholder()) {
             setPlaceholderStatus(PlaceholderStatus.NONPLACEHOLDER);
@@ -40,11 +39,6 @@ public abstract class Identifier extends SelectableNode {
      */
     public void setIdentifierString(String text) {
         this.identifierString = text;
-    }
-
-    @Override
-    public boolean respondsToLetterPress() {
-        return true;
     }
 
 }

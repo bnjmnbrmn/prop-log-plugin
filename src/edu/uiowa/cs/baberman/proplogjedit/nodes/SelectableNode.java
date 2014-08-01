@@ -7,25 +7,23 @@ import java.util.List;
  * @author bnjmnbrmn
  */
 public abstract class SelectableNode extends Node {
-    
+
     @Override
     public abstract SelectableNode clone();
-    
-    public abstract boolean respondsToLetterPress();
-	
-	public abstract String getPlaceholderText();
-	
-	SelectableNode(boolean required) {
-		if (required) {
-			placeholderStatus = PlaceholderStatus.REQUIRED_PLACEHOLDER;
-		} else {
-			placeholderStatus = PlaceholderStatus.OPTIONAL_PLACEHOLDER;
-		}
-	}
-	
-	SelectableNode() {
-		placeholderStatus = PlaceholderStatus.NONPLACEHOLDER;
-	}
+
+    public abstract String getPlaceholderText();
+
+    SelectableNode(boolean required) {
+        if (required) {
+            placeholderStatus = PlaceholderStatus.REQUIRED_PLACEHOLDER;
+        } else {
+            placeholderStatus = PlaceholderStatus.OPTIONAL_PLACEHOLDER;
+        }
+    }
+
+    SelectableNode() {
+        placeholderStatus = PlaceholderStatus.NONPLACEHOLDER;
+    }
 
     public boolean isCompletedSubtreeRoot() {
         if (isARequiredPlaceholder()) {
@@ -35,24 +33,22 @@ public abstract class SelectableNode extends Node {
         } else {
             if (this instanceof InnerNode) {
                 for (SelectableNode subnode : ((InnerNode) this).getSelectableSubnodes()) {
-                    if (!subnode.isCompletedSubtreeRoot())
+                    if (!subnode.isCompletedSubtreeRoot()) {
                         return false;
+                    }
                 }
             }
             return true;
         }
     }
 
-    public abstract void respondToLetterPress(String letter);
-	
-
     public enum PlaceholderStatus {
         REQUIRED_PLACEHOLDER, OPTIONAL_PLACEHOLDER, NONPLACEHOLDER;
     }
-	
-	public void setPlaceholderStatus(PlaceholderStatus status) {
-		placeholderStatus = status;
-	}
+
+    public void setPlaceholderStatus(PlaceholderStatus status) {
+        placeholderStatus = status;
+    }
 
     private PlaceholderStatus placeholderStatus;
 
@@ -63,11 +59,10 @@ public abstract class SelectableNode extends Node {
     public boolean isAnOptionalPlaceholder() {
         return placeholderStatus == PlaceholderStatus.OPTIONAL_PLACEHOLDER;
     }
-    
+
     public boolean isPlaceholder() {
         return isARequiredPlaceholder() || isAnOptionalPlaceholder();
     }
-
 
     private boolean selected = false;
 

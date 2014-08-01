@@ -1,4 +1,3 @@
-
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
 /**
@@ -7,14 +6,18 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
  */
 public final class Section extends InnerNode {
 
-	Section(boolean required) {
-		super(required);
-	}
-	
-	@Override
+    Section(boolean required) {
+        super(required);
+    }
+
+    @Override
     public String getPlaceholderText() {
         return "SECTION";
     }
-    
-    
+
+    @Override
+    public SelectableNode clone() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

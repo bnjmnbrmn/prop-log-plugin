@@ -16,11 +16,6 @@ public final class ProofItem extends InnerNode {
     }
 
     @Override
-    public boolean respondsToLetterPress() {
-        return false;
-    }
-
-    @Override
     public ProofItem clone() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

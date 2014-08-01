@@ -1,4 +1,3 @@
-
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
 import java.util.ArrayList;
@@ -19,14 +18,14 @@ public abstract class InnerNode extends SelectableNode {
         }
         return clonedSubnodes;
     }
-    
-	InnerNode(boolean required) {
-		super(required);
-	}
-	
-	InnerNode() {
-		super();
-	}
+
+    InnerNode(boolean required) {
+        super(required);
+    }
+
+    InnerNode() {
+        super();
+    }
 
     public boolean hasSelectedChild() {
         for (SelectableNode selectableNode : getSelectableSubnodes()) {
@@ -39,10 +38,10 @@ public abstract class InnerNode extends SelectableNode {
 
     @Override
     public String getText() {
-		if (isARequiredPlaceholder()) {
-			return getPlaceholderText();
-		}
-		
+        if (isARequiredPlaceholder()) {
+            return getPlaceholderText();
+        }
+
         String text = "";
         for (Node subnode : getSubnodes()) {
             text += subnode.getText();
@@ -59,45 +58,43 @@ public abstract class InnerNode extends SelectableNode {
         }
         return selectableSubnodes;
     }
-    
+
     private List<Node> subnodes = new ArrayList<Node>();
 
     List<Node> getSubnodes() {
         return subnodes;
     }
-	
-	protected void addSubnode(Node n) {
-		subnodes.add(n);
-		n.setParent(this);
-	}
-	
-	public Node getSubnode(int index) {
-		return subnodes.get(index);
-	}
-    
+
+    protected void addSubnode(Node n) {
+        subnodes.add(n);
+        n.setParent(this);
+    }
+
+    public Node getSubnode(int index) {
+        return subnodes.get(index);
+    }
+
     public List<SelectableNode> getSelectableLeaves() {
-        
+
         List<SelectableNode> selectableLeaves = new ArrayList<SelectableNode>();
-		
-		for (SelectableNode selectableSubnode : getSelectableSubnodes()) {
-			if (selectableSubnode instanceof Identifier) {
-				selectableLeaves.add(selectableSubnode);
-			} else if (selectableSubnode instanceof InnerNode) {
-				InnerNode innerSubnode = (InnerNode) selectableSubnode;
-				if (innerSubnode.isARequiredPlaceholder() 
-						|| innerSubnode.isAnOptionalPlaceholder()) {
-					selectableLeaves.add(innerSubnode);
-				} else {
-					for (SelectableNode selectableLeaf : innerSubnode.getSelectableLeaves()) {
-						selectableLeaves.add(selectableLeaf);
-					}
-				}
-			}
-		}
-		
-		
+
+        for (SelectableNode selectableSubnode : getSelectableSubnodes()) {
+            if (selectableSubnode instanceof Identifier) {
+                selectableLeaves.add(selectableSubnode);
+            } else if (selectableSubnode instanceof InnerNode) {
+                InnerNode innerSubnode = (InnerNode) selectableSubnode;
+                if (innerSubnode.isARequiredPlaceholder()
+                        || innerSubnode.isAnOptionalPlaceholder()) {
+                    selectableLeaves.add(innerSubnode);
+                } else {
+                    for (SelectableNode selectableLeaf : innerSubnode.getSelectableLeaves()) {
+                        selectableLeaves.add(selectableLeaf);
+                    }
+                }
+            }
+        }
 
         return selectableLeaves;
     }
-    
+
 }

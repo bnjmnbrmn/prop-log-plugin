@@ -29,5 +29,10 @@ public class Terminal extends Node {
         }
         this.text = temp;
     }
+
+    @Override
+    public Node clone() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
