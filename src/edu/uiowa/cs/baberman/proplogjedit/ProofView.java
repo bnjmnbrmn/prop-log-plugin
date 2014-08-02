@@ -45,7 +45,7 @@ public class ProofView {
     }
 
     void update() {
-        
+
         if (proofModel == null) {
             throw new RuntimeException("Tried to update view with null model");
         }
@@ -54,7 +54,7 @@ public class ProofView {
         buffer.remove(0, buffer.getLength());
         buffer.insert(0, proofModel.getRoot().getText());
         buffer.setReadOnly(true);
-        
+
         clearTextAreaExtensions();
         addTextAreaExtensions();
 
@@ -66,10 +66,24 @@ public class ProofView {
         }
     }
 
-
     private void addHighlights(JEditTextArea textArea) {
         addSelectedNodeHighlight(textArea);
         addOtherHighlights(textArea);
+        addOptionalInsertionPointMarkers(textArea);
+    }
+
+    private void addOptionalInsertionPointMarkers(JEditTextArea textArea) {
+        List<SelectableNode> otherNodesToMark
+                = proofModel.getCurrentSelectableNodeListExclusive();
+        
+        for (SelectableNode node : otherNodesToMark) {
+//            Highlight higlight = new Highlight(textArea, fillColor,
+//                    strokeColor, node.getOffset(), node.getOffset() + node.getText().length());
+            OptionalInsertionPointMarker marker 
+                    = new OptionalInsertionPointMarker(textArea, node.getOffset());
+            textArea.getPainter().addExtension(marker);
+            textAreaExtensionsWithTextAreas.put(marker, textArea);
+        }
     }
 
     private void addOtherHighlights(JEditTextArea textArea) {
@@ -122,7 +136,7 @@ public class ProofView {
         } else {
             selectedNodeStroke = Color.BLACK;
         }
-        
+
         Highlight selectedNodeHighlight = new Highlight(textArea, selectedNodeFill,
                 selectedNodeStroke, selectedNodeOffset, selectedNodeOffset + selectedNode.getText().length());
         textArea.getPainter().addExtension(selectedNodeHighlight);

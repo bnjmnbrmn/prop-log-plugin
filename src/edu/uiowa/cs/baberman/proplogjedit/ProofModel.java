@@ -2,19 +2,9 @@ package edu.uiowa.cs.baberman.proplogjedit;
 
 import edu.uiowa.cs.baberman.proplogjedit.nodes.Identifier;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.Proof;
-import edu.uiowa.cs.baberman.proplogjedit.nodes.InnerNode;
-
-import edu.uiowa.cs.baberman.proplogjedit.nodes.Node;
 
 import edu.uiowa.cs.baberman.proplogjedit.nodes.SelectableNode;
-import edu.uiowa.cs.baberman.proplogjedit.nodes.Terminal;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.gjt.sp.jedit.Macros;
-import org.gjt.sp.jedit.jEdit;
 
 /**
  *
@@ -93,6 +83,7 @@ public class ProofModel {
     }
 
     public enum SelectionMode {
+
         LEAF, BRANCH;
     }
 
