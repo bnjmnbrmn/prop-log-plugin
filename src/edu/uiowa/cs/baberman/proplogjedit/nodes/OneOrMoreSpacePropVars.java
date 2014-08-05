@@ -4,7 +4,7 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
  *
  * @author bnjmnbrmn
  */
-class OneOrMoreSpacePropVars extends OneOrMore<SpacePropVar> {
+public class OneOrMoreSpacePropVars extends OneOrMore<SpacePropVar> {
 
     public OneOrMoreSpacePropVars() {
         super(new SpacePropVar(true));

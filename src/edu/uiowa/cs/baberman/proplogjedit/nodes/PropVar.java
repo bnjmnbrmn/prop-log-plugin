@@ -7,7 +7,7 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
 public final class PropVar extends Identifier {
 
     public PropVar(boolean required) {
-        super(required);
+        super(required);        
     }
 
     @Override

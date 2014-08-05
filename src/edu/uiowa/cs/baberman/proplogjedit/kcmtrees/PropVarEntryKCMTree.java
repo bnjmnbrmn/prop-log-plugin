@@ -4,8 +4,11 @@ import edu.uiowa.cs.baberman.kcm.KeyboardCard;
 import edu.uiowa.cs.baberman.kcm.ThirtyKey;
 import edu.uiowa.cs.baberman.proplogjedit.ProofModel;
 import edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin;
+import edu.uiowa.cs.baberman.proplogjedit.nodes.OneOrMore;
+import edu.uiowa.cs.baberman.proplogjedit.nodes.OneOrMoreSpacePropVars;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.PropVar;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.SelectableNode;
+import edu.uiowa.cs.baberman.proplogjedit.nodes.SpacePropVar;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
@@ -130,7 +133,32 @@ public class PropVarEntryKCMTree {
                 .setMenuItemText(letter)
                 .addPressAction(new LetterPressAction(letter));
 
-        //to do...
+        this.root.putNewLeaf(ThirtyKey.KeyPosition.SEMICOLON)
+                .setMenuItemText("Add Propositional Variable")
+                .addPressAction(new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+//                todo
+//                
+//                
+//                ProofModel proofModel = PropVarEntryKCMTree.this.proofModel;
+//                proofModel
+//                        .setSelectionMode(ProofModel.SelectionMode.LEAF);
+//                
+//                
+//                
+//                OneOrMoreSpacePropVars nextLeaf
+//                        = (OneOrMoreSpacePropVars) proofModel
+//                        
+//                
+//                proofModel
+//                        .setSelectedNode(proofModel
+//                                .getSelectedNode().
+//                                .getNextSibling());
+//                
+            }
+        });
     }
 
     /**

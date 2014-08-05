@@ -2,6 +2,7 @@
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
 
+import edu.uiowa.cs.baberman.proplogjedit.ProofModel;
 import java.util.List;
 
 /**
@@ -22,7 +23,11 @@ public abstract class Node {
     public InnerNode getParent() {
         return parent;
     }
-
+    
+    public ProofModel getProofModel() {
+        return getParent().getProofModel();
+    }
+    
     /**
      * @param parent the parent to set
      */

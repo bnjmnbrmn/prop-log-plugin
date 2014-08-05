@@ -5,7 +5,7 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
  *
  * @author bnjmnbrmn
  */
-class OneOrMoreProofItems extends OneOrMore<ProofItem>{
+public class OneOrMoreProofItems extends OneOrMore<ProofItem>{
 
     public OneOrMoreProofItems(boolean required) {
         super(required, new ProofItem());

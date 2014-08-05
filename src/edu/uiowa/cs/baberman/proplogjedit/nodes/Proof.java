@@ -1,13 +1,18 @@
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
+import edu.uiowa.cs.baberman.proplogjedit.ProofModel;
+
 /**
  *
  * @author bnjmnbrmn
  */
 public final class Proof extends InnerNode {
+    private final ProofModel proofModel;
 
-    public Proof() {
+    public Proof(ProofModel proofModel) {
         super();
+        
+        this.proofModel = proofModel;
 
         addSubnode(new Terminal("Parameters"));
 
@@ -29,6 +34,11 @@ public final class Proof extends InnerNode {
     @Override
     public Proof clone() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ProofModel getProofModel() {
+        return proofModel;
     }
 
 }

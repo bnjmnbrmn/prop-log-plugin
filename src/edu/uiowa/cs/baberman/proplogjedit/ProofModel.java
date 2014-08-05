@@ -107,7 +107,7 @@ public class ProofModel {
             = new ManipulationKCMTree(this);
 
     ProofModel() {
-        setRoot(new Proof());
+        setRoot(new Proof(this));
         setSelectionMode(SelectionMode.LEAF);
         setSelectedNode(root.getSelectableLeaves().get(1));
         

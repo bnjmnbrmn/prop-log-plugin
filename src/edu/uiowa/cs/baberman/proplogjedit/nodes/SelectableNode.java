@@ -1,5 +1,6 @@
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
+import edu.uiowa.cs.baberman.proplogjedit.ProofModel;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ public abstract class SelectableNode extends Node {
     public abstract SelectableNode clone();
 
     public abstract String getPlaceholderText();
-
+    
     SelectableNode(boolean required) {
         if (required) {
             placeholderStatus = PlaceholderStatus.REQUIRED_PLACEHOLDER;
