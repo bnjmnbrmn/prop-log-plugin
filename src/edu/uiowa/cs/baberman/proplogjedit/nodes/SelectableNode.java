@@ -46,6 +46,8 @@ public abstract class SelectableNode extends Node {
         placeholderStatus = status;
     }
 
+    public abstract void appendString(String str);
+
     public enum PlaceholderStatus {
         REQUIRED_PLACEHOLDER, OPTIONAL_PLACEHOLDER, NONPLACEHOLDER
     }

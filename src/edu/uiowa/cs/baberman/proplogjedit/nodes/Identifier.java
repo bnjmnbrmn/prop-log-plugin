@@ -40,5 +40,22 @@ public abstract class Identifier extends SelectableNode {
     public void setIdentifierString(String text) {
         this.identifierString = text;
     }
+    
+    public void appendToIdentifierString(String toAppend) {
+        this.identifierString += toAppend;
+    }
+
+    @Override
+    public void appendString(String str) {
+        
+        if (isPlaceholder()) {
+            setPlaceholderStatus(PlaceholderStatus.NONPLACEHOLDER);
+            identifierString = str;
+        } else {
+            identifierString += str;
+        }
+    }
+    
+    
 
 }

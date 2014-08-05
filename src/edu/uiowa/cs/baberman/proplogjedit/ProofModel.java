@@ -1,7 +1,11 @@
 package edu.uiowa.cs.baberman.proplogjedit;
 
+import edu.uiowa.cs.baberman.kcm.KCMS;
+import edu.uiowa.cs.baberman.proplogjedit.kcmtrees.ManipulationKCMTree;
+import edu.uiowa.cs.baberman.proplogjedit.kcmtrees.PropVarEntryKCMTree;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.Identifier;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.Proof;
+import edu.uiowa.cs.baberman.proplogjedit.nodes.PropVar;
 
 import edu.uiowa.cs.baberman.proplogjedit.nodes.SelectableNode;
 import java.util.List;
@@ -68,11 +72,11 @@ public class ProofModel {
         this.proofView = proofView;
     }
 
-    void goLeft() {
+    public void moveLeft() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    void goRight() {
+    public void moveRight() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -82,8 +86,13 @@ public class ProofModel {
         }
     }
 
-    public enum SelectionMode {
+    public void appendStringToSelectedNode(String str) {
+        getSelectedNode().appendString(str);
+        
+        proofView.update();
+    }
 
+    public enum SelectionMode {
         LEAF, BRANCH;
     }
 
@@ -91,12 +100,27 @@ public class ProofModel {
     private SelectionMode selectionMode;
     private SelectableNode selectedNode;
     private ProofView proofView;
+    
+    private final PropVarEntryKCMTree propVarEntryKCMTree 
+            = new PropVarEntryKCMTree(this);
+    private final ManipulationKCMTree manipulationKCMTree
+            = new ManipulationKCMTree(this);
 
     ProofModel() {
         setRoot(new Proof());
         setSelectionMode(SelectionMode.LEAF);
-
         setSelectedNode(root.getSelectableLeaves().get(1));
+        
+        KCMS propLogKCMS = PropLogPlugin.getInstance().getPropLogKCMS();
+        
+        propLogKCMS.addRoot(
+                propVarEntryKCMTree.getRoot());
+        propLogKCMS.setCurrentRoot(
+                propVarEntryKCMTree.getRoot());
+        propLogKCMS.addRoot(
+            manipulationKCMTree.getRoot());
+        
+        
         setProofView(new ProofView(this));
         getProofView().update();
     }

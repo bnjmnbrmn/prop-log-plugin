@@ -106,4 +106,11 @@ public abstract class InnerNode extends SelectableNode {
         return selectableLeaves;
     }
 
+    @Override
+    public void appendString(String str) {
+        //do nothing
+    }
+
+    
+    
 }
