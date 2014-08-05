@@ -78,6 +78,12 @@ public abstract class InnerNode extends SelectableNode {
         subnodes.add(n);
         n.setParent(this);
     }
+    
+    
+    protected void removeSubnode(int i) {
+        Node removedNode = subnodes.remove(i);
+        removedNode.setParent(null);
+    }
 
     public Node getSubnode(int index) {
         return subnodes.get(index);

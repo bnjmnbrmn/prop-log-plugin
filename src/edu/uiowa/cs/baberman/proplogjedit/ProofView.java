@@ -44,7 +44,7 @@ public class ProofView {
         this.textAreaExtensionsWithTextAreas = new HashMap<TextAreaExtension, JEditTextArea>();
     }
 
-    void update() {
+    public void update() {
 
         if (proofModel == null) {
             throw new RuntimeException("Tried to update view with null model");

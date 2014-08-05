@@ -6,8 +6,6 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
  */
 public final class SpacePropVar extends InnerNode {
 
-    private PropVar propVar;
-
     public SpacePropVar(boolean required) {
         super(required);
     }
@@ -24,15 +22,17 @@ public final class SpacePropVar extends InnerNode {
     }
 
     public PropVar getPropVar() {
-        return propVar;
+        return (PropVar) getSubnode(1);
     }
 
     public void setPropVar(PropVar propVar) {
-        this.propVar = propVar;
+        removeSubnode(1);
+        addSubnode(propVar);
     }
 
     @Override
     public SelectableNode clone() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 }

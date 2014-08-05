@@ -50,7 +50,7 @@ public class Highlight extends TextAreaExtension {
 
         int lh = textArea.getPainter().getLineHeight();
         gfx.setPaint(fillPaint);
-        gfx.setStroke(new BasicStroke(2));
+        //gfx.setStroke(new BasicStroke(2));
 
         Point startPoint;
         startPoint = textArea.offsetToXY(start);
