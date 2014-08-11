@@ -1,8 +1,10 @@
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
+import edu.uiowa.cs.baberman.kcm.KCMS;
 import edu.uiowa.cs.baberman.kcm.KeyboardCard;
 import edu.uiowa.cs.baberman.kcm.ThirtyKey;
 import edu.uiowa.cs.baberman.proplogjedit.ProofModel;
+import edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import org.gjt.sp.jedit.Macros;
@@ -42,7 +44,7 @@ public final class PropVar extends Identifier {
         }
 
         defaultRootKeyboardCard.putNewLeaf(ThirtyKey.KeyPosition.COMMA)
-                .setMenuItemText("Add Propositional Variable")
+                .setMenuItemText("Add Prop Var")
                 .addPressAction(new AbstractAction() {
 
                     @Override
@@ -67,6 +69,19 @@ public final class PropVar extends Identifier {
                         }
                     }
                 });
+        
+        defaultRootKeyboardCard.putNewLeaf(ThirtyKey.KeyPosition.PERIOD)
+                .setMenuItemText("Nav-Manip Mode")
+                .addPressAction(new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                KCMS propLogKCMS = PropLogPlugin.getInstance().getPropLogKCMS();
+                propLogKCMS.setCurrentRoot(getProofModel().getNavManipKCMRoot());
+            }
+                    
+                });
+                
 
     }
 
