@@ -62,17 +62,18 @@ public class ProofModel {
      */
     public final void setSelectedNode(SelectableNode selectedNode) {
         this.selectedNode = selectedNode;
-        
-        KCMS propLogKCMS 
-                = PropLogPlugin.getInstance().getPropLogKCMS();
-        
-        KeyboardCard sndrkc 
-                = selectedNode.getDefaultRootKeyboardCard();
-        
-        if (!propLogKCMS.getRoots().contains(sndrkc))
-            propLogKCMS.addRoot(sndrkc);
-        propLogKCMS.setCurrentRoot(sndrkc);
-        
+
+//        KCMS propLogKCMS
+//                = PropLogPlugin.getInstance().getPropLogKCMS();
+//
+//        KeyboardCard sndrkc
+//                = selectedNode.getDefaultRootKeyboardCard();
+//
+//        if (!propLogKCMS.getRoots().contains(sndrkc)) {
+//            propLogKCMS.addRoot(sndrkc);
+//        }
+//        propLogKCMS.setCurrentRoot(sndrkc);
+
     }
 
     /**
@@ -90,11 +91,32 @@ public class ProofModel {
     }
 
     public void moveLeft() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int index;
+        index
+                = getCurrentSelectableNodeListInclusive().indexOf(getSelectedNode());
+
+        if (index > 0) {
+            SelectableNode toSelect;
+            toSelect
+                    = getCurrentSelectableNodeListInclusive().get(index - 1);
+            setSelectedNode(toSelect);
+            proofView.update();
+        }
+
     }
 
     public void moveRight() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int index;
+        index
+                = getCurrentSelectableNodeListInclusive().indexOf(getSelectedNode());
+
+        if (index < getCurrentSelectableNodeListInclusive().size() - 1) {
+            SelectableNode toSelect;
+            toSelect
+                    = getCurrentSelectableNodeListInclusive().get(index + 1);
+            setSelectedNode(toSelect);
+            proofView.update();
+        }
     }
 
     void respondToLetterPress(String letter) {
@@ -105,7 +127,7 @@ public class ProofModel {
 
     public void appendStringToSelectedNode(String str) {
         getSelectedNode().appendString(str);
-        
+
         proofView.update();
     }
 
@@ -117,29 +139,30 @@ public class ProofModel {
         SubmenuKey<ThirtyKey> navKey;
         navKey = getNavManipKCMRoot().putNewSubmenu(KeyEvent.VK_F);
         navKey.setMenuItemText("Navigate");
-        
+
         ThirtyKey navMenu = navKey.getSubmenu();
         navMenu.putNewLeaf(ThirtyKey.KeyPosition.H)
                 .addPressAction(new AbstractAction() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                moveLeft();
-            }
-        }).setMenuItemText("Left");
-        
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        moveLeft();
+                    }
+                }).setMenuItemText("Left");
+
         navMenu.putNewLeaf(ThirtyKey.KeyPosition.L)
                 .addPressAction(new AbstractAction() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                moveRight();
-            }
-        }).setMenuItemText("Right");
-        
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        moveRight();
+                    }
+                }).setMenuItemText("Right");
+
     }
-    
+
     public enum SelectionMode {
+
         LEAF, BRANCH;
     }
 
@@ -147,20 +170,22 @@ public class ProofModel {
     private SelectionMode selectionMode;
     private SelectableNode selectedNode;
     private ProofView proofView;
-    
+
     private final KeyboardCard navManipKCMRoot;
-    
+
     ProofModel() {
         setRoot(new Proof(this));
         setSelectionMode(SelectionMode.LEAF);
         setSelectedNode(root.getSelectableLeaves().get(1));
-        
-        KCMS propLogKCMS = PropLogPlugin.getInstance().getPropLogKCMS(); 
+
+        KCMS propLogKCMS = PropLogPlugin.getInstance().getPropLogKCMS();
         navManipKCMRoot = ThirtyKey.createRootCard();
         initializeNavManipKCMTree();
         propLogKCMS.addRoot(navManipKCMRoot);
         
-        
+        propLogKCMS.addRoot(getSelectedNode().getDefaultRootKeyboardCard());
+        propLogKCMS.setCurrentRoot(getSelectedNode().getDefaultRootKeyboardCard());
+
         setProofView(new ProofView(this));
         getProofView().update();
     }
