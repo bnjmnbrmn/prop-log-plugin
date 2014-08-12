@@ -4,7 +4,7 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
  *
  * @author bnjmnbrmn
  */
-public final class SpacePropVar extends InnerNode {
+public final class SpacePropVar extends InnerNode implements SlipperyNode {
 
     public SpacePropVar(boolean required) {
         super(required);

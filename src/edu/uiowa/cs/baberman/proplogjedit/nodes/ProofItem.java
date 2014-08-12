@@ -4,7 +4,7 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
  *
  * @author bnjmnbrmn
  */
-public final class ProofItem extends InnerNode {
+public final class ProofItem extends InnerNode implements SlipperyNode {
 
     public ProofItem(boolean required) {
         super(required);
