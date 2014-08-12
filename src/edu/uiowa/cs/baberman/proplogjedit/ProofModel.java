@@ -61,7 +61,10 @@ public class ProofModel {
      * @param selectedNode the selectedNode to set
      */
     public final void setSelectedNode(SelectableNode selectedNode) {
+        if (this.selectedNode != null)
+            this.selectedNode.setAsSelectedChild(false);
         this.selectedNode = selectedNode;
+        this.selectedNode.setAsSelectedChild(true);
 
 //        KCMS propLogKCMS
 //                = PropLogPlugin.getInstance().getPropLogKCMS();
