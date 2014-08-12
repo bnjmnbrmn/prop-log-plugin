@@ -179,7 +179,7 @@ public class ProofModel {
     ProofModel() {
         setRoot(new Proof(this));
         setSelectionMode(SelectionMode.LEAF);
-        setSelectedNode(root.getSelectableLeaves().get(1));
+        setSelectedNode(root.getSelectableLeaves().get(0));
 
         KCMS propLogKCMS = PropLogPlugin.getInstance().getPropLogKCMS();
         navManipKCMRoot = ThirtyKey.createRootCard();

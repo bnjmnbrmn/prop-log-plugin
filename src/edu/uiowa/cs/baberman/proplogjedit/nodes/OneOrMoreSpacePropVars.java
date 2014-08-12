@@ -8,7 +8,10 @@ public class OneOrMoreSpacePropVars extends OneOrMore<SpacePropVar> {
 
     public OneOrMoreSpacePropVars() {
         super(new SpacePropVar(true));
-        appendNewPlaceholder();
+        
+        addSubnode(new SpacePropVar());
+        
+//        appendNewPlaceholder();
 //        addSubnode(new OneOrMoreSpacePropVars(false));
 //        addSubnode(new SpacePropVar());
 //        addSubnode(new OneOrMoreSpacePropVars(false));
