@@ -1,0 +1,93 @@
+(SPV)+
+    SPV
+        *space*
+        {_PV_}
+
+=====================
+
+(SPV)+
+    [{(SPV)+}]
+    SPV
+        *space*
+        _"a"_
+    [{(SPV)+}]
+
+=====================
+
+(SPV)+
+    [{(SPV)+}]
+    SPV
+        *space*
+        _"a"_
+    [{(SPV)+}]
+    SPV
+        *space*
+        _[{PV}]_
+    [{(SPV)+}]
+
+=====================
+
+(SPV)+
+    [{(SPV)+}]
+    SPV
+        *space*
+        _"a"_
+    [{(SPV)+}]
+    SPV
+        *space*
+        _"b"_
+    [{(SPV)+}]
+
+=====================
+
+(SPV)+
+    [{(SPV)+}]
+    SPV
+        *space*
+        _"a"_
+    [{(SPV)+}]
+    SPV
+        *space*
+        "b"
+    [{(SPV)+}]
+    SPV
+        *space*
+        _[{PV}]_
+    [{(SPV)+}]
+
+=====================
+
+(SPV)+
+    [{(SPV)+}]
+    SPV
+        *space*
+        _"a"_
+    [{(SPV)+}]
+    SPV
+        *space*
+        "b"
+    [{(SPV)+}]
+    SPV
+        *space*
+        _"c"_
+    [{(SPV)+}]
+
+=====================
+
+(SPV)+
+    SPV
+        *space*
+        _"a"_
+    _(SPV)+_b
+        [{(SPV)+}]
+        SPV
+            *space*
+            "b"
+        [{(SPV)+}]
+        SPV
+            *space*
+            _"c"_
+        [{(SPV)+}]
+        
+
+            

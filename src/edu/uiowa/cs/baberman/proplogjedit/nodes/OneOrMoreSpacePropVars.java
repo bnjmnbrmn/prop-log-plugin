@@ -23,9 +23,11 @@ public class OneOrMoreSpacePropVars extends OneOrMore<SpacePropVar> {
 
     PropVar appendNewPlaceholder() {
         SpacePropVar spv = new SpacePropVar();
-        if (getSubnodes().size() == 0) {
+        if (getSubnodes().size() == 1) {
+            addSubnode(0,new OneOrMoreSpacePropVars(false));
             addSubnode(new OneOrMoreSpacePropVars(false));
         }
+        
 
         addSubnode(spv);
         addSubnode(new OneOrMoreSpacePropVars(false));
