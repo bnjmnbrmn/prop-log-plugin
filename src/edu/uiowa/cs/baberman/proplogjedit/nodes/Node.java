@@ -1,6 +1,4 @@
-
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
-
 
 import edu.uiowa.cs.baberman.proplogjedit.ProofModel;
 import java.util.List;
@@ -10,12 +8,9 @@ import java.util.List;
  * @author bnjmnbrmn
  */
 public abstract class Node {
-    private InnerNode parent;
 
-    public abstract String getText();
-    
-    @Override
-    public abstract Node clone();
+    protected InnerNode parent;
+    protected boolean isPlaceholder;
 
     /**
      * @return the parent
@@ -23,11 +18,11 @@ public abstract class Node {
     public InnerNode getParent() {
         return parent;
     }
-    
+
     public ProofModel getProofModel() {
         return getParent().getProofModel();
     }
-    
+
     /**
      * @param parent the parent to set
      */
@@ -58,5 +53,9 @@ public abstract class Node {
         //this should never occur
         throw new RuntimeException("Programming error:  selected child not among its parent's children");
     }
-    
+
+    public abstract String getText();
+
+    public abstract SelectableNode deepCopy();
+
 }

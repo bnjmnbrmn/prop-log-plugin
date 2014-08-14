@@ -34,5 +34,16 @@ public class Terminal extends Node {
     public Node clone() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public void descendantChanged(DescendantChangeEvent e) {
+        if (getParent() != null) {
+            getParent().descendantChanged(e);
+        }
+    }
+
+    @Override
+    public SelectableNode deepCopy() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

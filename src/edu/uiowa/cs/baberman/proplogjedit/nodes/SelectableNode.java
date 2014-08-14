@@ -10,26 +10,20 @@ import java.util.List;
  */
 public abstract class SelectableNode extends Node {
 
-    @Override
-    public abstract SelectableNode clone();
-
-    public abstract String getPlaceholderText();
-    
-    public KeyboardCard getDefaultRootKeyboardCard() {
-        return getProofModel().getNavManipKCMRoot();
-    }
+    private boolean isPlaceholder;
+    private boolean isOptional;
     
     SelectableNode(boolean required) {
-        if (required) {
-            placeholderStatus = PlaceholderStatus.REQUIRED_PLACEHOLDER;
-        } else {
-            placeholderStatus = PlaceholderStatus.OPTIONAL_PLACEHOLDER;
-        }
+        isOptional = !required;
+        isPlaceholder = true;
     }
 
     SelectableNode() {
-        placeholderStatus = PlaceholderStatus.NONPLACEHOLDER;
+        isOptional = false;
+        isPlaceholder = false;
     }
+
+    public abstract String getPlaceholderText();
 
     public boolean isCompletedSubtreeRoot() {
         if (isARequiredPlaceholder()) {
@@ -48,38 +42,34 @@ public abstract class SelectableNode extends Node {
         }
     }
 
-    public void setPlaceholderStatus(PlaceholderStatus status) {
-        placeholderStatus = status;
-    }
-
-    public abstract void appendString(String str);
-
-    public enum PlaceholderStatus {
-        REQUIRED_PLACEHOLDER, OPTIONAL_PLACEHOLDER, NONPLACEHOLDER
-    }
-
-    private PlaceholderStatus placeholderStatus;
+    
 
     public boolean isARequiredPlaceholder() {
-        return placeholderStatus == PlaceholderStatus.REQUIRED_PLACEHOLDER;
+        return isPlaceholder && !isOptional;
     }
 
     public boolean isAnOptionalPlaceholder() {
-        return placeholderStatus == PlaceholderStatus.OPTIONAL_PLACEHOLDER;
+        return isPlaceholder && isOptional;
     }
 
     public boolean isPlaceholder() {
-        return isARequiredPlaceholder() || isAnOptionalPlaceholder();
+        return isPlaceholder;
     }
 
-    private boolean selected = false;
-
-    public void setAsSelectedChild(boolean selected) {
-        this.selected = selected;
+    public void setIsPlaceholder(boolean b) {
+        this.isPlaceholder = b;
+        if (parent != null) {
+            DescendantChangeEvent changeEvent = b ? new DescendantChangeEvent.ToPlaceholder(this) : new DescendantChangeEvent.ToNonPlaceholder(this);
+            parent.descendantChanged(changeEvent);
+        }
     }
 
+//    private boolean selected = false;
+//    public void setAsSelectedChild(boolean selected) {
+//        this.selected = selected;
+//    }
     public boolean isSelectedChild() {
-        return selected;
+        return getProofModel().getSelectedNode() == this;
     }
 
     public boolean isSelectedChildSibling() {
@@ -110,4 +100,10 @@ public abstract class SelectableNode extends Node {
         }
     }
 
+    public void descendantChanged(DescendantChangeEvent e) {
+        if (getParent() != null) {
+            getParent().descendantChanged(e);
+        }
+    }
+    
 }

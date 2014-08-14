@@ -17,4 +17,9 @@ public class OneOrMoreProofItems extends OneOrMore<ProofItem>{
         addSubnode(new ProofItem(true));
 //        addSubnode(new OneOrMoreProofItems(false));
     }
+
+    @Override
+    public SelectableNode deepCopy() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

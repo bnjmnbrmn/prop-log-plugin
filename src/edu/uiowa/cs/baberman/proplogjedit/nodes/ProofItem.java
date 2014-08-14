@@ -20,7 +20,7 @@ public final class ProofItem extends InnerNode implements SlipperyNode {
     }
 
     @Override
-    public ProofItem clone() {
+    public SelectableNode deepCopy() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

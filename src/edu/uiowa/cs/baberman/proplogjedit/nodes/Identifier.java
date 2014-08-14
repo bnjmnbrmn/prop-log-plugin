@@ -21,15 +21,6 @@ public abstract class Identifier extends SelectableNode {
         }
     }
 
-    public void respondToLetterPress(String letter) {
-        if (isARequiredPlaceholder() || isAnOptionalPlaceholder()) {
-            setPlaceholderStatus(PlaceholderStatus.NONPLACEHOLDER);
-            setIdentifierString(letter);
-        } else {
-            setIdentifierString(identifierString + letter);
-        }
-    }
-
     Identifier(boolean required) {
         super(required);
     }
@@ -40,20 +31,23 @@ public abstract class Identifier extends SelectableNode {
     public void setIdentifierString(String text) {
         this.identifierString = text;
     }
-    
+
     public void appendToIdentifierString(String toAppend) {
         this.identifierString += toAppend;
+        getProofModel().getProofView().update();
     }
 
-    @Override
-    public void appendString(String str) {
-        
-        if (isPlaceholder()) {
-            setPlaceholderStatus(PlaceholderStatus.NONPLACEHOLDER);
-            identifierString = str;
-        } else {
-            identifierString += str;
+    public void applyBackspace() {
+        if (!isPlaceholder()) {
+            identifierString
+                    = identifierString
+                            .substring(0, identifierString.length() - 1);
+            if (identifierString.length() == 0) {
+                setIsPlaceholder(true);
+            }
         }
+        
+        getProofModel().getProofView().update();
     }
 
 }

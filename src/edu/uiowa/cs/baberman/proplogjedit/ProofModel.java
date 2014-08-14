@@ -4,94 +4,202 @@ import edu.uiowa.cs.baberman.kcm.KCMS;
 import edu.uiowa.cs.baberman.kcm.KeyboardCard;
 import edu.uiowa.cs.baberman.kcm.SubmenuKey;
 import edu.uiowa.cs.baberman.kcm.ThirtyKey;
-import edu.uiowa.cs.baberman.proplogjedit.nodes.Identifier;
+import edu.uiowa.cs.baberman.proplogjedit.nodes.OneOrMoreProofItems;
+import edu.uiowa.cs.baberman.proplogjedit.nodes.OneOrMoreSpacePropVars;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.Proof;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.PropVar;
-
 import edu.uiowa.cs.baberman.proplogjedit.nodes.SelectableNode;
+import edu.uiowa.cs.baberman.proplogjedit.nodes.SpacePropVar;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.AbstractAction;
-import org.gjt.sp.jedit.Macros;
-import org.gjt.sp.jedit.jEdit;
 
 /**
  *
  * @author bnjmnbrmn
  */
-public class ProofModel {
+public final class ProofModel {
 
-    /**
-     * @return the root
-     */
+    public enum SelectionMode {
+
+        LEAF, BRANCH;
+    }
+
+    private Proof root;
+    private SelectionMode selectionMode;
+    private SelectableNode selectedNode;
+    private ProofView proofView;
+    private final KeyboardCard navManipKCMRoot;
+    private final KeyboardCard propVarKCMRoot;
+
+    //Initialization code (called by constructor)
+    private void initializeNavManipKCMTree() {
+        SubmenuKey<ThirtyKey> navKey;
+        navKey = getNavManipKCMRoot().putNewSubmenu(KeyEvent.VK_F);
+        navKey.setMenuItemText("Navigate");
+
+        ThirtyKey navMenu = navKey.getSubmenu();
+        navMenu.putNewLeaf(ThirtyKey.KeyPosition.H)
+                .addPressAction(new AbstractAction() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        moveLeft();
+                    }
+                }).setMenuItemText("Left");
+
+        navMenu.putNewLeaf(ThirtyKey.KeyPosition.L)
+                .addPressAction(new AbstractAction() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        moveRight();
+                    }
+                }).setMenuItemText("Right");
+
+    }
+
+    private void initializePropVarKCMTree() {
+
+        //Add letter typing keys
+        for (ThirtyKey.KeyPosition kp : ThirtyKey.KeyPosition.values()) {
+            final String letter = kp.getKeyLabel().toLowerCase();
+            if (Character.isLetter(letter.charAt(0))) {
+                propVarKCMRoot.putNewLeaf(kp.getVK_CODE())
+                        .setMenuItemText(letter)
+                        .addPressAction(new AbstractAction() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                PropVar selectedPropVar = (PropVar)getSelectedNode();
+                                selectedPropVar.appendToIdentifierString(letter);
+                            }
+                        });
+            }
+        }
+
+        //Add Add Prop Var key
+        propVarKCMRoot.putNewLeaf(ThirtyKey.KeyPosition.COMMA.getVK_CODE())
+                .setMenuItemText("Add Prop Var")
+                .addPressAction(new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        PropVar selectedPropVar = (PropVar)getSelectedNode();
+                        SpacePropVar parent
+                                = (SpacePropVar) selectedPropVar.getParent();
+                        OneOrMoreSpacePropVars grandparent
+                                = (OneOrMoreSpacePropVars) parent.getParent();
+                        int i = grandparent.getIndexAmongNonPlaceholdersOf(parent);
+                        SpacePropVar newSpacePropVar = new SpacePropVar();
+                        grandparent
+                                .addAtNonPlaceholderPosition(i+1, 
+                                        newSpacePropVar);
+                    }
+                });
+
+        //Add Nav-Manip Mode key
+        propVarKCMRoot.putNewLeaf(ThirtyKey.KeyPosition.PERIOD.getVK_CODE())
+                .setMenuItemText("Nav-Manip Mode")
+                .addPressAction(new AbstractAction() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        PropLogPlugin
+                        .getInstance()
+                        .getPropLogKCMS()
+                        .setCurrentRoot(navManipKCMRoot);
+                    }
+
+                });
+        
+        //Add Backspace key
+        propVarKCMRoot.putNewLeaf(ThirtyKey.KeyPosition.SLASH.getVK_CODE())
+                .setMenuItemText("Backspace")
+                .addPressAction(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PropVar selectedPropVar = (PropVar)getSelectedNode();
+                selectedPropVar.applyBackspace();
+            }
+        });
+    }
+
+    ProofModel() {
+        root = new Proof(this);
+        setSelectionMode(SelectionMode.LEAF);
+        setSelectedNode(root.getSelectableLeaves().get(0));
+
+        navManipKCMRoot = ThirtyKey.createRootCard();
+        initializeNavManipKCMTree();
+        propVarKCMRoot = ThirtyKey.createRootCard();
+        initializePropVarKCMTree();
+
+        KCMS propLogKCMS = PropLogPlugin.getInstance().getPropLogKCMS();
+        propLogKCMS.addRoot(navManipKCMRoot);
+        propLogKCMS.addRoot(propVarKCMRoot);
+        propLogKCMS.setCurrentRoot(propVarKCMRoot);
+
+        proofView = new ProofView(this);
+        proofView.update();
+    }
+
+    //Getters and setters
+    public KeyboardCard getNavManipKCMRoot() {
+        return navManipKCMRoot;
+    }
+
+    public KeyboardCard getPropVarKCMRoot() {
+        return propVarKCMRoot;
+    }
+
     public Proof getRoot() {
         return root;
     }
 
-    /**
-     * @param root the root to set
-     */
-    public final void setRoot(Proof root) {
+    public void setRoot(Proof root) {
         this.root = root;
     }
 
-    /**
-     * @return the selectionMode
-     */
+    public ProofView getProofView() {
+        return proofView;
+    }
+
+    public void setProofView(ProofView proofView) {
+        this.proofView = proofView;
+    }
+
     public SelectionMode getSelectionMode() {
         return selectionMode;
     }
 
-    /**
-     * @param selectionMode the selectionMode to set
-     */
-    public final void setSelectionMode(SelectionMode selectionMode) {
+    public void setSelectionMode(SelectionMode selectionMode) {
         this.selectionMode = selectionMode;
     }
 
-    /**
-     * @return the selectedNode
-     */
     public SelectableNode getSelectedNode() {
         return selectedNode;
     }
 
-    /**
-     * @param selectedNode the selectedNode to set
-     */
-    public final void setSelectedNode(SelectableNode selectedNode) {
-        if (this.selectedNode != null)
-            this.selectedNode.setAsSelectedChild(false);
+    public void setSelectedNode(SelectableNode selectedNode) {
         this.selectedNode = selectedNode;
-        this.selectedNode.setAsSelectedChild(true);
-
-//        KCMS propLogKCMS
-//                = PropLogPlugin.getInstance().getPropLogKCMS();
-//
-//        KeyboardCard sndrkc
-//                = selectedNode.getDefaultRootKeyboardCard();
-//
-//        if (!propLogKCMS.getRoots().contains(sndrkc)) {
-//            propLogKCMS.addRoot(sndrkc);
-//        }
-//        propLogKCMS.setCurrentRoot(sndrkc);
-
     }
 
-    /**
-     * @return the proofView
-     */
-    public final ProofView getProofView() {
-        return proofView;
+    //Convenience methods:
+    public List<SelectableNode> getCurrentSelectableNodeListInclusive() {
+        if (getSelectionMode().equals(SelectionMode.LEAF)) {
+            return root.getSelectableLeaves();
+        } else { //if getSelectionMode().equals(SelectionMode.BRANCH)
+            return getSelectedNode().getSelectableSiblingsInclusive();
+        }
     }
 
-    /**
-     * @param proofView the proofView to set
-     */
-    public final void setProofView(ProofView proofView) {
-        this.proofView = proofView;
+    public List<SelectableNode> getCurrentSelectableNodeListExclusive() {
+        List<SelectableNode> list = getCurrentSelectableNodeListInclusive();
+        list.remove(getSelectedNode());
+        return list;
     }
+
+    //Navigation and manipulation actions:
 
     public void moveLeft() {
         int index;
@@ -120,91 +228,6 @@ public class ProofModel {
             setSelectedNode(toSelect);
             proofView.update();
         }
-    }
-
-    void respondToLetterPress(String letter) {
-        if (getSelectedNode() instanceof Identifier) {
-            ((Identifier) getSelectedNode()).respondToLetterPress(letter);
-        }
-    }
-
-    public void appendStringToSelectedNode(String str) {
-        getSelectedNode().appendString(str);
-
-        proofView.update();
-    }
-
-    public KeyboardCard getNavManipKCMRoot() {
-        return navManipKCMRoot;
-    }
-
-    private void initializeNavManipKCMTree() {
-        SubmenuKey<ThirtyKey> navKey;
-        navKey = getNavManipKCMRoot().putNewSubmenu(KeyEvent.VK_F);
-        navKey.setMenuItemText("Navigate");
-
-        ThirtyKey navMenu = navKey.getSubmenu();
-        navMenu.putNewLeaf(ThirtyKey.KeyPosition.H)
-                .addPressAction(new AbstractAction() {
-
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        moveLeft();
-                    }
-                }).setMenuItemText("Left");
-
-        navMenu.putNewLeaf(ThirtyKey.KeyPosition.L)
-                .addPressAction(new AbstractAction() {
-
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        moveRight();
-                    }
-                }).setMenuItemText("Right");
-
-    }
-
-    public enum SelectionMode {
-
-        LEAF, BRANCH;
-    }
-
-    private Proof root;
-    private SelectionMode selectionMode;
-    private SelectableNode selectedNode;
-    private ProofView proofView;
-
-    private final KeyboardCard navManipKCMRoot;
-
-    ProofModel() {
-        setRoot(new Proof(this));
-        setSelectionMode(SelectionMode.LEAF);
-        setSelectedNode(root.getSelectableLeaves().get(0));
-
-        KCMS propLogKCMS = PropLogPlugin.getInstance().getPropLogKCMS();
-        navManipKCMRoot = ThirtyKey.createRootCard();
-        initializeNavManipKCMTree();
-        propLogKCMS.addRoot(navManipKCMRoot);
-        
-        propLogKCMS.addRoot(getSelectedNode().getDefaultRootKeyboardCard());
-        propLogKCMS.setCurrentRoot(getSelectedNode().getDefaultRootKeyboardCard());
-
-        setProofView(new ProofView(this));
-        getProofView().update();
-    }
-
-    public List<SelectableNode> getCurrentSelectableNodeListInclusive() {
-        if (getSelectionMode().equals(SelectionMode.LEAF)) {
-            return root.getSelectableLeaves();
-        } else { //if getSelectionMode().equals(SelectionMode.BRANCH)
-            return getSelectedNode().getSelectableSiblingsInclusive();
-        }
-    }
-
-    public List<SelectableNode> getCurrentSelectableNodeListExclusive() {
-        List<SelectableNode> list = getCurrentSelectableNodeListInclusive();
-        list.remove(getSelectedNode());
-        return list;
     }
 
 }

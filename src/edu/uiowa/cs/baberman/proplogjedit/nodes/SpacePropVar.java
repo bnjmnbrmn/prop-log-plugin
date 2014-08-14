@@ -31,7 +31,7 @@ public final class SpacePropVar extends InnerNode implements SlipperyNode {
     }
 
     @Override
-    public SelectableNode clone() {
+    public SelectableNode deepCopy() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

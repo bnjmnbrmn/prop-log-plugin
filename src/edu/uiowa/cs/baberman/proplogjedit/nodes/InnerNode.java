@@ -11,14 +11,6 @@ import org.gjt.sp.jedit.jEdit;
  */
 public abstract class InnerNode extends SelectableNode {
 
-    public List<Node> getClonedSubnodes() {
-        List<Node> clonedSubnodes = new ArrayList<Node>();
-        for (Node subnode : getSubnodes()) {
-            clonedSubnodes.add(subnode.clone());
-        }
-        return clonedSubnodes;
-    }
-
     InnerNode(boolean required) {
         super(required);
     }
@@ -89,6 +81,11 @@ public abstract class InnerNode extends SelectableNode {
         Node removedNode = subnodes.remove(i);
         removedNode.setParent(null);
     }
+    
+    protected void removeSubnode(Node toRemove) {
+        toRemove.setParent(null);
+        subnodes.remove(toRemove);
+    }
 
     public Node getSubnode(int index) {
         return subnodes.get(index);
@@ -116,12 +113,5 @@ public abstract class InnerNode extends SelectableNode {
 
         return selectableLeaves;
     }
-
-    @Override
-    public void appendString(String str) {
-        //do nothing
-    }
-
-    
     
 }

@@ -32,13 +32,13 @@ public final class Proof extends InnerNode {
     }
 
     @Override
-    public Proof clone() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ProofModel getProofModel() {
+        return proofModel;
     }
 
     @Override
-    public ProofModel getProofModel() {
-        return proofModel;
+    public SelectableNode deepCopy() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
