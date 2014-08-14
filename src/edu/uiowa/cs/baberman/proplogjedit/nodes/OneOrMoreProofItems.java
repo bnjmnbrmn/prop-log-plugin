@@ -13,9 +13,9 @@ public class OneOrMoreProofItems extends OneOrMore<ProofItem>{
     
     public OneOrMoreProofItems() {
         super(new ProofItem());
-//        addSubnode(new OneOrMoreProofItems(false));
+        addSubnode(new OneOrMoreProofItems(false));
         addSubnode(new ProofItem(true));
-//        addSubnode(new OneOrMoreProofItems(false));
+        addSubnode(new OneOrMoreProofItems(false));
     }
 
     @Override

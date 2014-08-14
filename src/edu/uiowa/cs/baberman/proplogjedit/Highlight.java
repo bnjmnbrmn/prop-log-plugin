@@ -1,13 +1,10 @@
 package edu.uiowa.cs.baberman.proplogjedit;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Point;
 import java.awt.Rectangle;
 import org.gjt.sp.jedit.buffer.JEditBuffer;
-import org.gjt.sp.jedit.jEdit;
 import org.gjt.sp.jedit.textarea.JEditTextArea;
 import org.gjt.sp.jedit.textarea.TextAreaExtension;
 
@@ -17,12 +14,9 @@ import org.gjt.sp.jedit.textarea.TextAreaExtension;
  */
 public class Highlight extends TextAreaExtension {
     
-    
-
     private final JEditTextArea textArea;
     private final Paint fillPaint;
     private final Paint strokePaint;
-
     private final int startOffset; //start offset of to-highlight section
     private final int endOffset; //end offset of to-highlight section
 

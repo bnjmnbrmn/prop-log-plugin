@@ -1,15 +1,5 @@
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
-import edu.uiowa.cs.baberman.kcm.KCMS;
-import edu.uiowa.cs.baberman.kcm.KeyboardCard;
-import edu.uiowa.cs.baberman.kcm.ThirtyKey;
-import edu.uiowa.cs.baberman.proplogjedit.ProofModel;
-import edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin;
-import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import org.gjt.sp.jedit.Macros;
-import org.gjt.sp.jedit.jEdit;
-
 /**
  *
  * @author bnjmnbrmn

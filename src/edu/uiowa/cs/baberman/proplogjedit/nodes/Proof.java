@@ -11,19 +11,12 @@ public final class Proof extends InnerNode {
 
     public Proof(ProofModel proofModel) {
         super();
-        
         this.proofModel = proofModel;
 
         addSubnode(new Terminal("Parameters"));
-
-        OneOrMoreSpacePropVars spacePropVars
-                = new OneOrMoreSpacePropVars();
-        addSubnode(spacePropVars);
-
+        addSubnode(new OneOrMoreSpacePropVars());
         addSubnode(new Terminal(" : Prop.\n\n"));
-
-        OneOrMoreProofItems proofItems = new OneOrMoreProofItems();
-        addSubnode(proofItems);
+        addSubnode(new OneOrMoreProofItems());
     }
 
     @Override

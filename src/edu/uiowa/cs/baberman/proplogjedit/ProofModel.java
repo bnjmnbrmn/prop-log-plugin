@@ -4,7 +4,6 @@ import edu.uiowa.cs.baberman.kcm.KCMS;
 import edu.uiowa.cs.baberman.kcm.KeyboardCard;
 import edu.uiowa.cs.baberman.kcm.SubmenuKey;
 import edu.uiowa.cs.baberman.kcm.ThirtyKey;
-import edu.uiowa.cs.baberman.proplogjedit.nodes.OneOrMoreProofItems;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.OneOrMoreSpacePropVars;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.Proof;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.PropVar;
@@ -33,7 +32,8 @@ public final class ProofModel {
     private final KeyboardCard navManipKCMRoot;
     private final KeyboardCard propVarKCMRoot;
 
-    //Initialization code (called by constructor)
+    //Initialization code (called by constructor): 
+    
     private void initializeNavManipKCMTree() {
         SubmenuKey<ThirtyKey> navKey;
         navKey = getNavManipKCMRoot().putNewSubmenu(KeyEvent.VK_F);
@@ -94,6 +94,7 @@ public final class ProofModel {
                         grandparent
                                 .addAtNonPlaceholderPosition(i+1, 
                                         newSpacePropVar);
+                        setSelectedNode(newSpacePropVar.getPropVar());
                     }
                 });
 
@@ -125,10 +126,11 @@ public final class ProofModel {
     }
 
     ProofModel() {
+        proofView = new ProofView(this);
         root = new Proof(this);
-        setSelectionMode(SelectionMode.LEAF);
-        setSelectedNode(root.getSelectableLeaves().get(0));
-
+        this.selectionMode = SelectionMode.LEAF;
+        this.selectedNode = root.getSelectableLeaves().get(1);
+        
         navManipKCMRoot = ThirtyKey.createRootCard();
         initializeNavManipKCMTree();
         propVarKCMRoot = ThirtyKey.createRootCard();
@@ -139,11 +141,11 @@ public final class ProofModel {
         propLogKCMS.addRoot(propVarKCMRoot);
         propLogKCMS.setCurrentRoot(propVarKCMRoot);
 
-        proofView = new ProofView(this);
         proofView.update();
     }
 
-    //Getters and setters
+    //Getters and setters:
+    
     public KeyboardCard getNavManipKCMRoot() {
         return navManipKCMRoot;
     }
@@ -174,6 +176,7 @@ public final class ProofModel {
 
     public void setSelectionMode(SelectionMode selectionMode) {
         this.selectionMode = selectionMode;
+        getProofView().update();
     }
 
     public SelectableNode getSelectedNode() {
@@ -182,9 +185,11 @@ public final class ProofModel {
 
     public void setSelectedNode(SelectableNode selectedNode) {
         this.selectedNode = selectedNode;
+        getProofView().update();
     }
 
     //Convenience methods:
+    
     public List<SelectableNode> getCurrentSelectableNodeListInclusive() {
         if (getSelectionMode().equals(SelectionMode.LEAF)) {
             return root.getSelectableLeaves();
@@ -200,7 +205,7 @@ public final class ProofModel {
     }
 
     //Navigation and manipulation actions:
-
+    
     public void moveLeft() {
         int index;
         index

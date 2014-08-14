@@ -10,11 +10,6 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
 public class Terminal extends Node {
     private final String text;
 
-    @Override
-    public String getText() {
-        return text;
-    }
-
     public Terminal(String text) {
         this.text = text;
     }
@@ -29,16 +24,10 @@ public class Terminal extends Node {
         }
         this.text = temp;
     }
-
+    
     @Override
-    public Node clone() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void descendantChanged(DescendantChangeEvent e) {
-        if (getParent() != null) {
-            getParent().descendantChanged(e);
-        }
+    public String getText() {
+        return text;
     }
 
     @Override

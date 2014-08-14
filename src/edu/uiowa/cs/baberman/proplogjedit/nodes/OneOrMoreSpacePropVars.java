@@ -11,29 +11,13 @@ public class OneOrMoreSpacePropVars extends OneOrMore<SpacePropVar> {
 
     public OneOrMoreSpacePropVars() {
         super(new SpacePropVar(true));
-
+        addSubnode(new OneOrMoreSpacePropVars(false));
         addSubnode(new SpacePropVar());
-
-//        appendNewPlaceholder();
-//        addSubnode(new OneOrMoreSpacePropVars(false));
-//        addSubnode(new SpacePropVar());
-//        addSubnode(new OneOrMoreSpacePropVars(false));
+        addSubnode(new OneOrMoreSpacePropVars(false));
     }
 
     public OneOrMoreSpacePropVars(boolean required) {
         super(required, new SpacePropVar());
-    }
-
-    PropVar appendNewPlaceholder() {
-        SpacePropVar spv = new SpacePropVar();
-        if (getSubnodes().size() == 1) {
-            addSubnode(0, new OneOrMoreSpacePropVars(false));
-            addSubnode(new OneOrMoreSpacePropVars(false));
-        }
-
-        addSubnode(spv);
-        addSubnode(new OneOrMoreSpacePropVars(false));
-        return spv.getPropVar();
     }
 
     public void addAtNonPlaceholderPosition(int i, SpacePropVar spv) {
@@ -88,5 +72,5 @@ public class OneOrMoreSpacePropVars extends OneOrMore<SpacePropVar> {
     public SelectableNode deepCopy() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+ 
 }

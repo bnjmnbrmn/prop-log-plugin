@@ -22,18 +22,6 @@ public abstract class OneOrMore<N extends SelectableNode> extends InnerNode {
         this.itemPrototype = itemPrototype;
     }
     
-    
-
-    @Override
-    public String getPlaceholderText() {
-        return "(" + itemPrototype.getPlaceholderText() + ")+";
-    }
-
-    @Override
-    public SelectableNode clone() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
     public boolean hasMultipleNonSublistPlaceholderSubnodes() {
         List<N> itemsThatCount = new ArrayList<N>();
         for (Node n : getSubnodes()) {
@@ -71,6 +59,11 @@ public abstract class OneOrMore<N extends SelectableNode> extends InnerNode {
             }
         }
         return -1;
+    }
+    
+    @Override
+    public String getPlaceholderText() {
+        return "(" + itemPrototype.getPlaceholderText() + ")+";
     }
 
 }

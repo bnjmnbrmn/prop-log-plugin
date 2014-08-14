@@ -12,28 +12,6 @@ public abstract class Node {
     protected InnerNode parent;
     protected boolean isPlaceholder;
 
-    /**
-     * @return the parent
-     */
-    public InnerNode getParent() {
-        return parent;
-    }
-
-    public ProofModel getProofModel() {
-        return getParent().getProofModel();
-    }
-
-    /**
-     * @param parent the parent to set
-     */
-    public void setParent(InnerNode parent) {
-        this.parent = parent;
-    }
-
-    public boolean hasParent() {
-        return parent != null;
-    }
-
     public int getOffset() {
         int offset;
         if (!hasParent()) {
@@ -53,9 +31,24 @@ public abstract class Node {
         //this should never occur
         throw new RuntimeException("Programming error:  selected child not among its parent's children");
     }
+    
+    public InnerNode getParent() {
+        return parent;
+    }
+    
+    public void setParent(InnerNode parent) {
+        this.parent = parent;
+    }
+
+    public ProofModel getProofModel() {
+        return getParent().getProofModel();
+    }
+    
+    public boolean hasParent() {
+        return parent != null;
+    }
 
     public abstract String getText();
-
     public abstract SelectableNode deepCopy();
 
 }

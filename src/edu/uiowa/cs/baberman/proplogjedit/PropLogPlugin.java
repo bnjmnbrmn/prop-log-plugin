@@ -1,21 +1,11 @@
 package edu.uiowa.cs.baberman.proplogjedit;
 
 import edu.uiowa.cs.baberman.kcm.KCMS;
-import edu.uiowa.cs.baberman.kcm.SubmenuKey;
 import edu.uiowa.cs.baberman.kcm.ThirtyKey;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import javax.swing.AbstractAction;
-import javax.swing.JPanel;
-import org.gjt.sp.jedit.Buffer;
 import org.gjt.sp.jedit.EBPlugin;
 import org.gjt.sp.jedit.Macros;
-import org.gjt.sp.jedit.View;
-import org.gjt.sp.jedit.gui.DockableWindowManager;
 import org.gjt.sp.jedit.jEdit;
 
 /**
@@ -28,20 +18,15 @@ public class PropLogPlugin extends EBPlugin {
     public static String AUTHOR = "Benjamin Berman";
     public static String VERSION = "0.0.1";
     public static String OPTION_PREFIX = "options.proplogplugin.";
+
     private static PropLogPlugin INSTANCE;
 
-    KCMS propLogKCMS;
-
-    public KCMS getPropLogKCMS() {
-        return propLogKCMS;
-    }
+    private KCMS propLogKCMS;
+    private ProofModel currentProofModel;
+    private List<ProofModel> proofModels = new ArrayList<ProofModel>();
 
     private void setUpKCMS() {
         propLogKCMS = new KCMS(ThirtyKey.createRootCard());
-    }
-
-    private ProofModel getCurrentProofModel() {
-        return currentProofModel;
     }
 
     @Override
@@ -56,12 +41,13 @@ public class PropLogPlugin extends EBPlugin {
         currentProofModel.getProofView().clearTextAreaExtensions();
     }
 
-    public static PropLogPlugin getInstance() {
-        return INSTANCE;
+    private ProofModel getCurrentProofModel() {
+        return currentProofModel;
     }
 
-    ProofModel currentProofModel;
-    List<ProofModel> proofModels = new ArrayList<ProofModel>();
+    public KCMS getPropLogKCMS() {
+        return propLogKCMS;
+    }
 
     public void createNewProof() {
         try {
@@ -94,4 +80,9 @@ public class PropLogPlugin extends EBPlugin {
 
         Macros.message(jEdit.getActiveView(), e + "\n" + st);
     }
+
+    public static PropLogPlugin getInstance() {
+        return INSTANCE;
+    }
+
 }

@@ -1,7 +1,5 @@
 package edu.uiowa.cs.baberman.proplogjedit;
 
-import edu.uiowa.cs.baberman.proplogjedit.nodes.InnerNode;
-import edu.uiowa.cs.baberman.proplogjedit.nodes.Node;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.SelectableNode;
 import java.awt.Color;
 import java.awt.Paint;
@@ -11,11 +9,9 @@ import java.util.List;
 import java.util.Map;
 import org.gjt.sp.jedit.Buffer;
 import org.gjt.sp.jedit.EditPane;
-import org.gjt.sp.jedit.Macros;
 import org.gjt.sp.jedit.View;
 import org.gjt.sp.jedit.jEdit;
 import org.gjt.sp.jedit.textarea.JEditTextArea;
-import org.gjt.sp.jedit.textarea.TextArea;
 import org.gjt.sp.jedit.textarea.TextAreaExtension;
 
 /**
@@ -25,16 +21,14 @@ import org.gjt.sp.jedit.textarea.TextAreaExtension;
 public class ProofView {
 
     public static final Color INCOMPLETE_RED = new Color(255, 100, 100);
-
-    final Buffer buffer;
+    private final ProofModel proofModel;
+    private final Buffer buffer;
 
     Buffer getBuffer() {
         return buffer;
     }
 
     final Map<TextAreaExtension, JEditTextArea> textAreaExtensionsWithTextAreas;
-
-    private final ProofModel proofModel;
 
     ProofView(ProofModel proofModel) {
         this.proofModel = proofModel;
@@ -45,7 +39,7 @@ public class ProofView {
     }
 
     public void update() {
-
+        
         if (proofModel == null) {
             throw new RuntimeException("Tried to update view with null model");
         }

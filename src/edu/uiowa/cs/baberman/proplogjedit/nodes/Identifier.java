@@ -8,6 +8,18 @@ public abstract class Identifier extends SelectableNode {
 
     private String identifierString;
 
+    Identifier(boolean required) {
+        super(required);
+        identifierString = "";
+    }
+
+    /**
+     * @param text the text to set
+     */
+    public void setIdentifierString(String text) {
+        this.identifierString = text;
+    }
+
     @Override
     public String getText() {
         if (isARequiredPlaceholder()) {
@@ -21,19 +33,11 @@ public abstract class Identifier extends SelectableNode {
         }
     }
 
-    Identifier(boolean required) {
-        super(required);
-    }
-
-    /**
-     * @param text the text to set
-     */
-    public void setIdentifierString(String text) {
-        this.identifierString = text;
-    }
-
     public void appendToIdentifierString(String toAppend) {
         this.identifierString += toAppend;
+        if (isPlaceholder()) {
+            setIsPlaceholder(false);
+        }
         getProofModel().getProofView().update();
     }
 
@@ -41,12 +45,12 @@ public abstract class Identifier extends SelectableNode {
         if (!isPlaceholder()) {
             identifierString
                     = identifierString
-                            .substring(0, identifierString.length() - 1);
+                    .substring(0, identifierString.length() - 1);
             if (identifierString.length() == 0) {
                 setIsPlaceholder(true);
             }
         }
-        
+
         getProofModel().getProofView().update();
     }
 

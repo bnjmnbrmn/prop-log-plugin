@@ -2,14 +2,14 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.gjt.sp.jedit.Macros;
-import org.gjt.sp.jedit.jEdit;
 
 /**
  *
  * @author bnjmnbrmn
  */
 public abstract class InnerNode extends SelectableNode {
+
+    private List<Node> subnodes = new ArrayList<Node>();
 
     InnerNode(boolean required) {
         super(required);
@@ -32,22 +32,40 @@ public abstract class InnerNode extends SelectableNode {
     public String getText() {
         if (isARequiredPlaceholder()
                 || (isAnOptionalPlaceholder() && isSelectedChild())) {
-            
+
             return "(*" + getPlaceholderText() + "*)";
-            
+
         } else if (isAnOptionalPlaceholder() && !isSelectedChild()) {
-            
+
             return "";
-            
+
         } else {
-            
+
             String text = "";
             for (Node subnode : getSubnodes()) {
                 text += subnode.getText();
             }
             return text;
-            
+
         }
+    }
+
+    List<Node> getSubnodes() {
+        return subnodes;
+    }
+
+    public Node getSubnode(int index) {
+        return subnodes.get(index);
+    }
+
+    protected void addSubnode(Node n) {
+        subnodes.add(n);
+        n.setParent(this);
+    }
+
+    protected void addSubnode(int index, Node n) {
+        subnodes.add(index, n);
+        n.setParent(this);
     }
 
     public List<SelectableNode> getSelectableSubnodes() {
@@ -59,38 +77,7 @@ public abstract class InnerNode extends SelectableNode {
         }
         return selectableSubnodes;
     }
-
-    private List<Node> subnodes = new ArrayList<Node>();
-
-    List<Node> getSubnodes() {
-        return subnodes;
-    }
-
-    protected void addSubnode(Node n) {
-        subnodes.add(n);
-        n.setParent(this);
-    }
     
-    protected void addSubnode(int index, Node n) {
-        subnodes.add(index, n);
-        n.setParent(this);
-    }
-    
-    
-    protected void removeSubnode(int i) {
-        Node removedNode = subnodes.remove(i);
-        removedNode.setParent(null);
-    }
-    
-    protected void removeSubnode(Node toRemove) {
-        toRemove.setParent(null);
-        subnodes.remove(toRemove);
-    }
-
-    public Node getSubnode(int index) {
-        return subnodes.get(index);
-    }
-
     public List<SelectableNode> getSelectableLeaves() {
 
         List<SelectableNode> selectableLeaves = new ArrayList<SelectableNode>();
@@ -113,5 +100,17 @@ public abstract class InnerNode extends SelectableNode {
 
         return selectableLeaves;
     }
+
+    protected void removeSubnode(int i) {
+        Node removedNode = subnodes.remove(i);
+        removedNode.setParent(null);
+    }
+
+    protected void removeSubnode(Node toRemove) {
+        toRemove.setParent(null);
+        subnodes.remove(toRemove);
+    }
+
     
+
 }

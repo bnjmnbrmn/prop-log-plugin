@@ -1,7 +1,5 @@
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
-import edu.uiowa.cs.baberman.kcm.KeyboardCard;
-import edu.uiowa.cs.baberman.proplogjedit.ProofModel;
 import java.util.List;
 
 /**
@@ -42,8 +40,6 @@ public abstract class SelectableNode extends Node {
         }
     }
 
-    
-
     public boolean isARequiredPlaceholder() {
         return isPlaceholder && !isOptional;
     }
@@ -57,17 +53,13 @@ public abstract class SelectableNode extends Node {
     }
 
     public void setIsPlaceholder(boolean b) {
-        this.isPlaceholder = b;
-        if (parent != null) {
+        if (parent != null && this.isPlaceholder != b) {
+            this.isPlaceholder = b;
             DescendantChangeEvent changeEvent = b ? new DescendantChangeEvent.ToPlaceholder(this) : new DescendantChangeEvent.ToNonPlaceholder(this);
             parent.descendantChanged(changeEvent);
         }
     }
 
-//    private boolean selected = false;
-//    public void setAsSelectedChild(boolean selected) {
-//        this.selected = selected;
-//    }
     public boolean isSelectedChild() {
         return getProofModel().getSelectedNode() == this;
     }
