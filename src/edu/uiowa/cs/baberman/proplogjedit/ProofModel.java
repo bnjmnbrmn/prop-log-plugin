@@ -8,6 +8,7 @@ import edu.uiowa.cs.baberman.proplogjedit.nodes.OneOrMoreSpacePropVars;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.Proof;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.PropVar;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.SelectableNode;
+import edu.uiowa.cs.baberman.proplogjedit.nodes.SlipperyNode;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.SpacePropVar;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -33,7 +34,6 @@ public final class ProofModel {
     private final KeyboardCard propVarKCMRoot;
 
     //Initialization code (called by constructor): 
-    
     private void initializeNavManipKCMTree() {
         SubmenuKey<ThirtyKey> navKey;
         navKey = getNavManipKCMRoot().putNewSubmenu(KeyEvent.VK_F);
@@ -58,6 +58,23 @@ public final class ProofModel {
                     }
                 }).setMenuItemText("Right");
 
+        navMenu.putNewLeaf(ThirtyKey.KeyPosition.K)
+                .addPressAction(new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        ProofModel.this.goToParent();
+                    }
+                }).setMenuItemText("Parent");
+
+        navMenu.putNewLeaf(ThirtyKey.KeyPosition.J)
+                .addPressAction(new AbstractAction() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        ProofModel.this.goToSelectedChild();
+                    }
+                }).setMenuItemText("Selected Child");
+
     }
 
     private void initializePropVarKCMTree() {
@@ -71,7 +88,7 @@ public final class ProofModel {
                         .addPressAction(new AbstractAction() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                PropVar selectedPropVar = (PropVar)getSelectedNode();
+                                PropVar selectedPropVar = (PropVar) getSelectedNode();
                                 selectedPropVar.appendToIdentifierString(letter);
                             }
                         });
@@ -84,16 +101,16 @@ public final class ProofModel {
                 .addPressAction(new AbstractAction() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        PropVar selectedPropVar = (PropVar)getSelectedNode();
+                        PropVar selectedPropVar = (PropVar) getSelectedNode();
                         SpacePropVar parent
-                                = (SpacePropVar) selectedPropVar.getParent();
+                        = (SpacePropVar) selectedPropVar.getParent();
                         OneOrMoreSpacePropVars grandparent
-                                = (OneOrMoreSpacePropVars) parent.getParent();
+                        = (OneOrMoreSpacePropVars) parent.getParent();
                         int i = grandparent.getIndexAmongNonPlaceholdersOf(parent);
                         SpacePropVar newSpacePropVar = new SpacePropVar();
                         grandparent
-                                .addAtNonPlaceholderPosition(i+1, 
-                                        newSpacePropVar);
+                        .addAtNonPlaceholderPosition(i + 1,
+                                newSpacePropVar);
                         setSelectedNode(newSpacePropVar.getPropVar());
                     }
                 });
@@ -112,17 +129,17 @@ public final class ProofModel {
                     }
 
                 });
-        
+
         //Add Backspace key
         propVarKCMRoot.putNewLeaf(ThirtyKey.KeyPosition.SLASH.getVK_CODE())
                 .setMenuItemText("Backspace")
                 .addPressAction(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PropVar selectedPropVar = (PropVar)getSelectedNode();
-                selectedPropVar.applyBackspace();
-            }
-        });
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        PropVar selectedPropVar = (PropVar) getSelectedNode();
+                        selectedPropVar.applyBackspace();
+                    }
+                });
     }
 
     ProofModel() {
@@ -130,7 +147,7 @@ public final class ProofModel {
         root = new Proof(this);
         this.selectionMode = SelectionMode.LEAF;
         this.selectedNode = root.getSelectableLeaves().get(1);
-        
+
         navManipKCMRoot = ThirtyKey.createRootCard();
         initializeNavManipKCMTree();
         propVarKCMRoot = ThirtyKey.createRootCard();
@@ -145,7 +162,6 @@ public final class ProofModel {
     }
 
     //Getters and setters:
-    
     public KeyboardCard getNavManipKCMRoot() {
         return navManipKCMRoot;
     }
@@ -189,7 +205,6 @@ public final class ProofModel {
     }
 
     //Convenience methods:
-    
     public List<SelectableNode> getCurrentSelectableNodeListInclusive() {
         if (getSelectionMode().equals(SelectionMode.LEAF)) {
             return root.getSelectableLeaves();
@@ -205,7 +220,6 @@ public final class ProofModel {
     }
 
     //Navigation and manipulation actions:
-    
     public void moveLeft() {
         int index;
         index
@@ -235,4 +249,21 @@ public final class ProofModel {
         }
     }
 
+    public void goToParent() {
+        if (getSelectionMode() == SelectionMode.LEAF) {
+            setSelectionMode(SelectionMode.BRANCH);
+        }
+        if (getSelectedNode().hasParent()) {
+            setSelectedNode(getSelectedNode().getParent());
+            while (getSelectedNode() instanceof SlipperyNode 
+                    && getSelectedNode().hasParent()) {
+                setSelectedNode(getSelectedNode().getParent());
+            }
+                
+        }
+    }
+    
+    public void goToSelectedChild() {
+        
+    }
 }
