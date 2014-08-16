@@ -254,9 +254,11 @@ public final class ProofModel {
             setSelectionMode(SelectionMode.BRANCH);
         }
         if (getSelectedNode().hasParent()) {
+            getSelectedNode().getParent().setMostRecentlySelectedSubnode(getSelectedNode());
             setSelectedNode(getSelectedNode().getParent());
             while (getSelectedNode() instanceof SlipperyNode 
                     && getSelectedNode().hasParent()) {
+                getSelectedNode().getParent().setMostRecentlySelectedSubnode(getSelectedNode());
                 setSelectedNode(getSelectedNode().getParent());
             }
                 
@@ -264,6 +266,16 @@ public final class ProofModel {
     }
     
     public void goToSelectedChild() {
+        if (getSelectionMode() == SelectionMode.LEAF) {
+            return;
+        }
         
+        if (getSelectedNode().hasSelectableSubnode()) {
+            setSelectedNode(getSelectedNode().getMostRecentlySelectedChild());
+            while (getSelectedNode() instanceof SlipperyNode
+                    && getSelectedNode().hasSelectableSubnode()) {
+                setSelectedNode(getSelectedNode().getMostRecentlySelectedChild());
+            }
+        }
     }
 }

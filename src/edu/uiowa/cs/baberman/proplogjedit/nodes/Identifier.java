@@ -54,4 +54,16 @@ public abstract class Identifier extends SelectableNode {
         getProofModel().getProofView().update();
     }
 
+    @Override
+    public boolean hasSelectableSubnode() {
+        return false;
+    }
+
+    @Override
+    public SelectableNode getMostRecentlySelectedChild() {
+        throw new RuntimeException();
+    }
+
+    
+    
 }

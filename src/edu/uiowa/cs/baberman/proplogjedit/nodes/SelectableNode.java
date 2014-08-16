@@ -97,5 +97,9 @@ public abstract class SelectableNode extends Node {
             getParent().descendantChanged(e);
         }
     }
+
+    public abstract boolean hasSelectableSubnode();
+
+    public abstract SelectableNode getMostRecentlySelectedChild();
     
 }

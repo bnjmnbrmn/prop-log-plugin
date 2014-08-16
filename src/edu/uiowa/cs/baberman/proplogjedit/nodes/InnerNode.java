@@ -10,6 +10,7 @@ import java.util.List;
 public abstract class InnerNode extends SelectableNode {
 
     private List<Node> subnodes = new ArrayList<Node>();
+    private SelectableNode mostRecentlySelectedSubnode;
 
     InnerNode(boolean required) {
         super(required);
@@ -111,6 +112,24 @@ public abstract class InnerNode extends SelectableNode {
         subnodes.remove(toRemove);
     }
 
-    
+    public void setMostRecentlySelectedSubnode(SelectableNode newMostRecentlySelectedSubnode) {
+        if (!getSubnodes().contains(newMostRecentlySelectedSubnode))
+            throw new RuntimeException();
+        
+        mostRecentlySelectedSubnode = newMostRecentlySelectedSubnode;
+    }
+
+    @Override
+    public boolean hasSelectableSubnode() {
+        return getSelectableSubnodes().size() > 0;
+    }
+
+    @Override
+    public SelectableNode getMostRecentlySelectedChild() {
+        if (mostRecentlySelectedSubnode == null) {
+            mostRecentlySelectedSubnode = getSelectableSubnodes().get(0);
+        }
+        return mostRecentlySelectedSubnode; 
+    }
 
 }
