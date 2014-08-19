@@ -4,7 +4,7 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
  *
  * @author bnjmnbrmn
  */
-public final class SpacePropVar extends InnerNode implements SlipperyNode {
+public final class SpacePropVar extends SlipperyNode {
 
     public SpacePropVar(boolean required) {
         super(required);
@@ -33,6 +33,11 @@ public final class SpacePropVar extends InnerNode implements SlipperyNode {
     @Override
     public SelectableNode deepCopy() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    SelectableNode getSelectableChild() {
+        return getPropVar();
     }
 
 }

@@ -2,7 +2,7 @@
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
 /**
- * Marker interface for InnerNodes with a max of only one child.
+ * Marker class for InnerNodes with a max of only one child.
  * 
  * This has significance for tree traversal, since generally there is no point 
  * in navigating to one of these nodes.
@@ -10,6 +10,14 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
  * 
  * @author bnjmnbrmn
  */
-public interface SlipperyNode {
+public abstract class SlipperyNode extends InnerNode {
+    public SlipperyNode(boolean required) {
+        super(required);
+    }
     
+    public SlipperyNode() {
+        super();
+    }
+
+    abstract SelectableNode getSelectableChild();
 }

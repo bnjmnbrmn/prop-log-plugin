@@ -209,7 +209,7 @@ public final class ProofModel {
         if (getSelectionMode().equals(SelectionMode.LEAF)) {
             return root.getSelectableLeaves();
         } else { //if getSelectionMode().equals(SelectionMode.BRANCH)
-            return getSelectedNode().getSelectableSiblingsInclusive();
+            return getSelectedNode().getPeerBranchSelectionListInclusive();
         }
     }
 

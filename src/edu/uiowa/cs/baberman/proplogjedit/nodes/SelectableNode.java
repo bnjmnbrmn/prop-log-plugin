@@ -1,5 +1,6 @@
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -90,6 +91,29 @@ public abstract class SelectableNode extends Node {
         } else {
             return null;
         }
+    }
+    
+    public List<SelectableNode> getPeerBranchSelectionListInclusive() {
+        List<SelectableNode> branchSelectionList
+                = new ArrayList<SelectableNode>();
+        
+        
+        if (hasParent()) {
+            InnerNode ancestor;
+        
+            ancestor = getParent();
+            
+            while (ancestor instanceof SlipperyNode) {
+                ancestor = ancestor.getParent();
+            }
+            
+            branchSelectionList = ancestor.getDescendantBranchSelectionList();
+            
+        } else {
+            branchSelectionList.add(this);
+        }
+        
+        return branchSelectionList;
     }
 
     public void descendantChanged(DescendantChangeEvent e) {

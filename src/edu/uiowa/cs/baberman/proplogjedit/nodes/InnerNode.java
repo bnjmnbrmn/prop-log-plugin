@@ -78,7 +78,7 @@ public abstract class InnerNode extends SelectableNode {
         }
         return selectableSubnodes;
     }
-    
+
     public List<SelectableNode> getSelectableLeaves() {
 
         List<SelectableNode> selectableLeaves = new ArrayList<SelectableNode>();
@@ -113,9 +113,10 @@ public abstract class InnerNode extends SelectableNode {
     }
 
     public void setMostRecentlySelectedSubnode(SelectableNode newMostRecentlySelectedSubnode) {
-        if (!getSubnodes().contains(newMostRecentlySelectedSubnode))
+        if (!getSubnodes().contains(newMostRecentlySelectedSubnode)) {
             throw new RuntimeException();
-        
+        }
+
         mostRecentlySelectedSubnode = newMostRecentlySelectedSubnode;
     }
 
@@ -129,7 +130,22 @@ public abstract class InnerNode extends SelectableNode {
         if (mostRecentlySelectedSubnode == null) {
             mostRecentlySelectedSubnode = getSelectableSubnodes().get(0);
         }
-        return mostRecentlySelectedSubnode; 
+        return mostRecentlySelectedSubnode;
+    }
+
+    List<SelectableNode> getDescendantBranchSelectionList() {
+        List<SelectableNode> descendantBranchSelectionList
+                = new ArrayList<SelectableNode>();
+        for (SelectableNode selectableSubnode : getSelectableSubnodes()) {
+            while (selectableSubnode instanceof SlipperyNode) {
+                SlipperyNode slipperySubnode = (SlipperyNode) selectableSubnode;
+                selectableSubnode = slipperySubnode.getSelectableChild();
+            }
+            descendantBranchSelectionList.add(selectableSubnode);
+
+        }
+
+        return descendantBranchSelectionList;
     }
 
 }
