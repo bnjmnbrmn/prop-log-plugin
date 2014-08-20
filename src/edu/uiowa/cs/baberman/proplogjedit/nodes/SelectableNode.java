@@ -96,23 +96,16 @@ public abstract class SelectableNode extends Node {
     public List<SelectableNode> getPeerBranchSelectionListInclusive() {
         List<SelectableNode> branchSelectionList
                 = new ArrayList<SelectableNode>();
-        
-        
         if (hasParent()) {
             InnerNode ancestor;
-        
             ancestor = getParent();
-            
             while (ancestor instanceof SlipperyNode) {
                 ancestor = ancestor.getParent();
             }
-            
             branchSelectionList = ancestor.getDescendantBranchSelectionList();
-            
         } else {
             branchSelectionList.add(this);
         }
-        
         return branchSelectionList;
     }
 

@@ -122,7 +122,7 @@ public abstract class InnerNode extends SelectableNode {
 
     @Override
     public boolean hasSelectableSubnode() {
-        return getSelectableSubnodes().size() > 0;
+        return !isPlaceholder() && getSelectableSubnodes().size() > 0;
     }
 
     @Override
@@ -137,12 +137,11 @@ public abstract class InnerNode extends SelectableNode {
         List<SelectableNode> descendantBranchSelectionList
                 = new ArrayList<SelectableNode>();
         for (SelectableNode selectableSubnode : getSelectableSubnodes()) {
-            while (selectableSubnode instanceof SlipperyNode) {
+            while (selectableSubnode instanceof SlipperyNode && !selectableSubnode.isPlaceholder()) {
                 SlipperyNode slipperySubnode = (SlipperyNode) selectableSubnode;
                 selectableSubnode = slipperySubnode.getSelectableChild();
             }
             descendantBranchSelectionList.add(selectableSubnode);
-
         }
 
         return descendantBranchSelectionList;

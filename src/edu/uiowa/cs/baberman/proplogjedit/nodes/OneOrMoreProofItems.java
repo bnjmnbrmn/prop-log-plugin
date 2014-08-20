@@ -16,6 +16,8 @@ public class OneOrMoreProofItems extends OneOrMore<ProofItem>{
         addSubnode(new OneOrMoreProofItems(false));
         addSubnode(new ProofItem(true));
         addSubnode(new OneOrMoreProofItems(false));
+        
+        setMostRecentlySelectedSubnode((ProofItem)getSubnode(1));
     }
 
     @Override
