@@ -25,7 +25,7 @@ public class OneOrMoreSpacePropVars extends OneOrMore<SpacePropVar> {
             throw new RuntimeException();
         }
 
-        if (getSubnodes().size() == 0) {
+        if (getSubnodes().isEmpty()) {
             if (i > 0) {
                 throw new RuntimeException();
             }
