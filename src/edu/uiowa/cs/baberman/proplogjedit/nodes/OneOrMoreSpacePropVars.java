@@ -38,15 +38,15 @@ public class OneOrMoreSpacePropVars extends OneOrMore<SpacePropVar> {
             }
             if (i == 0) {
                 addSubnode(0, spv);
-                addSubnode(0, new OneOrMoreProofItems(false));
+                addSubnode(0, new OneOrMoreSpacePropVars(false));
             } else if (i == getNonPlaceholders().size()) {
                 addSubnode(spv);
-                addSubnode(new OneOrMoreProofItems(false));
+                addSubnode(new OneOrMoreSpacePropVars(false));
             } else {
                 SpacePropVar ithNonPlaceholder = getNonPlaceholders().get(i);
                 int j = getSubnodes().indexOf(ithNonPlaceholder);
                 addSubnode(j, spv);
-                addSubnode(j+1,new OneOrMoreProofItems());
+                addSubnode(j+1,new OneOrMoreSpacePropVars());
             }
         }
         
