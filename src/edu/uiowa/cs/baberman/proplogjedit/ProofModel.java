@@ -30,8 +30,8 @@ public final class ProofModel {
     private SelectionMode selectionMode;
     private SelectableNode selectedNode;
     private ProofView proofView;
-    private final KeyboardCard navManipKCMRoot;
-    private final KeyboardCard propVarKCMRoot;
+    private final ThirtyKey navManipKCMRoot;
+    private final ThirtyKey propVarKCMRoot;
 
     //Initialization code (called by constructor): 
     private void initializeNavManipKCMTree() {
@@ -74,6 +74,21 @@ public final class ProofModel {
                         ProofModel.this.goToSelectedChild();
                     }
                 }).setMenuItemText("Selected Child");
+        
+        getNavManipKCMRoot().putNewLeaf(ThirtyKey.KeyPosition.PERIOD)
+                .addPressAction(new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (getSelectionMode() == SelectionMode.BRANCH)
+                    setSelectionMode(SelectionMode.LEAF);
+                else
+                    setSelectionMode(SelectionMode.BRANCH);
+                            
+            }
+        })
+                .setMenuItemText("Toggle Branch vs Leaf Selection");
+                
 
     }
 
@@ -162,11 +177,11 @@ public final class ProofModel {
     }
 
     //Getters and setters:
-    public KeyboardCard getNavManipKCMRoot() {
+    public ThirtyKey getNavManipKCMRoot() {
         return navManipKCMRoot;
     }
 
-    public KeyboardCard getPropVarKCMRoot() {
+    public ThirtyKey getPropVarKCMRoot() {
         return propVarKCMRoot;
     }
 
@@ -192,6 +207,10 @@ public final class ProofModel {
 
     public void setSelectionMode(SelectionMode selectionMode) {
         this.selectionMode = selectionMode;
+        if (selectionMode == SelectionMode.LEAF) {
+            while (getSelectedNode().hasSelectableSubnode())
+                setSelectedNode(getSelectedNode().getMostRecentlySelectedChild());
+        }
         getProofView().update();
     }
 
