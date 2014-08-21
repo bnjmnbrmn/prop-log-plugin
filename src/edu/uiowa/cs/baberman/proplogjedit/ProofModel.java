@@ -99,6 +99,16 @@ public final class ProofModel {
         }).setMenuItemText("Add to Right");
                 
 
+        SubmenuKey<ThirtyKey> setToKey;
+        setToKey = getNavManipKCMRoot().putNewSubmenu(KeyEvent.VK_J);
+        setToKey.addPressAction(new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getSelectedNode().setTo();
+            }
+        });
+        setToKey.setMenuItemText("Set to");
     }
 
     private void initializePropVarKCMTree() {

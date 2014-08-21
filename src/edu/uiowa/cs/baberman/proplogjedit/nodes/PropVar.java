@@ -1,5 +1,7 @@
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
+import edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin;
+
 /**
  *
  * @author bnjmnbrmn
@@ -30,6 +32,11 @@ public final class PropVar extends Identifier {
                 && getParent().getParent() instanceof OneOrMoreSpacePropVars) {
             getParent().getParent().addToRight();
         }
+    }
+
+    @Override
+    public void setTo() {
+        PropLogPlugin.getInstance().getPropLogKCMS().setCurrentRoot(getProofModel().getPropVarKCMRoot());
     }
 
 

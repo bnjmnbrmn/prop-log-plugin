@@ -147,4 +147,11 @@ public abstract class InnerNode extends SelectableNode {
         return descendantBranchSelectionList;
     }
 
+    @Override
+    public void setTo() {
+        //do nothing
+    }
+
+    
+    
 }

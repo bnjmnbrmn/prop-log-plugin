@@ -120,5 +120,7 @@ public abstract class SelectableNode extends Node {
     public abstract SelectableNode getMostRecentlySelectedChild();
 
     public abstract void addToRight();
+
+    public abstract void setTo();
     
 }
