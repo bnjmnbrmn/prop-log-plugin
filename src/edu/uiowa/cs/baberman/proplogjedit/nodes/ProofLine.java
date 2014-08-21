@@ -49,7 +49,7 @@ public final class ProofLine extends InnerNode implements Indentable {
     }
     
     public Formula getFormula() { 
-        return 
+        return (Formula) getSubnode(4);
     }
 
 }
