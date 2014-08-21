@@ -46,10 +46,10 @@ public class OneOrMoreSpacePropVars extends OneOrMore<SpacePropVar> {
                 SpacePropVar ithNonPlaceholder = getNonPlaceholders().get(i);
                 int j = getSubnodes().indexOf(ithNonPlaceholder);
                 addSubnode(j, spv);
-                addSubnode(j+1,new OneOrMoreSpacePropVars());
+                addSubnode(j + 1, new OneOrMoreSpacePropVars());
             }
         }
-        
+
         getProofModel().getProofView().update();
     }
 
@@ -75,12 +75,15 @@ public class OneOrMoreSpacePropVars extends OneOrMore<SpacePropVar> {
 
     @Override
     public void addToRight() {
-        SpacePropVar newSpacePropVar = new SpacePropVar();
-        addAtNonPlaceholderPosition(getNonPlaceholders().size(), 
-                newSpacePropVar);
-        getProofModel().setSelectedNode(newSpacePropVar.getPropVar());
-        getProofModel().getProofView().update();
-        
+        if (hasParent() && getParent() instanceof OneOrMoreSpacePropVars) {
+            getParent().addToRight();
+        } else {
+            SpacePropVar newSpacePropVar = new SpacePropVar();
+            addAtNonPlaceholderPosition(getNonPlaceholders().size(),
+                    newSpacePropVar);
+            getProofModel().setSelectedNode(newSpacePropVar.getPropVar());
+            getProofModel().getProofView().update();
+        }
     }
- 
+
 }
