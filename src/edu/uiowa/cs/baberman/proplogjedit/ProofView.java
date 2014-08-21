@@ -120,9 +120,9 @@ public class ProofView {
         Paint selectedNodeStroke = Color.BLACK;
 
         if (proofModel.getSelectionMode().equals(ProofModel.SelectionMode.LEAF)) {
-            selectedNodeFill = new Color(143, 188, 143);
+            selectedNodeFill = new Color(59, 161, 68);
         } else {
-            selectedNodeFill = new Color(222, 184, 135, 250);
+            selectedNodeFill = new Color(148, 124, 47);
         }
 
         if (!selectedNode.isCompletedSubtreeRoot()) {
