@@ -118,5 +118,7 @@ public abstract class SelectableNode extends Node {
     public abstract boolean hasSelectableSubnode();
 
     public abstract SelectableNode getMostRecentlySelectedChild();
+
+    public abstract void addToRight();
     
 }

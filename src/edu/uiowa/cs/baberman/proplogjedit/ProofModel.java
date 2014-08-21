@@ -88,6 +88,15 @@ public final class ProofModel {
             }
         })
                 .setMenuItemText("Toggle Branch vs Leaf Selection");
+        
+        getNavManipKCMRoot().putNewSubmenu(KeyEvent.VK_L)
+                .addPressAction(new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getSelectedNode().addToRight();
+            }
+        }).setMenuItemText("Add to Right");
                 
 
     }

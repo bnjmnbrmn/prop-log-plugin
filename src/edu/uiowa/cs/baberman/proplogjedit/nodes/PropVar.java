@@ -23,5 +23,14 @@ public final class PropVar extends Identifier {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public void addToRight() {
+        if (hasParent() 
+                && getParent().hasParent() 
+                && getParent().getParent() instanceof OneOrMoreSpacePropVars) {
+            getParent().getParent().addToRight();
+        }
+    }
+
 
 }

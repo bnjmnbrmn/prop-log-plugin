@@ -72,5 +72,15 @@ public class OneOrMoreSpacePropVars extends OneOrMore<SpacePropVar> {
     public SelectableNode deepCopy() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void addToRight() {
+        SpacePropVar newSpacePropVar = new SpacePropVar();
+        addAtNonPlaceholderPosition(getNonPlaceholders().size(), 
+                newSpacePropVar);
+        getProofModel().setSelectedNode(newSpacePropVar.getPropVar());
+        getProofModel().getProofView().update();
+        
+    }
  
 }

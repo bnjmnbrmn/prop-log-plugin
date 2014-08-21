@@ -40,4 +40,16 @@ public final class SpacePropVar extends SlipperyNode {
         return getPropVar();
     }
 
+    @Override
+    public void addToRight() {
+        if (hasParent() 
+                && getParent().hasParent() 
+                && getParent().getParent() instanceof OneOrMoreSpacePropVars) {
+            getParent().getParent().addToRight();
+        } else if (hasParent()
+                && getParent() instanceof OneOrMoreSpacePropVars) {
+            getParent().addToRight();
+        }
+    }
+
 }

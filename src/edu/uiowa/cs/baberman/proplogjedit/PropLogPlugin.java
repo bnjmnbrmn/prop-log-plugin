@@ -38,7 +38,8 @@ public class PropLogPlugin extends EBPlugin {
 
     @Override
     public void stop() {
-        currentProofModel.getProofView().clearTextAreaExtensions();
+        if (currentProofModel != null)
+            currentProofModel.getProofView().clearTextAreaExtensions();
     }
 
     private ProofModel getCurrentProofModel() {

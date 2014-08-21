@@ -29,4 +29,17 @@ public final class ProofItem extends SlipperyNode {
         return (SelectableNode) getSubnode(0);
     }
 
+    @Override
+    public void addToRight() {
+        if (hasParent() 
+                && getParent().hasParent() 
+                && getParent().getParent() instanceof OneOrMoreProofItems) {
+            getParent().getParent().addToRight();
+        } else if (hasParent()
+                && getParent() instanceof OneOrMoreProofItems) {
+            getParent().addToRight();
+        }
+        
+    }
+
 }
