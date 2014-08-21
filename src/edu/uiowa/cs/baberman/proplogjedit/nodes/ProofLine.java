@@ -15,6 +15,12 @@ public final class ProofLine extends InnerNode implements Indentable {
     public ProofLine(int indentationLevel) {
         super();
         this.indentationLevel = indentationLevel;
+        
+        addSubnode(new Terminal("   ", indentationLevel));
+        addSubnode(new Terminal("Fact "));
+        addSubnode(new LineId(true));
+        addSubnode(new Terminal(" : "));
+        addSubnode(new Formula(true));
     }
 
     @Override
@@ -40,6 +46,10 @@ public final class ProofLine extends InnerNode implements Indentable {
     @Override
     public void setIndentationLevel(int newIndentationLevel) {
         this.indentationLevel = newIndentationLevel;
+    }
+    
+    public Formula getFormula() { 
+        return 
     }
 
 }
