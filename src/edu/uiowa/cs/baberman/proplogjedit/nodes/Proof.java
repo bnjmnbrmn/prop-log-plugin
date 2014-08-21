@@ -16,7 +16,7 @@ public final class Proof extends InnerNode {
         addSubnode(new Terminal("Parameters"));
         addSubnode(new OneOrMoreSpacePropVars());
         addSubnode(new Terminal(" : Prop.\n\n"));
-        addSubnode(new OneOrMoreProofItems());
+        addSubnode(new OneOrMoreProofItems(0));
     }
 
     @Override

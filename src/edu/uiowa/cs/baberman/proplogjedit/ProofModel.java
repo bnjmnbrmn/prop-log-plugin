@@ -6,6 +6,7 @@ import edu.uiowa.cs.baberman.kcm.SubmenuKey;
 import edu.uiowa.cs.baberman.kcm.ThirtyKey;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.OneOrMoreSpacePropVars;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.Proof;
+import edu.uiowa.cs.baberman.proplogjedit.nodes.ProofItem;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.PropVar;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.SelectableNode;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.SlipperyNode;
@@ -40,6 +41,7 @@ public final class ProofModel {
         navKey.setMenuItemText("Navigate");
 
         ThirtyKey navMenu = navKey.getSubmenu();
+        
         navMenu.putNewLeaf(ThirtyKey.KeyPosition.H)
                 .addPressAction(new AbstractAction() {
 
@@ -75,6 +77,7 @@ public final class ProofModel {
                     }
                 }).setMenuItemText("Selected Child");
         
+        
         getNavManipKCMRoot().putNewLeaf(ThirtyKey.KeyPosition.PERIOD)
                 .addPressAction(new AbstractAction() {
 
@@ -109,6 +112,17 @@ public final class ProofModel {
             }
         });
         setToKey.setMenuItemText("Set to");
+        
+        ThirtyKey setToMenu = setToKey.getSubmenu();
+        setToMenu.putNewLeaf(ThirtyKey.KeyPosition.R)
+                .addPressAction(new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (getSelectedNode() instanceof ProofItem)
+                    ((ProofItem)getSelectedNode()).setToProofLine();
+            }
+        }).setMenuItemText("Proof Line");
     }
 
     private void initializePropVarKCMTree() {

@@ -4,14 +4,17 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
  *
  * @author bnjmnbrmn
  */
-public final class Section extends InnerNode {
+public final class Section extends InnerNode implements Indentable {
+    private int indentationLevel;
 
-    Section(boolean required) {
+    Section(boolean required, int indendationLevel) {
         super(required);
+        this.indentationLevel = indendationLevel;
     }
     
-    Section() {
+    Section(int indentationLevel) {
         super();
+        this.indentationLevel = indentationLevel;
     }
 
     @Override
@@ -27,6 +30,16 @@ public final class Section extends InnerNode {
     @Override
     public void addToRight() {
         //do nothing
+    }
+
+    @Override
+    public int getIndentationLevel() {
+        return indentationLevel;
+    }
+
+    @Override
+    public void setIndentationLevel(int newIndentationLevel) {
+        indentationLevel = newIndentationLevel;
     }
 
 }

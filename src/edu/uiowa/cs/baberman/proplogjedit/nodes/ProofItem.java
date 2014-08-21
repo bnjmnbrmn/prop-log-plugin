@@ -4,14 +4,17 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
  *
  * @author bnjmnbrmn
  */
-public final class ProofItem extends SlipperyNode {
+public final class ProofItem extends SlipperyNode implements Indentable {
+    private int indentationLevel;
     
-    public ProofItem(boolean required) {
+    public ProofItem(boolean required, int indentationLevel) {
         super(required);
+        this.indentationLevel = indentationLevel;
     }
     
-    public ProofItem() {
+    public ProofItem(int indentationLevel) {
         super();
+        this.indentationLevel = indentationLevel;
     }
 
     @Override
@@ -40,6 +43,21 @@ public final class ProofItem extends SlipperyNode {
             getParent().addToRight();
         }
         
+    }
+
+    public void setToProofLine() {
+        setIsPlaceholder(false);
+        addSubnode(new ProofLine(indentationLevel));
+    }
+
+    @Override
+    public int getIndentationLevel() {
+       return indentationLevel;
+    }
+
+    @Override
+    public void setIndentationLevel(int newIndentationLevel) {
+        this.indentationLevel = newIndentationLevel;
     }
 
 }
