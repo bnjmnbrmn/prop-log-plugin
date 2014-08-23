@@ -13,7 +13,7 @@ public final class Proof extends InnerNode {
         super();
         this.proofModel = proofModel;
 
-        addSubnode(new Terminal("Parameters"));
+        addSubnode(new Terminal("Require Import HuthRyanND.\n\nParameters"));
         addSubnode(new OneOrMoreSpacePropVars());
         addSubnode(new Terminal(" : Prop.\n\n"));
         addSubnode(new OneOrMoreProofItems(0));
@@ -32,11 +32,6 @@ public final class Proof extends InnerNode {
     @Override
     public SelectableNode deepCopy() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void addToRight() {
-        //do nothing
     }
 
 }

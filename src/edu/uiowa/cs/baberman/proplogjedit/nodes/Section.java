@@ -29,7 +29,7 @@ public final class Section extends InnerNode implements Indentable {
 
     @Override
     public void addToRight() {
-        //do nothing
+        //to do
     }
 
     @Override

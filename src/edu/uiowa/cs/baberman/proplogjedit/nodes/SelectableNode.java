@@ -119,8 +119,12 @@ public abstract class SelectableNode extends Node {
 
     public abstract SelectableNode getMostRecentlySelectedChild();
 
-    public abstract void addToRight();
+    public void addToRight() {
+        //do nothing
+    }
 
-    public abstract void setTo();
+    public void setTo() {
+        //do nothing
+    }
     
 }

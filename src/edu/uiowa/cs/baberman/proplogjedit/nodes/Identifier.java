@@ -23,9 +23,9 @@ public abstract class Identifier extends SelectableNode {
     @Override
     public String getText() {
         if (isARequiredPlaceholder()) {
-            return getPlaceholderText();
+            return "(*" + getPlaceholderText() + "*)";
         } else if (isAnOptionalPlaceholder() && isSelectedChild()) {
-            return getPlaceholderText();
+            return "(*" + getPlaceholderText() + "*)";
         } else if (isAnOptionalPlaceholder() && !isSelectedChild()) {
             return "";
         } else {

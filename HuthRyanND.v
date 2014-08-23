@@ -118,6 +118,5 @@ End _1.
 Fact l8 : ~~(phi \/ ~phi). Proof. apply (not_intro l7). Qed.
 Fact l9 : phi \/ ~phi. Proof. apply (not_not_elim l8). Qed.
 
+Check l4.
 
-
-Fact l3 : phi \/ ~phi. Proof. apply (or_intro_l l2). Qed.

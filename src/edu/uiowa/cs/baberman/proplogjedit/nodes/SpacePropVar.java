@@ -36,7 +36,7 @@ public final class SpacePropVar extends SlipperyNode {
     }
 
     @Override
-    SelectableNode getSelectableChild() {
+    public SelectableNode getSelectableChild() {
         return getPropVar();
     }
 

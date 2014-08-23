@@ -28,7 +28,7 @@ public final class ProofItem extends SlipperyNode implements Indentable {
     }
 
     @Override
-    SelectableNode getSelectableChild() {
+    public SelectableNode getSelectableChild() {
         return (SelectableNode) getSubnode(0);
     }
 
@@ -47,7 +47,10 @@ public final class ProofItem extends SlipperyNode implements Indentable {
 
     public void setToProofLine() {
         setIsPlaceholder(false);
-        addSubnode(new ProofLine(indentationLevel));
+        ProofLine pl = new ProofLine(indentationLevel);
+        addSubnode(pl);
+        getProofModel().setSelectedNode(pl.getLineId());
+        getProofModel().getProofView().update();
     }
 
     @Override

@@ -19,11 +19,6 @@ public class LineId extends Identifier {
     }
 
     @Override
-    public void addToRight() {
-        //do nothing
-    }
-
-    @Override
     public void setTo() {
         PropLogPlugin.getInstance().getPropLogKCMS().setCurrentRoot(
         getProofModel().getLineIdKCMRoot());

@@ -21,6 +21,9 @@ public final class ProofLine extends InnerNode implements Indentable {
         addSubnode(new LineId(true));
         addSubnode(new Terminal(" : "));
         addSubnode(new Formula(true));
+        addSubnode(new Terminal(". Proof. apply ("));
+        addSubnode(new Justification(true));
+        addSubnode(new Terminal("). Qed.\n"));
     }
 
     @Override
@@ -35,7 +38,7 @@ public final class ProofLine extends InnerNode implements Indentable {
 
     @Override
     public void addToRight() {
-        //do nothing
+        //to do
     }
 
     @Override
@@ -50,6 +53,10 @@ public final class ProofLine extends InnerNode implements Indentable {
     
     public Formula getFormula() { 
         return (Formula) getSubnode(4);
+    }
+
+    public LineId getLineId() {
+        return (LineId) getSubnode(2);
     }
 
 }

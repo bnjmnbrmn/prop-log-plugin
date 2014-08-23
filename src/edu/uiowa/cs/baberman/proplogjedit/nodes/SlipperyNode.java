@@ -19,5 +19,5 @@ public abstract class SlipperyNode extends InnerNode {
         super();
     }
 
-    abstract SelectableNode getSelectableChild();
+    public abstract SelectableNode getSelectableChild();
 }

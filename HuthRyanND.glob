@@ -1,0 +1,165 @@
+DIGEST 3838350ef501db767e5d2c1c340d4856
+FHuthRyanND
+sec 1956:1963 <> nd_rules
+var 1976:1976 nd_rules P
+var 1978:1978 nd_rules Q
+var 1980:1980 nd_rules R
+ax 1995:2003 <> and_intro
+R2019:2022 Coq.Init.Logic <> :type_scope:x_'/\'_x not
+R2018:2018 HuthRyanND <> nd_rules.P var
+R2023:2023 HuthRyanND <> nd_rules.Q var
+R2012:2012 HuthRyanND <> nd_rules.Q var
+R2007:2007 HuthRyanND <> nd_rules.P var
+ax 2033:2042 <> and_elim_l
+R2058:2058 HuthRyanND <> nd_rules.P var
+R2048:2051 Coq.Init.Logic <> :type_scope:x_'/\'_x not
+R2047:2047 HuthRyanND <> nd_rules.P var
+R2052:2052 HuthRyanND <> nd_rules.Q var
+ax 2067:2076 <> and_elim_r
+R2092:2092 HuthRyanND <> nd_rules.Q var
+R2082:2085 Coq.Init.Logic <> :type_scope:x_'/\'_x not
+R2081:2081 HuthRyanND <> nd_rules.P var
+R2086:2086 HuthRyanND <> nd_rules.Q var
+ax 2101:2110 <> or_intro_l
+R2121:2124 Coq.Init.Logic <> :type_scope:x_'\/'_x not
+R2120:2120 HuthRyanND <> nd_rules.P var
+R2125:2125 HuthRyanND <> nd_rules.Q var
+R2114:2114 HuthRyanND <> nd_rules.P var
+ax 2135:2144 <> or_intro_r
+R2155:2158 Coq.Init.Logic <> :type_scope:x_'\/'_x not
+R2154:2154 HuthRyanND <> nd_rules.P var
+R2159:2159 HuthRyanND <> nd_rules.Q var
+R2148:2148 HuthRyanND <> nd_rules.Q var
+ax 2169:2175 <> or_elim
+R2215:2215 HuthRyanND <> nd_rules.R var
+R2209:2209 HuthRyanND <> nd_rules.R var
+R2204:2204 HuthRyanND <> nd_rules.Q var
+R2197:2197 HuthRyanND <> nd_rules.R var
+R2192:2192 HuthRyanND <> nd_rules.P var
+R2181:2184 Coq.Init.Logic <> :type_scope:x_'\/'_x not
+R2180:2180 HuthRyanND <> nd_rules.P var
+R2185:2185 HuthRyanND <> nd_rules.Q var
+ax 2224:2232 <> impl_elim
+R2253:2253 HuthRyanND <> nd_rules.Q var
+R2247:2247 HuthRyanND <> nd_rules.Q var
+R2242:2242 HuthRyanND <> nd_rules.P var
+R2236:2236 HuthRyanND <> nd_rules.P var
+ax 2262:2270 <> not_intro
+R2290:2290 Coq.Init.Logic <> :type_scope:'~'_x not
+R2291:2291 HuthRyanND <> nd_rules.P var
+R2280:2284 Coq.Init.Logic <> False ind
+R2275:2275 HuthRyanND <> nd_rules.P var
+ax 2300:2307 <> not_elim
+R2322:2326 Coq.Init.Logic <> False ind
+R2316:2316 Coq.Init.Logic <> :type_scope:'~'_x not
+R2317:2317 HuthRyanND <> nd_rules.P var
+R2311:2311 HuthRyanND <> nd_rules.P var
+ax 2335:2344 <> false_elim
+R2357:2357 HuthRyanND <> nd_rules.P var
+R2348:2352 Coq.Init.Logic <> False ind
+ax 2366:2377 <> not_not_elim
+R2390:2390 HuthRyanND <> nd_rules.P var
+R2381:2382 Coq.Init.Logic <> :type_scope:'~'_x not
+R2385:2385 Coq.Init.Logic <> :type_scope:'~'_x not
+R2383:2383 Coq.Init.Logic <> :type_scope:'~'_x not
+R2384:2384 HuthRyanND <> nd_rules.P var
+R2397:2404 HuthRyanND nd_rules <> sec
+R2417:2425 HuthRyanND <> and_intro prfax
+R2417:2425 HuthRyanND <> and_intro prfax
+R2450:2459 HuthRyanND <> and_elim_l prfax
+R2450:2459 HuthRyanND <> and_elim_l prfax
+R2482:2491 HuthRyanND <> and_elim_r prfax
+R2482:2491 HuthRyanND <> and_elim_r prfax
+R2514:2523 HuthRyanND <> or_intro_l prfax
+R2514:2523 HuthRyanND <> or_intro_l prfax
+R2546:2555 HuthRyanND <> or_intro_r prfax
+R2546:2555 HuthRyanND <> or_intro_r prfax
+R2578:2584 HuthRyanND <> or_elim prfax
+R2578:2584 HuthRyanND <> or_elim prfax
+R2615:2623 HuthRyanND <> impl_elim prfax
+R2615:2623 HuthRyanND <> impl_elim prfax
+R2648:2656 HuthRyanND <> not_intro prfax
+R2648:2656 HuthRyanND <> not_intro prfax
+R2677:2684 HuthRyanND <> not_elim prfax
+R2677:2684 HuthRyanND <> not_elim prfax
+R2705:2714 HuthRyanND <> false_elim prfax
+R2705:2714 HuthRyanND <> false_elim prfax
+R2733:2744 HuthRyanND <> not_not_elim prfax
+R2733:2744 HuthRyanND <> not_not_elim prfax
+ax 2767:2769 <> phi
+sec 2789:2790 <> _1
+var 2806:2807 _1 l1
+R2811:2812 Coq.Init.Logic <> :type_scope:'~'_x not
+R2824:2824 Coq.Init.Logic <> :type_scope:'~'_x not
+R2816:2819 Coq.Init.Logic <> :type_scope:x_'\/'_x not
+R2813:2815 HuthRyanND <> phi defax
+R2820:2820 Coq.Init.Logic <> :type_scope:'~'_x not
+R2821:2823 HuthRyanND <> phi defax
+sec 2837:2840 _1 _1_1
+var 2858:2859 _1._1_1 l2
+R2863:2865 HuthRyanND <> phi defax
+prf 2877:2878 <> l3
+R2885:2888 Coq.Init.Logic <> :type_scope:x_'\/'_x not
+R2882:2884 HuthRyanND <> phi defax
+R2889:2889 Coq.Init.Logic <> :type_scope:'~'_x not
+R2890:2892 HuthRyanND <> phi defax
+R2910:2919 HuthRyanND <> or_intro_l prfax
+R2921:2922 HuthRyanND <> _1._1_1.l2 var
+R2910:2919 HuthRyanND <> or_intro_l prfax
+R2921:2922 HuthRyanND <> _1._1_1.l2 var
+prf 2940:2941 <> l4
+R2945:2949 Coq.Init.Logic <> False ind
+R2966:2973 HuthRyanND <> not_elim prfax
+R2978:2979 HuthRyanND <> _1.l1 var
+R2975:2976 HuthRyanND <> l3 thm
+R2966:2973 HuthRyanND <> not_elim prfax
+R2978:2979 HuthRyanND <> _1.l1 var
+R2975:2976 HuthRyanND <> l3 thm
+R2994:2997 HuthRyanND _1._1_1 <> sec
+prf 3007:3008 <> l5
+R3012:3012 Coq.Init.Logic <> :type_scope:'~'_x not
+R3013:3015 HuthRyanND <> phi defax
+R3032:3040 HuthRyanND <> not_intro prfax
+R3042:3043 HuthRyanND <> l4 thm
+R3032:3040 HuthRyanND <> not_intro prfax
+R3042:3043 HuthRyanND <> l4 thm
+prf 3059:3060 <> l6
+R3067:3070 Coq.Init.Logic <> :type_scope:x_'\/'_x not
+R3064:3066 HuthRyanND <> phi defax
+R3071:3071 Coq.Init.Logic <> :type_scope:'~'_x not
+R3072:3074 HuthRyanND <> phi defax
+R3091:3100 HuthRyanND <> or_intro_r prfax
+R3102:3103 HuthRyanND <> l5 thm
+R3091:3100 HuthRyanND <> or_intro_r prfax
+R3102:3103 HuthRyanND <> l5 thm
+prf 3119:3120 <> l7
+R3124:3128 Coq.Init.Logic <> False ind
+R3145:3152 HuthRyanND <> not_elim prfax
+R3157:3158 HuthRyanND <> _1.l1 var
+R3154:3155 HuthRyanND <> l6 thm
+R3145:3152 HuthRyanND <> not_elim prfax
+R3157:3158 HuthRyanND <> _1.l1 var
+R3154:3155 HuthRyanND <> l6 thm
+R3171:3172 HuthRyanND _1 <> sec
+prf 3180:3181 <> l8
+R3185:3185 Coq.Init.Logic <> :type_scope:'~'_x not
+R3186:3187 Coq.Init.Logic <> :type_scope:'~'_x not
+R3199:3199 Coq.Init.Logic <> :type_scope:'~'_x not
+R3191:3194 Coq.Init.Logic <> :type_scope:x_'\/'_x not
+R3188:3190 HuthRyanND <> phi defax
+R3195:3195 Coq.Init.Logic <> :type_scope:'~'_x not
+R3196:3198 HuthRyanND <> phi defax
+R3216:3224 HuthRyanND <> not_intro prfax
+R3226:3227 HuthRyanND <> l7 thm
+R3216:3224 HuthRyanND <> not_intro prfax
+R3226:3227 HuthRyanND <> l7 thm
+prf 3241:3242 <> l9
+R3249:3252 Coq.Init.Logic <> :type_scope:x_'\/'_x not
+R3246:3248 HuthRyanND <> phi defax
+R3253:3253 Coq.Init.Logic <> :type_scope:'~'_x not
+R3254:3256 HuthRyanND <> phi defax
+R3273:3284 HuthRyanND <> not_not_elim prfax
+R3286:3287 HuthRyanND <> l8 thm
+R3273:3284 HuthRyanND <> not_not_elim prfax
+R3286:3287 HuthRyanND <> l8 thm
+R3303:3304 HuthRyanND <> l4 thm

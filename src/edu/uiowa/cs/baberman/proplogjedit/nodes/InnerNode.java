@@ -31,23 +31,16 @@ public abstract class InnerNode extends SelectableNode {
 
     @Override
     public String getText() {
-        if (isARequiredPlaceholder()
-                || (isAnOptionalPlaceholder() && isSelectedChild())) {
-
+        if (isARequiredPlaceholder() || (isAnOptionalPlaceholder() && isSelectedChild())) {
             return "(*" + getPlaceholderText() + "*)";
-
         } else if (isAnOptionalPlaceholder() && !isSelectedChild()) {
-
             return "";
-
         } else {
-
             String text = "";
             for (Node subnode : getSubnodes()) {
                 text += subnode.getText();
             }
             return text;
-
         }
     }
 
@@ -147,11 +140,4 @@ public abstract class InnerNode extends SelectableNode {
         return descendantBranchSelectionList;
     }
 
-    @Override
-    public void setTo() {
-        //do nothing
-    }
-
-    
-    
 }
