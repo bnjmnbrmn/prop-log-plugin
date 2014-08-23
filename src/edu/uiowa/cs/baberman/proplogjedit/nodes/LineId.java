@@ -1,4 +1,3 @@
-
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
 import edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin;
@@ -21,12 +20,12 @@ public class LineId extends Identifier {
     @Override
     public void setTo() {
         PropLogPlugin.getInstance().getPropLogKCMS().setCurrentRoot(
-        getProofModel().getLineIdKCMRoot());
+                getProofModel().getLineIdKCMRoot());
     }
 
     @Override
     public SelectableNode deepCopy() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

@@ -37,14 +37,12 @@ public class Highlight extends TextAreaExtension {
             int start,
             int end,
             int y) {
-
-//        JEditBuffer buf = jEdit.getActiveView().getTextArea().getBuffer();
+        
         JEditBuffer buf = textArea.getBuffer();
         int bufLength = buf.getLength();
 
         int lh = textArea.getPainter().getLineHeight();
         gfx.setPaint(fillPaint);
-        //gfx.setStroke(new BasicStroke(2));
 
         Point startPoint;
         startPoint = textArea.offsetToXY(start);
@@ -92,7 +90,7 @@ public class Highlight extends TextAreaExtension {
 
         if (start <= startOffset
                 && startOffset < end - 1
-                && end < endOffset) {
+                && end <= endOffset) {
 
             rectx = sothSectionPoint.x;
             recty = startPoint.y;
@@ -112,7 +110,7 @@ public class Highlight extends TextAreaExtension {
         }
 
         if (startOffset < start
-                && start < endOffset
+                && start <= endOffset
                 && endOffset <= end - 1) {
 
             rectx = startPoint.x;

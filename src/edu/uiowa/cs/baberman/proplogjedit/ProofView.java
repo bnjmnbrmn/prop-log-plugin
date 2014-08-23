@@ -135,6 +135,10 @@ public class ProofView {
 
         Highlight selectedNodeHighlight = new Highlight(textArea, selectedNodeFill,
                 selectedNodeStroke, selectedNodeOffset, selectedNodeOffset + selectedNode.getText().length());
+        
+        System.out.println("selectedNode.getText():"+selectedNode.getOffset());
+        System.out.println("selectedNode.getText():"+selectedNode.getText());
+        
         textArea.getPainter().addExtension(selectedNodeHighlight);
         textAreaExtensionsWithTextAreas.put(selectedNodeHighlight, textArea);
     }

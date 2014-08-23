@@ -27,8 +27,8 @@ public final class PropVar extends Identifier {
 
     @Override
     public void addToRight() {
-        if (hasParent() 
-                && getParent().hasParent() 
+        if (hasParent()
+                && getParent().hasParent()
                 && getParent().getParent() instanceof OneOrMoreSpacePropVars) {
             getParent().getParent().addToRight();
         }
@@ -36,8 +36,8 @@ public final class PropVar extends Identifier {
 
     @Override
     public void setTo() {
-        PropLogPlugin.getInstance().getPropLogKCMS().setCurrentRoot(getProofModel().getPropVarKCMRoot());
+        PropLogPlugin.getInstance().getPropLogKCMS()
+                .setCurrentRoot(getProofModel().getPropVarKCMRoot());
     }
-
 
 }
