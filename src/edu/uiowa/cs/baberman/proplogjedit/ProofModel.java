@@ -6,6 +6,7 @@ import edu.uiowa.cs.baberman.kcm.SubmenuKey;
 import edu.uiowa.cs.baberman.kcm.ThirtyKey;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.Formula;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.Identifier;
+import edu.uiowa.cs.baberman.proplogjedit.nodes.InnerNode;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.LineId;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.OneOrMoreSpacePropVars;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.Proof;
@@ -128,6 +129,28 @@ public final class ProofModel {
                         }
                     }
                 }).setMenuItemText("Proof Line");
+        
+        SubmenuKey<ThirtyKey> operatorKey;
+        operatorKey 
+                = setToMenu.putNewSubmenu(ThirtyKey.KeyPosition.F.getVK_CODE())
+                .setMenuItemText("Operator");
+        
+        ThirtyKey operatorMenu = operatorKey.getSubmenu();
+        
+        operatorMenu.putNewLeaf(ThirtyKey.KeyPosition.D)
+                .setMenuItemText("->\n(IMPLIES)")
+                .addPressAction(new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (getSelectedNode() instanceof Formula) {
+                    Formula selectedFormula = (Formula) getSelectedNode();
+                    selectedFormula.setToImplies();
+                }
+            }
+        });
+       
+                
     }
 
     private void initializeIdentifierEditingKCMTreeRootCard(ThirtyKey root) {
@@ -312,8 +335,10 @@ public final class ProofModel {
     public void setSelectionMode(SelectionMode selectionMode) {
         this.selectionMode = selectionMode;
         if (selectionMode == SelectionMode.LEAF) {
-            while (getSelectedNode().hasSelectableSubnode()) {
-                setSelectedNode(getSelectedNode().getMostRecentlySelectedChild());
+            while (getSelectedNode() instanceof InnerNode 
+                    && ((InnerNode)getSelectedNode()).hasSelectableSubnode()) {
+                setSelectedNode(((InnerNode)getSelectedNode())
+                        .getMostRecentlySelectedChild());
             }
         }
         getProofView().update();
@@ -394,11 +419,12 @@ public final class ProofModel {
             return;
         }
 
-        if (getSelectedNode().hasSelectableSubnode()) {
-            setSelectedNode(getSelectedNode().getMostRecentlySelectedChild());
+        if (getSelectedNode() instanceof InnerNode &&
+                ((InnerNode)getSelectedNode()).hasSelectableSubnode()) {
+            setSelectedNode(((InnerNode)getSelectedNode()).getMostRecentlySelectedChild());
             while (getSelectedNode() instanceof SlipperyNode
-                    && getSelectedNode().hasSelectableSubnode()) {
-                setSelectedNode(getSelectedNode().getMostRecentlySelectedChild());
+                    && ((SlipperyNode)getSelectedNode()).hasSelectableSubnode()) {
+                setSelectedNode(((SlipperyNode)getSelectedNode()).getMostRecentlySelectedChild());
             }
         }
     }

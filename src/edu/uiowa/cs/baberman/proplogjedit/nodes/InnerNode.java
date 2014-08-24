@@ -113,12 +113,10 @@ public abstract class InnerNode extends SelectableNode {
         mostRecentlySelectedSubnode = newMostRecentlySelectedSubnode;
     }
 
-    @Override
     public boolean hasSelectableSubnode() {
         return !isPlaceholder() && getSelectableSubnodes().size() > 0;
     }
 
-    @Override
     public SelectableNode getMostRecentlySelectedChild() {
         if (mostRecentlySelectedSubnode == null) {
             mostRecentlySelectedSubnode = getSelectableSubnodes().get(0);
