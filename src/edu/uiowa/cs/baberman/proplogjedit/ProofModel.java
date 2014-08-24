@@ -234,6 +234,7 @@ public final class ProofModel {
         KCMS propLogKCMS = PropLogPlugin.getInstance().getPropLogKCMS();
         propLogKCMS.addRoot(navManipKCMRoot);
         propLogKCMS.addRoot(propVarKCMRoot);
+        propLogKCMS.addRoot(lineIdKCMRoot);
         propLogKCMS.setCurrentRoot(propVarKCMRoot);
 
         proofView.update();
