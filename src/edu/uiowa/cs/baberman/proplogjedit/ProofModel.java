@@ -140,8 +140,9 @@ public final class ProofModel {
                         .addPressAction(new AbstractAction() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                PropVar selectedPropVar = (PropVar) getSelectedNode();
-                                selectedPropVar.appendToIdentifierString(letter);
+                                Identifier selectedIdentifier
+                                = (Identifier) getSelectedNode();
+                                selectedIdentifier.appendToIdentifierString(letter);
                             }
                         });
             }
@@ -172,6 +173,39 @@ public final class ProofModel {
                         selectedIdentifier.applyBackspace();
                     }
                 });
+
+        //add Number entry submenu
+        SubmenuKey<ThirtyKey> digitsKey
+                = root.putNewSubmenu(ThirtyKey.KeyPosition.SEMICOLON.getVK_CODE())
+                .setMenuItemText("Digits");
+
+        Object[][] pairs
+                = {
+                    {"7", KeyEvent.VK_W},
+                    {"8", KeyEvent.VK_E},
+                    {"9", KeyEvent.VK_R},
+                    {"4", KeyEvent.VK_S},
+                    {"5", KeyEvent.VK_D},
+                    {"6", KeyEvent.VK_F},
+                    {"1", KeyEvent.VK_X},
+                    {"2", KeyEvent.VK_C},
+                    {"3", KeyEvent.VK_V},
+                    {"0", KeyEvent.VK_Z}
+                    
+                };
+        for (final Object[] pair : pairs) {
+            digitsKey.getSubmenu()
+                    .putNewLeaf((Integer) pair[1])
+                    .setMenuItemText((String) pair[0])
+                    .addPressAction(new AbstractAction() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            Identifier selectedIdentifier
+                                = (Identifier) getSelectedNode();
+                                selectedIdentifier.appendToIdentifierString((String) pair[0]);
+                        }
+                    });
+        }
     }
 
     private void initializePropVarKCMTree() {
