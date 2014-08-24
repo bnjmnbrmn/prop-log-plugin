@@ -248,6 +248,8 @@ public final class ProofModel {
                         Formula formulaForLineformulaForLine;
                         formulaForLineformulaForLine = (Formula) parent.getFormula();
                         setSelectedNode(formulaForLineformulaForLine);
+                        
+                        PropLogPlugin.getInstance().getPropLogKCMS().setCurrentRoot(navManipKCMRoot);
                     }
                 });
     }
