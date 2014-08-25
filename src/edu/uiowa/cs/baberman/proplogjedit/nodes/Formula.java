@@ -36,4 +36,14 @@ public class Formula extends InnerNode {
         
     }
 
+    public void setToUnaryOp(UnaryOp.OpType opType) {
+        getSubnodes().clear();
+        setIsPlaceholder(false);
+        
+        addSubnode(new UnaryOp(opType));
+        addSubnode(new Formula(true));
+        
+        getProofModel().setSelectedNode((Formula) getSubnode(1));
+    }
+
 }

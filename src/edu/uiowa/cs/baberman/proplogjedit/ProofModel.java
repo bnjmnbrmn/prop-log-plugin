@@ -17,6 +17,7 @@ import edu.uiowa.cs.baberman.proplogjedit.nodes.PropVar;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.SelectableNode;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.SlipperyNode;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.SpacePropVar;
+import edu.uiowa.cs.baberman.proplogjedit.nodes.UnaryOp;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.List;
@@ -168,6 +169,18 @@ public final class ProofModel {
                 if (getSelectedNode() instanceof Formula) {
                     Formula selectedFormula = (Formula) getSelectedNode();
                     selectedFormula.setToBinaryOp(BinaryOp.OpType.OR);
+                }
+            }
+        });
+        operatorMenu.putNewLeaf(ThirtyKey.KeyPosition.Q)
+                .setMenuItemText("~\n(NOT)")
+                .addPressAction(new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (getSelectedNode() instanceof Formula) {
+                    Formula selectedFormula = (Formula) getSelectedNode();
+                    selectedFormula.setToUnaryOp(UnaryOp.OpType.NOT);
                 }
             }
         });

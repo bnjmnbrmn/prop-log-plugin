@@ -1,13 +1,15 @@
+
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
 /**
  *
  * @author bnjmnbrmn
  */
-public class BinaryOp extends SelectableNode {
+public class UnaryOp extends SelectableNode {
 
     public enum OpType {
-        IMPLIES("->"), AND("/\\"), OR("\\/");
+        
+        NOT("~");
         
         final String text;
         
@@ -21,14 +23,14 @@ public class BinaryOp extends SelectableNode {
     }
     
     private OpType opType;
-
-    public BinaryOp(OpType opType) {
+    
+    public UnaryOp(OpType opType) {
         this.opType = opType;
     }
-
+    
     @Override
     public String getPlaceholderText() {
-        return "BINARY OPERATOR";
+       return "UNARY OPERATOR";
     }
 
     @Override
@@ -40,4 +42,5 @@ public class BinaryOp extends SelectableNode {
     public SelectableNode deepCopy() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
 }
