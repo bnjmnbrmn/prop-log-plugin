@@ -1,4 +1,3 @@
-
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
 /**
@@ -21,17 +20,20 @@ public class Formula extends InnerNode {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void setToImplies() {
+    public void setToBinaryOp(BinaryOp.OpType opType) {
+        getSubnodes().clear();
         setIsPlaceholder(false);
+        
         addSubnode(new Terminal("("));
         addSubnode(new Formula(true));
         addSubnode(new Terminal(" "));
-        addSubnode(new BinaryOp(BinaryOp.OpType.IMPLIES));
+        addSubnode(new BinaryOp(opType));
         addSubnode(new Terminal(" "));
         addSubnode(new Formula(true));
         addSubnode(new Terminal(")"));
+
+        getProofModel().setSelectedNode((Formula) getSubnode(1));
         
-        getProofModel().setSelectedNode((Formula)getSubnode(1));
     }
-    
+
 }

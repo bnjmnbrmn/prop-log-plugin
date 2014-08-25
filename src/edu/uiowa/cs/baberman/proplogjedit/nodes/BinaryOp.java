@@ -7,7 +7,7 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
 public class BinaryOp extends SelectableNode {
 
     public enum OpType {
-        IMPLIES("->");
+        IMPLIES("->"), AND("/\\"), OR("\\/");
         
         final String text;
         

@@ -4,6 +4,7 @@ import edu.uiowa.cs.baberman.kcm.KCMS;
 import edu.uiowa.cs.baberman.kcm.KeyboardCard;
 import edu.uiowa.cs.baberman.kcm.SubmenuKey;
 import edu.uiowa.cs.baberman.kcm.ThirtyKey;
+import edu.uiowa.cs.baberman.proplogjedit.nodes.BinaryOp;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.Formula;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.Identifier;
 import edu.uiowa.cs.baberman.proplogjedit.nodes.InnerNode;
@@ -140,12 +141,33 @@ public final class ProofModel {
         operatorMenu.putNewLeaf(ThirtyKey.KeyPosition.D)
                 .setMenuItemText("->\n(IMPLIES)")
                 .addPressAction(new AbstractAction() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (getSelectedNode() instanceof Formula) {
                     Formula selectedFormula = (Formula) getSelectedNode();
-                    selectedFormula.setToImplies();
+                    selectedFormula.setToBinaryOp(BinaryOp.OpType.IMPLIES);
+                }
+            }
+        });
+        operatorMenu.putNewLeaf(ThirtyKey.KeyPosition.S)
+                .setMenuItemText("/\\\n(AND)")
+                .addPressAction(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (getSelectedNode() instanceof Formula) {
+                    Formula selectedFormula = (Formula) getSelectedNode();
+                    selectedFormula.setToBinaryOp(BinaryOp.OpType.AND);
+                }
+            }
+        });
+        operatorMenu.putNewLeaf(ThirtyKey.KeyPosition.A)
+                .setMenuItemText("\\/\n(OR)")
+                .addPressAction(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (getSelectedNode() instanceof Formula) {
+                    Formula selectedFormula = (Formula) getSelectedNode();
+                    selectedFormula.setToBinaryOp(BinaryOp.OpType.OR);
                 }
             }
         });
