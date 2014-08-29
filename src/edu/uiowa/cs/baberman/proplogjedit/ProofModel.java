@@ -132,6 +132,16 @@ public final class ProofModel {
                         }
                     }
                 }).setMenuItemText("Proof Line");
+        setToMenu.putNewLeaf(ThirtyKey.KeyPosition.E)
+                .addPressAction(new AbstractAction() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (getSelectedNode() instanceof ProofItem) {
+                            //to do
+                        }
+                    }
+                }).setMenuItemText("Section");
         setToMenu.putNewLeaf(ThirtyKey.KeyPosition.D)
                 .addPressAction(new AbstractAction() {
 
@@ -143,6 +153,12 @@ public final class ProofModel {
                         }
                     }
                 }).setMenuItemText("Propositional Variable");
+        
+        SubmenuKey<ThirtyKey> justificationKey;
+        justificationKey
+                = setToMenu.putNewSubmenu(ThirtyKey.KeyPosition.T.getVK_CODE())
+                .setMenuItemText("Justification");
+
         SubmenuKey<ThirtyKey> operatorKey;
         operatorKey
                 = setToMenu.putNewSubmenu(ThirtyKey.KeyPosition.F.getVK_CODE())
@@ -223,7 +239,7 @@ public final class ProofModel {
                         //to do
                     }
                 });
-        
+
         getNavManipKCMRoot().putNewLeaf(ThirtyKey.KeyPosition.R)
                 .setMenuItemText("Clear")
                 .addPressAction(new AbstractAction() {
