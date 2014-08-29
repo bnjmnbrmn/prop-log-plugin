@@ -39,8 +39,9 @@ public final class ProofModel {
     private SelectableNode selectedNode;
     private ProofView proofView;
     private final ThirtyKey navManipKCMRoot;
-    private final ThirtyKey propVarKCMRoot;
+    private final ThirtyKey propVarDeclareKCMRoot;
     private final ThirtyKey lineIdKCMRoot;
+    private final ThirtyKey propVarUseKCMRoot;
 
     //Initialization code (called by constructor): 
     private void initializeNavManipKCMTree() {
@@ -131,61 +132,70 @@ public final class ProofModel {
                         }
                     }
                 }).setMenuItemText("Proof Line");
-        
+        setToMenu.putNewLeaf(ThirtyKey.KeyPosition.D)
+                .addPressAction(new AbstractAction() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (getSelectedNode() instanceof Formula) {
+                            Formula selectedFormula = (Formula) getSelectedNode();
+                            selectedFormula.setToPropVar();
+                        }
+                    }
+                }).setMenuItemText("Propositional Variable");
+
         SubmenuKey<ThirtyKey> operatorKey;
-        operatorKey 
+        operatorKey
                 = setToMenu.putNewSubmenu(ThirtyKey.KeyPosition.F.getVK_CODE())
                 .setMenuItemText("Operator");
-        
+
         ThirtyKey operatorMenu = operatorKey.getSubmenu();
-        
         operatorMenu.putNewLeaf(ThirtyKey.KeyPosition.D)
                 .setMenuItemText("->\n(IMPLIES)")
                 .addPressAction(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (getSelectedNode() instanceof Formula) {
-                    Formula selectedFormula = (Formula) getSelectedNode();
-                    selectedFormula.setToBinaryOp(BinaryOp.OpType.IMPLIES);
-                }
-            }
-        });
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (getSelectedNode() instanceof Formula) {
+                            Formula selectedFormula = (Formula) getSelectedNode();
+                            selectedFormula.setToBinaryOp(BinaryOp.OpType.IMPLIES);
+                        }
+                    }
+                });
         operatorMenu.putNewLeaf(ThirtyKey.KeyPosition.S)
                 .setMenuItemText("/\\\n(AND)")
                 .addPressAction(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (getSelectedNode() instanceof Formula) {
-                    Formula selectedFormula = (Formula) getSelectedNode();
-                    selectedFormula.setToBinaryOp(BinaryOp.OpType.AND);
-                }
-            }
-        });
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (getSelectedNode() instanceof Formula) {
+                            Formula selectedFormula = (Formula) getSelectedNode();
+                            selectedFormula.setToBinaryOp(BinaryOp.OpType.AND);
+                        }
+                    }
+                });
         operatorMenu.putNewLeaf(ThirtyKey.KeyPosition.A)
                 .setMenuItemText("\\/\n(OR)")
                 .addPressAction(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (getSelectedNode() instanceof Formula) {
-                    Formula selectedFormula = (Formula) getSelectedNode();
-                    selectedFormula.setToBinaryOp(BinaryOp.OpType.OR);
-                }
-            }
-        });
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (getSelectedNode() instanceof Formula) {
+                            Formula selectedFormula = (Formula) getSelectedNode();
+                            selectedFormula.setToBinaryOp(BinaryOp.OpType.OR);
+                        }
+                    }
+                });
         operatorMenu.putNewLeaf(ThirtyKey.KeyPosition.Q)
                 .setMenuItemText("~\n(NOT)")
                 .addPressAction(new AbstractAction() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (getSelectedNode() instanceof Formula) {
-                    Formula selectedFormula = (Formula) getSelectedNode();
-                    selectedFormula.setToUnaryOp(UnaryOp.OpType.NOT);
-                }
-            }
-        });
-       
-                
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (getSelectedNode() instanceof Formula) {
+                            Formula selectedFormula = (Formula) getSelectedNode();
+                            selectedFormula.setToUnaryOp(UnaryOp.OpType.NOT);
+                        }
+                    }
+                });
+
     }
 
     private void initializeIdentifierEditingKCMTreeRootCard(ThirtyKey root) {
@@ -249,7 +259,7 @@ public final class ProofModel {
                     {"2", KeyEvent.VK_C},
                     {"3", KeyEvent.VK_V},
                     {"0", KeyEvent.VK_Z}
-                    
+
                 };
         for (final Object[] pair : pairs) {
             digitsKey.getSubmenu()
@@ -259,19 +269,19 @@ public final class ProofModel {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             Identifier selectedIdentifier
-                                = (Identifier) getSelectedNode();
-                                selectedIdentifier.appendToIdentifierString((String) pair[0]);
+                            = (Identifier) getSelectedNode();
+                            selectedIdentifier.appendToIdentifierString((String) pair[0]);
                         }
                     });
         }
     }
 
-    private void initializePropVarKCMTree() {
+    private void initializePropVarDeclareKCMTree() {
 
-        initializeIdentifierEditingKCMTreeRootCard(propVarKCMRoot);
+        initializeIdentifierEditingKCMTreeRootCard(propVarDeclareKCMRoot);
 
         //Add Add Prop Var key
-        propVarKCMRoot.putNewLeaf(ThirtyKey.KeyPosition.COMMA.getVK_CODE())
+        propVarDeclareKCMRoot.putNewLeaf(ThirtyKey.KeyPosition.COMMA.getVK_CODE())
                 .setMenuItemText("Add Prop Var")
                 .addPressAction(new AbstractAction() {
                     @Override
@@ -306,10 +316,14 @@ public final class ProofModel {
                         Formula formulaForLineformulaForLine;
                         formulaForLineformulaForLine = (Formula) parent.getFormula();
                         setSelectedNode(formulaForLineformulaForLine);
-                        
+
                         PropLogPlugin.getInstance().getPropLogKCMS().setCurrentRoot(navManipKCMRoot);
                     }
                 });
+    }
+    
+    private void initializePropVarUseKCMTree() {
+        initializeIdentifierEditingKCMTreeRootCard(propVarUseKCMRoot);
     }
 
     ProofModel() {
@@ -320,16 +334,19 @@ public final class ProofModel {
 
         navManipKCMRoot = ThirtyKey.createRootCard();
         initializeNavManipKCMTree();
-        propVarKCMRoot = ThirtyKey.createRootCard();
-        initializePropVarKCMTree();
+        propVarDeclareKCMRoot = ThirtyKey.createRootCard();
+        initializePropVarDeclareKCMTree();
         lineIdKCMRoot = ThirtyKey.createRootCard();
         initializeLineIdKCMTree();
+        propVarUseKCMRoot = ThirtyKey.createRootCard();
+        initializePropVarUseKCMTree();
 
         KCMS propLogKCMS = PropLogPlugin.getInstance().getPropLogKCMS();
         propLogKCMS.addRoot(navManipKCMRoot);
-        propLogKCMS.addRoot(propVarKCMRoot);
+        propLogKCMS.addRoot(propVarDeclareKCMRoot);
         propLogKCMS.addRoot(lineIdKCMRoot);
-        propLogKCMS.setCurrentRoot(propVarKCMRoot);
+        propLogKCMS.addRoot(propVarUseKCMRoot);
+        propLogKCMS.setCurrentRoot(propVarDeclareKCMRoot);
 
         proofView.update();
     }
@@ -339,12 +356,16 @@ public final class ProofModel {
         return navManipKCMRoot;
     }
 
-    public ThirtyKey getPropVarKCMRoot() {
-        return propVarKCMRoot;
+    public ThirtyKey getPropVarDeclareKCMRoot() {
+        return propVarDeclareKCMRoot;
     }
 
     public ThirtyKey getLineIdKCMRoot() {
         return lineIdKCMRoot;
+    }
+
+    public KeyboardCard getPropVarUseKCMRoot() {
+        return propVarUseKCMRoot;
     }
 
     public Proof getRoot() {
@@ -370,9 +391,9 @@ public final class ProofModel {
     public void setSelectionMode(SelectionMode selectionMode) {
         this.selectionMode = selectionMode;
         if (selectionMode == SelectionMode.LEAF) {
-            while (getSelectedNode() instanceof InnerNode 
-                    && ((InnerNode)getSelectedNode()).hasSelectableSubnode()) {
-                setSelectedNode(((InnerNode)getSelectedNode())
+            while (getSelectedNode() instanceof InnerNode
+                    && ((InnerNode) getSelectedNode()).hasSelectableSubnode()) {
+                setSelectedNode(((InnerNode) getSelectedNode())
                         .getMostRecentlySelectedChild());
             }
         }
@@ -384,6 +405,8 @@ public final class ProofModel {
     }
 
     public void setSelectedNode(SelectableNode selectedNode) {
+        System.out.println("selectedNode class:"+selectedNode.getClass().toString());
+        
         this.selectedNode = selectedNode;
         getProofView().update();
     }
@@ -454,12 +477,12 @@ public final class ProofModel {
             return;
         }
 
-        if (getSelectedNode() instanceof InnerNode &&
-                ((InnerNode)getSelectedNode()).hasSelectableSubnode()) {
-            setSelectedNode(((InnerNode)getSelectedNode()).getMostRecentlySelectedChild());
+        if (getSelectedNode() instanceof InnerNode
+                && ((InnerNode) getSelectedNode()).hasSelectableSubnode()) {
+            setSelectedNode(((InnerNode) getSelectedNode()).getMostRecentlySelectedChild());
             while (getSelectedNode() instanceof SlipperyNode
-                    && ((SlipperyNode)getSelectedNode()).hasSelectableSubnode()) {
-                setSelectedNode(((SlipperyNode)getSelectedNode()).getMostRecentlySelectedChild());
+                    && ((SlipperyNode) getSelectedNode()).hasSelectableSubnode()) {
+                setSelectedNode(((SlipperyNode) getSelectedNode()).getMostRecentlySelectedChild());
             }
         }
     }

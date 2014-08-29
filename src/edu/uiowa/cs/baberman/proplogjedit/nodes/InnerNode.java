@@ -77,19 +77,28 @@ public abstract class InnerNode extends SelectableNode {
         List<SelectableNode> selectableLeaves = new ArrayList<SelectableNode>();
 
         for (SelectableNode selectableSubnode : getSelectableSubnodes()) {
-            if (selectableSubnode instanceof Identifier) {
-                selectableLeaves.add(selectableSubnode);
-            } else if (selectableSubnode instanceof InnerNode) {
-                InnerNode innerSubnode = (InnerNode) selectableSubnode;
-                if (innerSubnode.isARequiredPlaceholder()
-                        || innerSubnode.isAnOptionalPlaceholder()) {
-                    selectableLeaves.add(innerSubnode);
-                } else {
-                    for (SelectableNode selectableLeaf : innerSubnode.getSelectableLeaves()) {
-                        selectableLeaves.add(selectableLeaf);
-                    }
+
+            if (selectableSubnode instanceof InnerNode && !selectableSubnode.isPlaceholder()) {
+                for (SelectableNode selectableLeaf : ((InnerNode) selectableSubnode).getSelectableLeaves()) {
+                    selectableLeaves.add(selectableLeaf);
                 }
+            } else {
+                selectableLeaves.add(selectableSubnode);
             }
+
+//            if (selectableSubnode instanceof Identifier) {
+//                selectableLeaves.add(selectableSubnode);
+//            } else if (selectableSubnode instanceof InnerNode) {
+//                InnerNode innerSubnode = (InnerNode) selectableSubnode;
+//                if (innerSubnode.isARequiredPlaceholder()
+//                        || innerSubnode.isAnOptionalPlaceholder()) {
+//                    selectableLeaves.add(innerSubnode);
+//                } else {
+//                    for (SelectableNode selectableLeaf : innerSubnode.getSelectableLeaves()) {
+//                        selectableLeaves.add(selectableLeaf);
+//                    }
+//                }
+//            }
         }
 
         return selectableLeaves;

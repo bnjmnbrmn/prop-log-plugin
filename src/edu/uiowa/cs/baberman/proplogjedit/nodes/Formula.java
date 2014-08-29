@@ -1,5 +1,7 @@
 package edu.uiowa.cs.baberman.proplogjedit.nodes;
 
+import edu.uiowa.cs.baberman.proplogjedit.PropLogPlugin;
+
 /**
  *
  * @author bnjmnbrmn
@@ -44,6 +46,18 @@ public class Formula extends InnerNode {
         addSubnode(new Formula(true));
         
         getProofModel().setSelectedNode((Formula) getSubnode(1));
+    }
+
+    public void setToPropVar() {
+        getSubnodes().clear();
+        setIsPlaceholder(false);
+        
+        addSubnode(new PropVar(true));
+        
+        getProofModel().setSelectedNode((PropVar) getSubnode(0));
+        
+        PropLogPlugin.getInstance()
+                .getPropLogKCMS().setCurrentRoot(getProofModel().getPropVarUseKCMRoot());
     }
 
 }

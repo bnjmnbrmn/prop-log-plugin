@@ -37,7 +37,7 @@ public final class PropVar extends Identifier {
     @Override
     public void setTo() {
         PropLogPlugin.getInstance().getPropLogKCMS()
-                .setCurrentRoot(getProofModel().getPropVarKCMRoot());
+                .setCurrentRoot(getProofModel().getPropVarDeclareKCMRoot());
     }
 
 }
