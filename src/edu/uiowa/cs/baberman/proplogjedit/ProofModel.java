@@ -143,12 +143,10 @@ public final class ProofModel {
                         }
                     }
                 }).setMenuItemText("Propositional Variable");
-
         SubmenuKey<ThirtyKey> operatorKey;
         operatorKey
                 = setToMenu.putNewSubmenu(ThirtyKey.KeyPosition.F.getVK_CODE())
                 .setMenuItemText("Operator");
-
         ThirtyKey operatorMenu = operatorKey.getSubmenu();
         operatorMenu.putNewLeaf(ThirtyKey.KeyPosition.D)
                 .setMenuItemText("->\n(IMPLIES)")
@@ -196,6 +194,45 @@ public final class ProofModel {
                     }
                 });
 
+        getNavManipKCMRoot().putNewLeaf(ThirtyKey.KeyPosition.X)
+                .setMenuItemText("Cut")
+                .addPressAction(new AbstractAction() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        //to do
+                    }
+                });
+
+        getNavManipKCMRoot().putNewLeaf(ThirtyKey.KeyPosition.C)
+                .setMenuItemText("Copy")
+                .addPressAction(new AbstractAction() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        //to do
+                    }
+                });
+
+        getNavManipKCMRoot().putNewLeaf(ThirtyKey.KeyPosition.V)
+                .setMenuItemText("Paste")
+                .addPressAction(new AbstractAction() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        //to do
+                    }
+                });
+        
+        getNavManipKCMRoot().putNewLeaf(ThirtyKey.KeyPosition.R)
+                .setMenuItemText("Clear")
+                .addPressAction(new AbstractAction() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        //to do
+                    }
+                });
     }
 
     private void initializeIdentifierEditingKCMTreeRootCard(ThirtyKey root) {
@@ -321,7 +358,7 @@ public final class ProofModel {
                     }
                 });
     }
-    
+
     private void initializePropVarUseKCMTree() {
         initializeIdentifierEditingKCMTreeRootCard(propVarUseKCMRoot);
     }
@@ -405,8 +442,8 @@ public final class ProofModel {
     }
 
     public void setSelectedNode(SelectableNode selectedNode) {
-        System.out.println("selectedNode class:"+selectedNode.getClass().toString());
-        
+        System.out.println("selectedNode class:" + selectedNode.getClass().toString());
+
         this.selectedNode = selectedNode;
         getProofView().update();
     }
