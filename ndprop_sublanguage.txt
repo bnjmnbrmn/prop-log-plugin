@@ -52,13 +52,13 @@ FORMULA ::= PROP_VAR | '(' FORMULA BINARY_OP FORMULA ')'|
 INFIX_BINARY_OP ::= '/\' | '\/' | '->'
 
 JUSTIFICATION ::= 
-     'and_intro ' LINE_ID LINE_ID
+     'and_intro ' LINE_ID ' ' LINE_ID
    | 'and_elim_l ' LINE_ID
    | 'and_elim_r ' LINE_ID
    | 'or_intro_l ' LINE_ID
    | 'or_intro_r ' LINE_ID
-   | 'or_elim ' LINE_ID LINE_ID LINE_ID
-   | 'impl_elim ' LINE_ID LINE_ID
+   | 'or_elim ' LINE_ID ' ' LINE_ID ' ' LINE_ID
+   | 'impl_elim ' LINE_ID ' ' LINE_ID
    | 'false_elim ' LINE_ID
    | 'not_not_elim ' LINE_ID
 

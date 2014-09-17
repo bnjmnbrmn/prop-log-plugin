@@ -113,6 +113,13 @@ public abstract class InnerNode extends SelectableNode {
         toRemove.setParent(null);
         subnodes.remove(toRemove);
     }
+	
+	protected void removeAllSubnodes() {
+		for (Node subnode : subnodes) {
+			subnode.setParent(null);
+		}
+		subnodes.clear();
+	}
 
     public void setMostRecentlySelectedSubnode(SelectableNode newMostRecentlySelectedSubnode) {
         if (!getSubnodes().contains(newMostRecentlySelectedSubnode)) {
