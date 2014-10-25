@@ -19,6 +19,10 @@ public abstract class Identifier extends SelectableNode {
     public void setIdentifierString(String text) {
         this.identifierString = text;
     }
+    
+    public String getIdentifierString() {
+        return this.identifierString;
+    }
 
     @Override
     public String getText() {

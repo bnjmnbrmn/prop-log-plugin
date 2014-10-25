@@ -94,8 +94,7 @@ public final class ProofModel {
 				}
 
 			}
-		})
-				.setMenuItemText("Toggle Branch vs Leaf Selection");
+		}).setMenuItemText("Toggle Branch vs Leaf Selection");
 
 		getNavManipKCMRoot().putNewSubmenu(KeyEvent.VK_L)
 				.addPressAction(new AbstractAction() {
@@ -122,7 +121,9 @@ public final class ProofModel {
 			public void actionPerformed(ActionEvent e) {
 				if (getSelectedNode() instanceof ProofItem) {
 					((ProofItem) getSelectedNode()).setToProofLine();
-				}
+				} else if (getSelectedNode() instanceof OneOrMoreProofItems) {
+                                    //to do
+                                }
 			}
 		}).setMenuItemText("Proof Line");
 		setToMenu.putNewLeaf(ThirtyKey.KeyPosition.E)
@@ -130,8 +131,10 @@ public final class ProofModel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (getSelectedNode() instanceof ProofItem) {
-					//to do
-				}
+                                    ((ProofItem) getSelectedNode()).setToSection();
+				} else if (getSelectedNode() instanceof OneOrMoreProofItems) {
+                                    //to do
+                                }
 			}
 		}).setMenuItemText("Section");
 		setToMenu.putNewLeaf(ThirtyKey.KeyPosition.D)

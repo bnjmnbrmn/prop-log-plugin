@@ -6,6 +6,7 @@ package edu.uiowa.cs.baberman.proplogjedit.nodes;
  */
 public final class Section extends InnerNode implements Indentable {
     private int indentationLevel;
+    private SectionId topSectionId;
 
     Section(boolean required, int indendationLevel) {
         super(required);
@@ -15,6 +16,14 @@ public final class Section extends InnerNode implements Indentable {
     Section(int indentationLevel) {
         super();
         this.indentationLevel = indentationLevel;
+        
+        addSubnode(new Terminal("   ", indentationLevel));
+        addSubnode(new Terminal("Section "));
+        this.topSectionId = new SectionId(true);
+        addSubnode(this.topSectionId);
+        addSubnode(new Terminal("\n"));
+        //to do
+        
     }
 
     @Override
@@ -40,6 +49,10 @@ public final class Section extends InnerNode implements Indentable {
     @Override
     public void setIndentationLevel(int newIndentationLevel) {
         indentationLevel = newIndentationLevel;
+    }
+    
+    public SectionId getTopSectionId() {
+        return topSectionId;
     }
 
 }

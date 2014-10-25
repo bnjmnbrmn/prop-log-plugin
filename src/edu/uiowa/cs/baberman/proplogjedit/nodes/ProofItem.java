@@ -46,10 +46,22 @@ public final class ProofItem extends SlipperyNode implements Indentable {
     }
 
     public void setToProofLine() {
+        removeAllSubnodes();
         setIsPlaceholder(false);
+        
         ProofLine pl = new ProofLine(indentationLevel);
         addSubnode(pl);
         getProofModel().setSelectedNode(pl.getLineId());
+        getProofModel().getProofView().update();
+    }
+    
+    public void setToSection() {
+        removeAllSubnodes();
+        setIsPlaceholder(false);
+        
+        Section s = new Section(indentationLevel);
+        addSubnode(s);
+        getProofModel().setSelectedNode(s.getTopSectionId());
         getProofModel().getProofView().update();
     }
 
@@ -62,5 +74,6 @@ public final class ProofItem extends SlipperyNode implements Indentable {
     public void setIndentationLevel(int newIndentationLevel) {
         this.indentationLevel = newIndentationLevel;
     }
+
 
 }
